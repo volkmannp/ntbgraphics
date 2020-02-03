@@ -37,3 +37,5 @@ vignettes/*.pdf
 
 # ignore DS_Store
 .DS_Store
+
+ntbgraphics.Rproj
