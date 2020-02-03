@@ -1,0 +1,10 @@
+Package: ntbgraphics
+Type: Package
+Title: Visualization of NTB Data
+Version: 0.1.0
+Author: Paul Volkmann
+Maintainer: Paul Volkmann <paul.volkmann@t-online.de>
+Description: This Package contains some customized functions for analysis of NTB data sets/experiments.
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.0.2
