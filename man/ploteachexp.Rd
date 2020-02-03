@@ -15,7 +15,7 @@ ploteachexp(expname, directory)
 boxplot saved as PDF
 }
 \description{
-A function that takes experiments (columns) of a 4-arm hc-sd/wt-tg NTB dataset
+A function that takes experiments (columns) of a 4-arm GT_Env NTB1.0 dataset
 and visualizes the data as customized boxplots.
 }
 \author{
