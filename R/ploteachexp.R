@@ -10,19 +10,18 @@
 #' @param 'expname': name of a column/experiment of an NTB dataset
 #' @param 'directory': file directory where to save plots
 #'
+#' @example
+#' @importFrom ggsignif geom_signif
+#' @importFrom dplyr %>%
+#'
 #' @return boxplot saved as PDF
 
 ploteachexp <- function(expname, directory) {
 
-  # load libraries
-  library(tidyverse)
-  library(dplyr)
-  library(ggplot2)
-  library(ggsignif)
-
   # define axis limits
   ymin = min(data.animal.joined[[expname]], na.rm = TRUE)*0.25
   ymax = max(data.animal.joined[[expname]], na.rm = TRUE)*1.25
+
 
   # plotting
   ggplot(data.animal.joined, aes_string(x="GT_Env", y=expname, fill="GT_Env")) +
