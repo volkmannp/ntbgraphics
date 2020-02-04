@@ -10,11 +10,9 @@
 #' @param 'expname': name of a column/experiment of an NTB dataset
 #' @param 'directory': file directory where to save plots
 #'
-#' @import ggplot2
-#' @importFrom ggplot2 ggplot
-#' @importFrom ggsignif geom_signif
-#'
 #' @return boxplot saved as PDF
+#'
+#' @export
 #'
 #' @example
 #' ploteachexp_2arm("Meanspeed", paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"))

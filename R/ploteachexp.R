@@ -10,11 +10,9 @@
 #' @param 'expname': name of a column/experiment of an NTB dataset
 #' @param 'directory': file directory where to save plots
 #'
-#' @import ggplot2
-#' @importFrom ggplot2 ggplot
-#' @importFrom ggsignif geom_signif
-#'
 #' @return boxplot saved as PDF
+#'
+#' @export
 #'
 #' @example
 #' ploteachexp("Meanspeed", paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"))
@@ -56,7 +54,7 @@ ploteachexp <- function(expname, directory) {
                                    c(3, 4),
                                    c(2, 3),
                                    c(2, 4)),
-                y=c(0.85*ymax, 0.85*ymax, 0.89*ymax, 0.93*ymax),
+                y=c(0.85*ymax, 0.85*ymax, 0.89*ymax, 0.95*ymax),
                 map_signif_level = c("***"=0.001, "**"=0.01, "*"=0.05),
                 textsize = 5,  tip_length = 0.005) +
 

@@ -9,13 +9,9 @@
 #' @param 'directory': file directory of Behavior and Animal List files
 #' (mind correct spelling of both files and directory!)
 #'
-#' @import tidyverse
-#' @import dplyr
-#' @import readxl
-#' @import tidyr
-#' @importFrom readxl read_excel
-#'
 #' @return prepared and joined dataframe of all animals and corresponding NTB experiments
+#'
+#' @export
 #'
 #' @example
 #' getexpdata("./inst/extdata/")
