@@ -9,9 +9,11 @@
 #' @param 'directory': file directory of Behavior and Animal List files
 #' (mind correct spelling of both files and directory!)
 #'
+#' @import tidyverse
 #' @import dplyr
 #' @import readxl
 #' @import tidyr
+#' @importFrom readxl read_excel
 #'
 #' @return prepared and joined dataframe of all animals and corresponding NTB experiments
 #'
@@ -24,8 +26,8 @@
 
 getexpdata_2arm <- function(directory) {
 
-  meta.data <-  read_excel(paste0(directory,"/Meta Behavior.xlsx"))
-  animal.list <-  read_excel(paste0(directory, "/Animal List.xlsx"))
+  meta.data <-  readxl::read_excel(paste0(directory,"/Meta Behavior.xlsx"))
+  animal.list <-  readxl::read_excel(paste0(directory, "/Animal List.xlsx"))
 
   data.animal.joined <-  animal.list %>%
     # exclude NAs in Genotype

@@ -11,6 +11,7 @@
 #' @param 'directory': file directory where to save plots
 #'
 #' @import ggplot2
+#' @importFrom ggplot2 ggplot
 #' @importFrom ggsignif geom_signif
 #'
 #' @return boxplot saved as PDF
