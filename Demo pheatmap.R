@@ -7,3 +7,4 @@ library(ntbgraphics)
 
 ## get and modify data
 data.animal.joined <- getexpdata(paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"))
+data.animal.SerialLearn <- data.matrix(data.animal.joined)
