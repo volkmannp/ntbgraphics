@@ -1,4 +1,4 @@
-#' @title Get data of NTB experiments (2 arm)
+#' @title Get data of NTB experiments (2-arm)
 #'
 #' @author Paul Volkmann
 #'
@@ -21,11 +21,6 @@
 
 
 getexpdata_2arm <- function(directory) {
-
-  # load libraries
-  library(readxl)
-  library(tidyverse)
-  library(dplyr)
 
   meta.data <-  read_excel(paste0(directory,"/Meta Behavior.xlsx"))
   animal.list <-  read_excel(paste0(directory, "/Animal List.xlsx"))

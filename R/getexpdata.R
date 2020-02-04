@@ -4,7 +4,7 @@
 #'
 #' @name getexpdata
 #'
-#' @description A function that imports a 4-arm GT_Env NTB1.0 dataset and prepares the data for plotting and analysis.
+#' @description A function that imports a 4-arm GT_Env NTB dataset and prepares the data for plotting and analysis.
 #'
 #' @param 'directory': file directory of Behavior and Animal List files
 #' (mind correct spelling of both files and directory!)
@@ -22,18 +22,10 @@
 
 getexpdata <- function(directory) {
 
-  # example of checking inputs and returning messages
-  # if (!exists(directory)) {
-  #   warning("This is a warning")
-  #   stop("Function has been stopped!")
-  # }
-
   meta.data <-  read_excel(paste0(directory,"/Meta Behavior.xlsx"))
   animal.list <-  read_excel(paste0(directory, "/Animal List.xlsx"))
 
-
-
-  data.animal.joined <-  suppressWarnings(animal.list %>%
+  data.animal.joined <-  animal.list %>%
     # exclude NAs in Genotype
     filter(Genotype!= 'NA') %>%
     # merge conditions
@@ -43,7 +35,7 @@ getexpdata <- function(directory) {
     # change values from chr to num
     dplyr::mutate_at(vars(Meanspeed:SerialLearn),(funs(as.numeric))) %>%
     # select relevant columns
-    select(RFID, GT_Env, Meanspeed:SerialLearn))
+    select(RFID, GT_Env, Meanspeed:SerialLearn)
 
   #return amended dataframe
   return(data.animal.joined)

@@ -1,4 +1,4 @@
-#' @title Plot NTB experiments (2 arm)
+#' @title Plot NTB experiments (2-arm)
 #'
 #' @author Paul Volkmann
 #'
@@ -22,12 +22,6 @@
 
 
 ploteachexp_2arm <- function(expname, directory) {
-
-  # load libraries
-  library(tidyverse)
-  library(dplyr)
-  library(ggplot2)
-  library(ggsignif)
 
   # define axis limits
   ymin = min(data.animal.joined[[expname]], na.rm = TRUE)*0.25
