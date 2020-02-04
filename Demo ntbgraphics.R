@@ -1,6 +1,8 @@
 ## February 2020
 ## Tcf4 data demo analysis for function "getexpdata" and "ploteachexp"
+## Plotting all experiments by loop
 
+## load libraries (and functions)
 library(devtools)
 library(ntbgraphics)
 devtools::load_all()
