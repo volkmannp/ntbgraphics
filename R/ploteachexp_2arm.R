@@ -10,6 +10,7 @@
 #' @param 'expname': name of a column/experiment of an NTB dataset
 #' @param 'directory': file directory where to save plots
 #'
+#' @import ggplot2
 #' @importFrom ggsignif geom_signif
 #'
 #' @return boxplot saved as PDF
@@ -18,7 +19,7 @@
 #' ploteachexp_2arm("Meanspeed", paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"))
 #'
 #' myexp <- c(as.list(colnames(data.animal.joined[, -(1:2)])))
-#' lapply(myexp, ntbgraphics::ploteachexp_2arm, paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"))
+#' lapply(myexp, ploteachexp_2arm, paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"))
 
 
 ploteachexp_2arm <- function(expname, directory) {
@@ -83,5 +84,5 @@ ploteachexp_2arm <- function(expname, directory) {
           legend.title = element_text(size=12))
 
   # save pdf
-  ggsave(paste0(directory, expname, ".pdf"))
+  ggsave(paste0(directory, expname, "_2arm.pdf"))
 }

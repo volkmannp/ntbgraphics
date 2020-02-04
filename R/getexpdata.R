@@ -9,7 +9,9 @@
 #' @param 'directory': file directory of Behavior and Animal List files
 #' (mind correct spelling of both files and directory!)
 #'
-#' @importFrom dplyr %>%
+#' @import dplyr
+#' @import readxl
+#' @import tidyr
 #'
 #' @return prepared and joined dataframe of all animals and corresponding NTB experiments
 #'
@@ -33,7 +35,7 @@ getexpdata <- function(directory) {
     # join animals and behavior data
     left_join(meta.data, by = c("RFID" = "Animal")) %>%
     # change values from chr to num
-    dplyr::mutate_at(vars(Meanspeed:SerialLearn),(funs(as.numeric))) %>%
+    mutate_at(vars(Meanspeed:SerialLearn),list(as.numeric)) %>%
     # select relevant columns
     select(RFID, GT_Env, Meanspeed:SerialLearn)
 
