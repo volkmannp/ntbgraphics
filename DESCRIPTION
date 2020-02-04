@@ -10,7 +10,9 @@ LazyData: true
 RoxygenNote: 7.0.2
 Depends:  R (>= 3.5.0),
           tidyverse,
+          dplyr,
           readxl,
           ggplot2,
           ggsignif,          
           pheatmap
+License:
