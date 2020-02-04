@@ -2,7 +2,7 @@
 % Please edit documentation in R/ploteachexp_2arm.R
 \name{ploteachexp_2arm}
 \alias{ploteachexp_2arm}
-\title{Plot NTB experiments}
+\title{Plot NTB experiments (2-arm)}
 \usage{
 ploteachexp_2arm(expname, directory)
 }

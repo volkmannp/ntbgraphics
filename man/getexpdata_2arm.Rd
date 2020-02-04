@@ -2,7 +2,7 @@
 % Please edit documentation in R/getexpdata_2arm.R
 \name{getexpdata_2arm}
 \alias{getexpdata_2arm}
-\title{Get data of NTB experiments}
+\title{Get data of NTB experiments (2-arm)}
 \usage{
 getexpdata_2arm(directory)
 }

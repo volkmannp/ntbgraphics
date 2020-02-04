@@ -14,7 +14,7 @@ getexpdata(directory)
 prepared and joined dataframe of all animals and corresponding NTB experiments
 }
 \description{
-A function that imports a 4-arm GT_Env NTB1.0 dataset and prepares the data for plotting and analysis.
+A function that imports a 4-arm GT_Env NTB dataset and prepares the data for plotting and analysis.
 }
 \author{
 Paul Volkmann
