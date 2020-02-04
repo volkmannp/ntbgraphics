@@ -1,4 +1,4 @@
-#' @title Plot NTB experiments
+#' @title Plot NTB experiments (2 arm)
 #'
 #' @author Paul Volkmann
 #'
@@ -10,7 +10,16 @@
 #' @param 'expname': name of a column/experiment of an NTB dataset
 #' @param 'directory': file directory where to save plots
 #'
+#' @importFrom ggsignif geom_signif
+#'
 #' @return boxplot saved as PDF
+#'
+#' @example
+#' ploteachexp_2arm("Meanspeed", paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"))
+#'
+#' myexp <- c(as.list(colnames(data.animal.joined[, -(1:2)])))
+#' lapply(myexp, ntbgraphics::ploteachexp_2arm, paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"))
+
 
 ploteachexp_2arm <- function(expname, directory) {
 

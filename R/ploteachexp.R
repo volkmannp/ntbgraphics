@@ -10,11 +10,16 @@
 #' @param 'expname': name of a column/experiment of an NTB dataset
 #' @param 'directory': file directory where to save plots
 #'
-#' @example
 #' @importFrom ggsignif geom_signif
-#' @importFrom dplyr %>%
 #'
 #' @return boxplot saved as PDF
+#'
+#' @example
+#' ploteachexp("Meanspeed", paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"))
+#'
+#' myexp <- c(as.list(colnames(data.animal.joined[, -(1:2)])))
+#' lapply(myexp, ntbgraphics::ploteachexp, paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"))
+
 
 ploteachexp <- function(expname, directory) {
 

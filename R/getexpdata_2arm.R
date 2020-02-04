@@ -1,4 +1,4 @@
-#' @title Get data of NTB experiments
+#' @title Get data of NTB experiments (2 arm)
 #'
 #' @author Paul Volkmann
 #'
@@ -9,7 +9,16 @@
 #' @param 'directory': file directory of Behavior and Animal List files
 #' (mind correct spelling of both files and directory!)
 #'
+#' @importFrom dplyr %>%
+#'
 #' @return prepared and joined dataframe of all animals and corresponding NTB experiments
+#'
+#' @example
+#' getexpdata("./inst/extdata/")
+#'
+#' directory <- system.file("extdata", package = "ntbgraphics")
+#' getexpdata(directory)
+
 
 getexpdata_2arm <- function(directory) {
 
@@ -30,9 +39,6 @@ getexpdata_2arm <- function(directory) {
     dplyr::mutate_at(vars(Meanspeed:SerialLearn),(funs(as.numeric))) %>%
     # select relevant columns
     select(RFID, Genotype, Meanspeed:SerialLearn)
-
-  #get column/experiment names
-  myexp <- c(as.list(colnames(data.animal.joined[, -(1:2)])))
 
   #return amended dataframe
   return(data.animal.joined)

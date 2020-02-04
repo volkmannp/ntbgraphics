@@ -9,20 +9,23 @@
 #' @param 'directory': file directory of Behavior and Animal List files
 #' (mind correct spelling of both files and directory!)
 #'
+#' @importFrom dplyr %>%
+#'
 #' @return prepared and joined dataframe of all animals and corresponding NTB experiments
 #'
 #' @example
-#' getexpdata("/inst/extdata/")
+#' getexpdata("./inst/extdata/")
 #'
 #' directory <- system.file("extdata", package = "ntbgraphics")
 #' getexpdata(directory)
+
 
 getexpdata <- function(directory) {
 
   # example of checking inputs and returning messages
   # if (!exists(directory)) {
   #   warning("This is a warning")
-  #   stop("Stop function")
+  #   stop("Function has been stopped!")
   # }
 
   meta.data <-  read_excel(paste0(directory,"/Meta Behavior.xlsx"))
@@ -41,9 +44,6 @@ getexpdata <- function(directory) {
     dplyr::mutate_at(vars(Meanspeed:SerialLearn),(funs(as.numeric))) %>%
     # select relevant columns
     select(RFID, GT_Env, Meanspeed:SerialLearn))
-
-  #get column/experiment names
-  myexp <- c(as.list(colnames(data.animal.joined[, -(1:2)])))
 
   #return amended dataframe
   return(data.animal.joined)
