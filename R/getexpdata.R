@@ -10,18 +10,27 @@
 #' (mind correct spelling of both files and directory!)
 #'
 #' @return prepared and joined dataframe of all animals and corresponding NTB experiments
+#'
+#' @example
+#' getexpdata("/inst/extdata/")
+#'
+#' directory <- system.file("extdata", package = "ntbgraphics")
+#' getexpdata(directory)
 
 getexpdata <- function(directory) {
 
-  # load libraries
-  library(readxl)
-  library(tidyverse)
-  library(dplyr)
+  # example of checking inputs and returning messages
+  # if (!exists(directory)) {
+  #   warning("This is a warning")
+  #   stop("Stop function")
+  # }
 
   meta.data <-  read_excel(paste0(directory,"/Meta Behavior.xlsx"))
   animal.list <-  read_excel(paste0(directory, "/Animal List.xlsx"))
 
-  data.animal.joined <-  animal.list %>%
+
+
+  data.animal.joined <-  suppressWarnings(animal.list %>%
     # exclude NAs in Genotype
     filter(Genotype!= 'NA') %>%
     # merge conditions
@@ -31,7 +40,7 @@ getexpdata <- function(directory) {
     # change values from chr to num
     dplyr::mutate_at(vars(Meanspeed:SerialLearn),(funs(as.numeric))) %>%
     # select relevant columns
-    select(RFID, GT_Env, Meanspeed:SerialLearn)
+    select(RFID, GT_Env, Meanspeed:SerialLearn))
 
   #get column/experiment names
   myexp <- c(as.list(colnames(data.animal.joined[, -(1:2)])))

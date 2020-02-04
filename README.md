@@ -1,6 +1,4 @@
 # Github_Repo
- 
-## ReadMe file ntbgraphics package
 
 This package includes basically two functions:
 
@@ -11,5 +9,6 @@ The first function ('getexpdata') takes a directory as its input and uses two ex
 
 The second function ('ploteachexp') takes the name of one of the columns of "data.animal.joined", specifically one of the experiment's names, and again a directory as its input. The data of the chosen column will be plotted and save as a PDF file in the specified  directory.
 
+As you might have realized, the 'getexpdata' functions assumes a 4-arm experimental setup. For simple 2-arm experiments, two additional function 'getexpdata_2arm' and 'ploteachexp_2arm' were created. The work exactly like the former, only preparing an analysis of a 2-arm experiment.
 
 As you might have realized, the 'getexpdata' functions assumes a 4-arm experimental setup. For simple 2-arm experiments, two additional function 'getexpdata_2arm' and 'ploteachexp_2arm' were created. The work exactly like the former, only preparing an analysis of a 2-arm experiment.

@@ -8,3 +8,8 @@ Description: This Package contains some customized functions for analysis of NTB
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.0.2
+Depends: R (>= 3.5.0)
+Imports:
+  tidyverse,
+  ggsignif,
+  pheatmap
