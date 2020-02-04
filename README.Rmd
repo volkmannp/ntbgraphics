@@ -1,9 +1,3 @@
----
-output:
-  html_document:
-    code_folding: hide
-  pdf_document: default
----
 # ReadMe for ntbgraphics
 \
 This package includes basically two functions:
@@ -18,11 +12,20 @@ The second function ('ploteachexp') takes the name of one of the columns of "dat
 \
 \
 As you might have realized, both functions assume a 4-arm experimental setup. For simple 2-arm experiments, two additional functions 'getexpdata_2arm' and 'ploteachexp_2arm' were created. They work exactly like the former, only preparing analysis of a 2-arm experiment.
+\
+\
+\
 
-``` {r echo=TRUE}
+``` {r echo=FALSE, message=FALSE, warning=FALSE}
 
-meta.data = read_excel("/Users/paul/Documents/Einführung R/Wahlfach/Meta Behavior.xlsx")
-animal.list = read_excel("/Users/paul/Documents/Einführung R/Wahlfach/Animal List.xlsx")
+library(readxl)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(ggsignif)
+
+meta.data = read_excel("/Users/paul/Documents/Github_Repo/ntbgraphics/inst/extdata/Meta Behavior.xlsx")
+animal.list = read_excel("/Users/paul/Documents/Github_Repo/ntbgraphics/inst/extdata/Animal List.xlsx")
 
 data.animal.joined = animal.list %>%
   filter(Genotype!= 'NA') %>%
@@ -30,13 +33,11 @@ data.animal.joined = animal.list %>%
   left_join(meta.data, by = c("RFID" = "Animal")) %>%
   dplyr::mutate_at(vars(Meanspeed:SerialLearn),(funs(as.numeric))) %>%
   select(RFID, GT_Env, Meanspeed:SerialLearn)
-  
-head(data.animal.joined)
 
-ymin = min(data.animal.joined$Cue, na.rm = TRUE)*0.25
-ymax = max(data.animal.joined$Cue, na.rm = TRUE)*1.25
+ymin = min(data.animal.joined$Meanspeed, na.rm = TRUE)*0.25
+ymax = max(data.animal.joined$Meanspeed, na.rm = TRUE)*1.25
 
-ggplot(data.animal.joined, aes_string(x="GT_Env", y="Cue", fill="GT_Env")) +
+ggplot(data.animal.joined, aes_string(x="GT_Env", y="Meanspeed", fill="GT_Env")) +
 
   geom_boxplot(alpha = 0.4) +
   
@@ -45,7 +46,7 @@ ggplot(data.animal.joined, aes_string(x="GT_Env", y="Cue", fill="GT_Env")) +
 
   geom_point(pch = 21, stroke=0.93, position = position_jitterdodge()) +
 
-  ylab("CueScore") +
+  ylab("MeanspeedScore") +
   xlab("Conditions") +
 
   coord_cartesian(ylim=c(ymin, ymax)) +
@@ -59,7 +60,7 @@ ggplot(data.animal.joined, aes_string(x="GT_Env", y="Cue", fill="GT_Env")) +
            map_signif_level = c("***"=0.001, "**"=0.01, "*"=0.05), 
            textsize = 5,  tip_length = 0.005) +
 
-  ggtitle("Cue") +
+  ggtitle("Meanspeed") +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5)) +
   theme(plot.title = element_text(size = 16)) +
@@ -78,3 +79,7 @@ ggplot(data.animal.joined, aes_string(x="GT_Env", y="Cue", fill="GT_Env")) +
     legend.text = element_text(size=9),
     legend.title = element_text(size=12))
 ```
+\
+\
+\
+This plot shows the general layout you can expect from the 'ploteachexp' function.
