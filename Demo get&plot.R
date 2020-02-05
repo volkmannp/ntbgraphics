@@ -11,4 +11,3 @@ data.animal.joined <- getexpdata(paste0(system.file("extdata/", package = "ntbgr
 ## loop through and plot list of experiments
 myexp <- c(as.list(colnames(data.animal.joined[, -(1:2)])))
 lapply(myexp, ploteachexp, paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"))
-lapply(myexp, ploteachexp, "/Users/paul/Documents/Github_Repo/ntbgraphics")

@@ -10,4 +10,3 @@ data.animal.joined <- getexpdata_2arm(paste0(system.file("extdata/", package = "
 
 ##  plot single experiments
 ploteachexp_2arm("Meanspeed", paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"))
-ploteachexp_2arm("Meanspeed", "/Users/paul/Documents/Github_Repo/ntbgraphics")
