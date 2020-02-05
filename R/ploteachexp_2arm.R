@@ -5,7 +5,7 @@
 #' @name ploteachexp_2arm
 #'
 #' @description A function that takes experiments (columns) of a 2-arm NTB dataset
-#' and visualizes the data as customized boxplots.
+#' and visualizes the data as customized boxplots. (Requires data.animal.joined from 'getexpdata')
 #'
 #' @param 'expname': name of a column/experiment of an NTB dataset
 #' @param 'directory': file directory where to save plots
@@ -34,8 +34,8 @@ ploteachexp_2arm <- function(expname, directory) {
     geom_boxplot(alpha = 0.4) +
 
     # choose colors
-    scale_fill_manual(values=c("#CCECE6", "#00441B")) +
-    scale_color_manual(values=c("#CCECE6", "#00441B")) +
+    scale_fill_manual(values=c("#00441B", "#CCECE6")) +
+    scale_color_manual(values=c("#00441B", "#CCECE6")) +
 
     # add data points
     geom_point(pch = 21, stroke=0.93, position = position_jitterdodge()) +
