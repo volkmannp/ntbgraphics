@@ -7,7 +7,7 @@ library(ntbgraphics)
 
 ## get and modify data
 data.animal.joined <- getexpdata(paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"))
-data.animal.matrix <- ntbgraphics::prepareheatmap(data.animal.joined)
+data.animal.matrix <- prepareheatmap(data.animal.joined)
 
 ## map experiments
 pheatmap(data.animal.matrix)
