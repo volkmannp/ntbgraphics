@@ -7,4 +7,12 @@ library(ntbgraphics)
 
 ## get and modify data
 data.animal.joined <- getexpdata(paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"))
-data.animal.SerialLearn <- data.matrix(data.animal.joined)
+
+data.animal.matrix <- data.animal.joined %>%
+  column_to_rownames(., "RFID") %>%
+  select(Meanspeed:SerialLearn) %>%
+  data.matrix() %>%
+  na.omit %>%
+  scale()
+
+pheatmap(data.animal.matrix)
