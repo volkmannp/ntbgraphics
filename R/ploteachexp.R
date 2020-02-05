@@ -5,7 +5,7 @@
 #' @name ploteachexp
 #'
 #' @description A function that takes experiments (columns) of a 4-arm GT_Env NTB dataset
-#' and visualizes the data as customized boxplots.
+#' and visualizes the data as customized boxplots. (Requires data.animal.joined from 'getexpdata')
 #'
 #' @param 'expname': name of a column/experiment of an NTB dataset
 #' @param 'directory': file directory where to save plots
@@ -22,6 +22,10 @@
 
 
 ploteachexp <- function(expname, directory) {
+
+  # order plot appearance
+  data.animal.joined$GT_Env <- factor(data.animal.joined$GT_Env, levels = c("wt_hc", "wt_sd",
+                                                                            "tg_hc", "tg_sd"))
 
   # define axis limits
   ymin = min(data.animal.joined[[expname]], na.rm = TRUE)*0.25
