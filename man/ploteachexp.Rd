@@ -16,7 +16,7 @@ boxplot saved as PDF
 }
 \description{
 A function that takes experiments (columns) of a 4-arm GT_Env NTB dataset
-and visualizes the data as customized boxplots.
+and visualizes the data as customized boxplots. (Requires data.animal.joined from 'getexpdata')
 }
 \author{
 Paul Volkmann
