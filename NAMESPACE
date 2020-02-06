@@ -2,6 +2,8 @@
 
 export(getexpdata)
 export(getexpdata_2arm)
+export(heatmapexp)
+export(heatmapexp_2arm)
 export(ploteachexp)
 export(ploteachexp_2arm)
 export(prepareheatmap)
