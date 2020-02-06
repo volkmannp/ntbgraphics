@@ -14,5 +14,6 @@ Depends:  R (>= 3.5.0),
           readxl,
           ggplot2,
           ggsignif,          
-          pheatmap
+          pheatmap,
+          RColorBrewer
 License:
