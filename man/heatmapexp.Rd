@@ -4,20 +4,27 @@
 \alias{heatmapexp}
 \title{Heatmapping of NTB experiment dataset}
 \usage{
-heatmapexp(datamatrix, directory, title)
+heatmapexp(
+  directory,
+  analysis = c("4arm", "2arm_tg", "2arm_ko"),
+  title = "Heatmap"
+)
 }
 \arguments{
-\item{'datamatrix':}{matrix of animals and corresponding NTB experiments (e.g. output of 'prepareheatmap')}
+\item{'directory':}{file directory of Behavior and Animal List files}
 
-\item{'directory':}{file directory of Animal List file}
+\item{'analysis':}{specifying the kind of experiment performed - 4-arm by default or 2-arm
+with either transgenic or knock-out animals as group of interest
+(or choosing the kind of analysis preferred)}
 
-\item{'title':}{define the title of your heatmap}
+\item{'title':}{define the title of your heatmap (default: "Heatmap")}
 }
 \value{
-heatmap
+heatmap and z-scored data matrix
 }
 \description{
-A function that produces a heatmap for an NTB dataset. (Warning: This function relies on function 'getexpdata'!)
+A function that produces a heatmap for an NTB dataset.
+(Requires function 'getexpdata'internally.)
 }
 \author{
 Paul Volkmann

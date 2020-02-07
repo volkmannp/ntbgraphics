@@ -4,19 +4,36 @@
 \alias{ploteachexp}
 \title{Plot NTB experiments}
 \usage{
-ploteachexp(expname, directory)
+ploteachexp(
+  expname,
+  directory,
+  analysis = c("4arm", "2arm_tg", "2arm_ko"),
+  orderplots = c("other", "tcf4"),
+  saveplotdir = directory
+)
 }
 \arguments{
-\item{'expname':}{name of a column/experiment of an NTB dataset}
+\item{'expname':}{name of a column/experiment of the NTB dataset}
 
-\item{'directory':}{file directory where to save plots}
+\item{'directory':}{file directory of Behavior and Animal List files}
+
+\item{'analysis':}{specifying the kind of experiment performed - 4-arm by default or 2-arm
+with either transgenic or knock-out animals as group of interest
+(or choosing the kind of analysis preferred)}
+
+\item{'orderplots':}{gives user ability to specifiy order of plots
+(by default and for "other", plot order will depend on alphabetical order of GT_Env objects;
+for "tcf4", plot order will be wt_hc, wt_sd, tg_hc, tg_sd (only for 4-arm experiments))}
+
+\item{'saveplotdir':}{file directory where to save plots
+(default at location of Behavior and Animal List files)}
 }
 \value{
 boxplot saved as PDF
 }
 \description{
-A function that takes experiments (columns) of a 4-arm GT_Env NTB dataset
-and visualizes the data as customized boxplots. (Requires data.animal.joined from 'getexpdata')
+A function that takes experiments (columns) of an NTB dataset
+and visualizes the data as customized boxplots. (Requires function 'getexpdata' internally.)
 }
 \author{
 Paul Volkmann

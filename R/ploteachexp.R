@@ -4,28 +4,46 @@
 #'
 #' @name ploteachexp
 #'
-#' @description A function that takes experiments (columns) of a 4-arm GT_Env NTB dataset
-#' and visualizes the data as customized boxplots. (Requires data.animal.joined from 'getexpdata')
+#' @description A function that takes experiments (columns) of an NTB dataset
+#' and visualizes the data as customized boxplots. (Requires function 'getexpdata' internally.)
 #'
-#' @param 'expname': name of a column/experiment of an NTB dataset
-#' @param 'directory': file directory where to save plots
+#' @param 'expname': name of a column/experiment of the NTB dataset
+#' @param 'directory': file directory of Behavior and Animal List files
+#' @param 'analysis': specifying the kind of experiment performed - 4-arm by default or 2-arm
+#' with either transgenic or knock-out animals as group of interest
+#' (or choosing the kind of analysis preferred)
+#' @param 'orderplots': gives user ability to specifiy order of plots
+#' (by default and for "other", plot order will depend on alphabetical order of GT_Env objects;
+#' for "tcf4", plot order will be wt_hc, wt_sd, tg_hc, tg_sd (only for 4-arm experiments))
+#' @param 'saveplotdir': file directory where to save plots
+#' (default at location of Behavior and Animal List files)
 #'
 #' @return boxplot saved as PDF
 #'
 #' @export
 #'
 #' @example
-#' ploteachexp("Meanspeed", paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"))
+#' ploteachexp(expname = "Meanspeed",
+#' directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
+#' analysis = "4arm",
+#' orderplots = "tcf4",
+#' saveplotdir = paste0(system.file("../plots", package = "ntbgraphics", mustWork = T),"/"))
 #'
 #' myexp <- c(as.list(colnames(data.animal.joined[, -(1:2)])))
-#' lapply(myexp, ploteachexp, paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"))
+#' map(myexp, ploteachexp, paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
+#' analysis= "2arm_tg")
 
 
-ploteachexp <- function(expname, directory) {
+ploteachexp <- function(expname, directory, analysis = c("4arm", "2arm_tg", "2arm_ko"),
+                        orderplots = c("other", "tcf4"), saveplotdir = directory) {
+
+  #getexpdata
+  data.animal.joined <- getexpdata(directory, analysis)
 
   # order plot appearance
-  data.animal.joined$GT_Env <- factor(data.animal.joined$GT_Env, levels = c("wt_hc", "wt_sd",
-                                                                            "tg_hc", "tg_sd"))
+  `if`(orderplots == "tcf4", data.animal.joined$GT_Env <- factor(data.animal.joined$GT_Env,
+                                                                 levels = c("wt_hc", "wt_sd",
+                                                                            "tg_hc", "tg_sd")))
 
   # define axis limits
   ymin = min(data.animal.joined[[expname]], na.rm = TRUE)*0.25
@@ -33,34 +51,56 @@ ploteachexp <- function(expname, directory) {
 
 
   # plotting
-  ggplot(data.animal.joined, aes_string(x="GT_Env", y=expname, fill="GT_Env")) +
+  `if`(analysis == "2arm_tg",
+       ggplot(data.animal.joined, aes_string(x="Genotype", y=expname, fill="Genotype")),
+  `if`(analysis == "2arm_ko",
+       ggplot(data.animal.joined, aes_string(x="Genotype", y=expname, fill="Genotype")),
+  `if`(analysis == "4arm",
+       ggplot(data.animal.joined, aes_string(x="GT_Env", y=expname, fill="GT_Env"))))) +
+
 
     # boxplot with transparent filling
     geom_boxplot(alpha = 0.4) +
 
     # choose colors
-    scale_fill_manual(values=c("#F7FCFD", "#CCECE6", "#238B45", "#00441B")) +
-    scale_color_manual(values=c("#F7FCFD", "#CCECE6", "#238B45", "#00441B")) +
+    `if`(analysis == "4arm", scale_fill_manual(values=c("#F7FCFD", "#CCECE6", "#238B45", "#00441B"))) +
+    `if`(analysis == "4arm", scale_color_manual(values=c("#F7FCFD", "#CCECE6", "#238B45", "#00441B"))) +
+    `if`(analysis == "2arm_tg", scale_fill_manual(values=c("#00441B", "#CCECE6"))) +
+    `if`(analysis == "2arm_tg", scale_color_manual(values=c("#00441B", "#CCECE6"))) +
+    `if`(analysis =="2arm_ko", scale_fill_manual(values=c("#00441B", "#CCECE6"))) +
+    `if`(analysis == "2arm_ko", scale_color_manual(values=c("#00441B", "#CCECE6"))) +
 
     # add data points
     geom_point(pch = 21, stroke=0.93, position = position_jitterdodge()) +
 
     # title of axes
     ylab(paste0(expname, "Score")) +
-    xlab("Conditions") +
+    `if`(analysis == "4arm", xlab("Conditions")) +
+    `if`(analysis == "2arm_tg", xlab("Genotype")) +
+    `if`(analysis == "2arm_ko", xlab("Genotype")) +
 
     # range of y-axis
     coord_cartesian(ylim=c(ymin, ymax)) +
 
     # asterisks for significance
-    geom_signif(test = "t.test",
+    `if`(analysis == "4arm", geom_signif(test = "t.test",
                 comparisons = list(c(1, 2),
                                    c(3, 4),
                                    c(2, 3),
                                    c(2, 4)),
                 y=c(0.85*ymax, 0.85*ymax, 0.89*ymax, 0.95*ymax),
                 map_signif_level = c("***"=0.001, "**"=0.01, "*"=0.05),
-                textsize = 5,  tip_length = 0.005) +
+                textsize = 5,  tip_length = 0.005)) +
+    `if`(analysis == "2arm_tg", geom_signif(test = "t.test",
+                comparisons = list(c(1, 2)),
+                y=0.89*ymax,
+                map_signif_level = c("***"=0.001, "**"=0.01, "*"=0.05),
+                textsize = 5,  tip_length = 0.005)) +
+    `if`(analysis == "2arm_ko", geom_signif(test = "t.test",
+                comparisons = list(c(1, 2)),
+                y=0.89*ymax,
+                map_signif_level = c("***"=0.001, "**"=0.01, "*"=0.05),
+                textsize = 5,  tip_length = 0.005)) +
 
     # customize title
     ggtitle(expname) +
@@ -91,6 +131,5 @@ ploteachexp <- function(expname, directory) {
           legend.title = element_text(size=12))
 
   # save pdf
-  ggsave(paste0(directory, expname, ".pdf"))
+  ggsave(paste0(saveplotdir, expname, ".pdf"))
 }
-
