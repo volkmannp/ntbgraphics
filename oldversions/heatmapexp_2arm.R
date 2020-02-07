@@ -22,7 +22,9 @@
 #' pheatmapout <- heatmapexp_2arm(data.animal.matrix, paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"))
 
 
-heatmapexp_2arm <- function(datamatrix, directory, title) {
+heatmapexp_2arm <- function(datamatrix, directory, title, genotypes) {
+  data.mat <- prepareheatmap(data.animal.joined)
+
   pheatmap(datamatrix,
            main = paste(title),
            fontsize = 12,
@@ -39,5 +41,6 @@ heatmapexp_2arm <- function(datamatrix, directory, title) {
            annotation_row = getexpdata_2arm(directory) %>%
              dplyr::select(RFID, Genotype) %>%
              column_to_rownames("RFID"),
-           annotation_colors = list(Genotype=c(tg = "#238B45",wt = "#00441B")))
+           annotation_colors = list(Genotype=tibble::tibble(!!genotypes[1] := "#238B45",
+                                                            !!genotypes[2] :=  "#00441B")))
 }
