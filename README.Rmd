@@ -1,21 +1,21 @@
 # ReadMe for ntbgraphics
 \
-This package includes basically two functions:
+This package includes functions for importing, transforming and visualization of NTB datasets:
 
   - 'getexpdata' for import of the Animal List (containing animal RFIDs, corresponding Genotypes and optionally Environment) and Meta Behavior (containing animals and their behavioral measures) as well as formal preparation;
-  - 'ploteachexp' for plotting of experiments of the prepared table and export of a PDF file.
+  - 'ploteachexp' for plotting of given experiments as boxplots and exporting the result as a PDF file;
+  - 'loopplotexp' for plotting all experiments within a dataset as boxplots and exporting the results as individual PDF files;
+  - 'heatmapexp' for plotting all experiments as a heatmap and producing a datamatrix with z-scored values.
   
-The first function ('getexpdata') takes a directory as its input and uses two excel files from this directory ("Animal List" and "Meta Behavior" - mind correct spelling!). It joins the two tables included and creates a column "GT_Env" by uniting "Genotype" and "Environment". Furthermore, it discards all useless information not needed for analysis. Finally, it returns a table called "data.animal.joined".
+All functions take a directory as their input, which specifies the location of the two files "Animal List" and "Meta Behavior" (mind correct spelling of these files - functions rely on specific names!). Furthermore, they require definition of the experimental setup in terms of 4-arm or 2-arm design or required type of analysis (you may want to analyze your 4-arm experiment as 2-arm, only looking at two conditions). The default setup assumes a 4-arm experiment. Further aspects can be customized.
 
-The second function ('ploteachexp') takes the name of one of the columns of "data.animal.joined", specifically the experiments' names, and again a directory as its input. The data of the chosen column will be plotted and saved in a PDF file in the specified  directory.
+All functions work on their own which means that they may rely internally on one of the other functions without the user needing to run them in advance.
 \
 \
 \
-As you might have realized, both functions assume a 4-arm experimental setup. For simple 2-arm experiments, two additional functions 'getexpdata_2arm' and 'ploteachexp_2arm' were created. They work exactly like the former, only preparing analysis of a 2-arm experiment.
+The following plot shows the general layout you can expect from the boxplot functions ('ploteachexp' and 'loopplotexp').
 \
 \
-\
-
 ``` {r echo=FALSE, message=FALSE, warning=FALSE}
 
 library(readxl)
@@ -82,4 +82,15 @@ ggplot(data.animal.joined, aes_string(x="GT_Env", y="Meanspeed", fill="GT_Env"))
 \
 \
 \
-This plot shows the general layout you can expect from the 'ploteachexp' function.
+The following map shows the general layout you can expect from the 'heatmapexp' function.
+\
+\
+``` {r echo=FALSE, message=FALSE, warning=FALSE}
+
+library(ntbgraphics)
+
+a <- heatmapexp(directory = paste0(system.file("extdata", package = "ntbgraphics",
+                                                                mustWork = T),"/"),
+                                 analysis = "4arm",
+                                 title = "Example Data Heatmap")
+```
