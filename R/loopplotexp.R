@@ -2,7 +2,7 @@
 #'
 #' @author Paul Volkmann
 #'
-#' @name loopallexp
+#' @name loopplotexp
 #'
 #' @description A function that takes an NTB dataset
 #' and visualizes the data as customized boxplots.
@@ -23,13 +23,13 @@
 #' @export
 #'
 #' @example
-#' loopallexp(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
+#' loopplotexp(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
 #' analysis = "4arm",
 #' orderplots = "tcf4",
 #' saveplotdir = paste0(system.file("../plots", package = "ntbgraphics", mustWork = T),"/"))
 
 
-loopallexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko"),
+loopplotexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko"),
                       orderplots = c("other", "tcf4"), saveplotdir = directory) {
 
   ## get and modify data
