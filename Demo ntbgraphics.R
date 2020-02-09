@@ -9,7 +9,7 @@ library(ntbgraphics)
 ##
 ## Please note: Each function works independently of what the user might have run before;
 ##    - the function'ploteachexp' refers internally to 'getexpdata' without the user having to run it first;
-##    - analogical, 'loopallexp' refers internally to the former without the user having to run them first!
+##    - analogical, 'loopplotexp' refers internally to the former without the user having to run them first!
 ##    - surprisingly, the same holds true for 'heatmapexp'
 ##
 
@@ -24,8 +24,8 @@ ploteachexp(expname = "Meanspeed",
             orderplots = "tcf4",
             saveplotdir = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"))
 
-## (loopallexpfunction) plot all experiments
-data.animal.matrix <- loopallexp(
+## (loopplotexp) plot all experiments
+data.animal.matrix <- loopplotexp(
             directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
             analysis = "4arm",
             orderplots = "tcf4",
@@ -38,5 +38,4 @@ data.animal.matrix <- heatmapexp(directory = paste0(system.file("extdata", packa
                                  title = "Example Data Heatmap")
 
 #################
-# why does "../plot" not work?
-# update README
+# saving all boxplots in one file (elegant way)
