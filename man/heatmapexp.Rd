@@ -23,7 +23,7 @@ with either transgenic or knock-out animals as group of interest
 heatmap and z-scored data matrix
 }
 \description{
-A function that produces a heatmap for an NTB dataset.
+A function that produces a heatmap for an NTB dataset and a data matrix with z-scored values.
 (Requires function 'getexpdata'internally.)
 }
 \author{
