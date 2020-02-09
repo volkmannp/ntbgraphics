@@ -4,7 +4,7 @@
 #'
 #' @name heatmapexp
 #'
-#' @description A function that produces a heatmap for an NTB dataset.
+#' @description A function that produces a heatmap for an NTB dataset and a data matrix with z-scored values.
 #' (Requires function 'getexpdata'internally.)
 #'
 #' @param 'directory': file directory of Behavior and Animal List files
