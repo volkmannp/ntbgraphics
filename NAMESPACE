@@ -2,5 +2,5 @@
 
 export(getexpdata)
 export(heatmapexp)
-export(loopallexp)
+export(loopplotexp)
 export(ploteachexp)
