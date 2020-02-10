@@ -7,6 +7,7 @@
 #' @description A function that takes an NTB dataset
 #' and visualizes the data as customized boxplots.
 #' (Requires functions 'ploteachexp' and 'getexpdata' internally.)
+#' For right formatting of your files, please consider the "ReadMe for ntbgraphics".
 #'
 #' @param 'directory': file directory of Behavior and Animal List files
 #' @param 'analysis': specifying the kind of experiment performed - 4-arm by default or 2-arm
