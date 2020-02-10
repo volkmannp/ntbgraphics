@@ -21,17 +21,18 @@ correct spelling of these files - functions rely on specific names\!).
 It is also important that you mind correct **formatting** of your excel
 files. This includes:
 
-  - at least three columns with information about ‘RFID’, ‘Genotype’,
-    and ‘Environmental’ \[Condition\] in your Animal List with these
-    exact titles;
+  - at least three columns with information about ‘RFID’, ‘Genotype’ and
+    ‘Environmental’ \[Condition\] in your Animal List with these exact
+    titles;
   - at least three columns with information about ‘Animal’, ‘Meanspeed’
     and ‘SerialLearn’ in your Meta Behavior with these exact titles;
   - correct order of columns:
       - the Animal List does not require a certain order;
       - the Meta Behavior should list ‘Meanspeed’ as the very first and
-        ‘SerialLearn’ as the very last of all behavioral experiments –
-        ‘Animal’ might be at the beginning or at the end, but not
-        inbetween\!  
+        ‘SerialLearn’ as the very last of all behavioral experiments
+        (only columns inbetween including the former will be considered
+        for behavioral analysis) – ‘Animal’ might be at the very
+        beginning or end, but not inbetween\!  
 
 Furthermore, each functions require definition of the experimental setup
 in terms of 4-arm or 2-arm design or required type of analysis (you may
