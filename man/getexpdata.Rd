@@ -19,6 +19,7 @@ prepared and joined dataframe of all animals and corresponding NTB experiments
 }
 \description{
 A function that imports an NTB dataset and prepares the data for plotting and analysis.
+For right formatting of your files, please consider the "ReadMe for ntbgraphics".
 }
 \author{
 Paul Volkmann

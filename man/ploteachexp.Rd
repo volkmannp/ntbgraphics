@@ -35,6 +35,7 @@ boxplot saved as PDF
 \description{
 A function that takes experiments (columns) of an NTB dataset
 and visualizes the data as customized boxplots. (Requires function 'getexpdata' internally.)
+For right formatting of your files, please consider the "ReadMe for ntbgraphics".
 }
 \author{
 Paul Volkmann

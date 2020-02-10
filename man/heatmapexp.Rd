@@ -25,6 +25,7 @@ heatmap and z-scored data matrix
 \description{
 A function that produces a heatmap for an NTB dataset and a data matrix with z-scored values.
 (Requires function 'getexpdata'internally.)
+For right formatting of your files, please consider the "ReadMe for ntbgraphics".
 }
 \author{
 Paul Volkmann

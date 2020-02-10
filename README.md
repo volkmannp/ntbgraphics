@@ -27,11 +27,11 @@ files. This includes:
   - at least three columns with information about ‘Animal’, ‘Meanspeed’
     and ‘SerialLearn’ in your Meta Behavior;
   - correct order of columns:
-      - the Animal List does not require a certain order,
+      - the Animal List does not require a certain order;
       - the Meta Behavior should list ‘Meanspeed’ as the very first and
         ‘SerialLearn’ as the very last of all behavioral experiments -
         ‘Animal’ might be at the beginning or at the end, but not
-        inbetween\!
+        inbetween\!  
 
 Furthermore, the functions require definition of the experimental setup
 in terms of 4-arm or 2-arm design or required type of analysis (you may

@@ -32,6 +32,7 @@ all boxplots saved in PDF
 A function that takes an NTB dataset
 and visualizes the data as customized boxplots.
 (Requires functions 'ploteachexp' and 'getexpdata' internally.)
+For right formatting of your files, please consider the "ReadMe for ntbgraphics".
 }
 \author{
 Paul Volkmann
