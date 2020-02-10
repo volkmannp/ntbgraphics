@@ -39,3 +39,4 @@ data.animal.matrix <- heatmapexp(directory = paste0(system.file("extdata", packa
 
 #################
 # saving all boxplots in one file (elegant way)
+# showing plots in README file
