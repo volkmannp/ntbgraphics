@@ -12,16 +12,16 @@ This package includes functions for importing, transforming and visualization of
   - '*heatmapexp*' for plotting all experiments as a heatmap and producing a datamatrix with z-scored values.
   
 All functions take a **directory** as their input, which specifies the location of the **two files** "Animal List" and "Meta Behavior" (mind correct spelling of these files - functions rely on specific names!). 
-It is important that you mind correct **formatting** of your excel files. This includes:
+It is also important that you mind correct **formatting** of your excel files. This includes:
 
-  - at least columns with information about 'RFID', 'Genotype', and 'Environmental' [Condition] in your Animal List with these exact titles;
-  - at least three columns with information about 'Animal', 'Meanspeed'	and	'SerialLearn' in your Meta Behavior;
+  - at least three columns with information about 'RFID', 'Genotype', and 'Environmental' [Condition] in your Animal List with these exact titles;
+  - at least three columns with information about 'Animal', 'Meanspeed'	and	'SerialLearn' in your Meta Behavior with these exact titles;
   - correct order of columns: 
     - the Animal List does not require a certain order;
-    - the Meta Behavior should list 'Meanspeed' as the very first and 'SerialLearn' as the very last of all behavioral experiments - 'Animal' might be at the beginning or at the end, but not inbetween!
+    - the Meta Behavior should list 'Meanspeed' as the very first and 'SerialLearn' as the very last of all behavioral experiments -- 'Animal' might be at the beginning or at the end, but not inbetween!
 \   
 
-Furthermore, the functions require definition of the experimental setup in terms of 4-arm or 2-arm design or required type of analysis (you may want to analyze your 4-arm experiment as 2-arm, only looking at two conditions). The default setup assumes a 4-arm experiment. Further aspects can be customized.
+Furthermore, each functions require definition of the experimental setup in terms of 4-arm or 2-arm design or required type of analysis (you may want to analyze your 4-arm experiment as 2-arm, only looking at two conditions). The default setup assumes a 4-arm experiment. Further aspects can be customized depending on the specific function.
 
 All functions externally work on their own, which means that they may rely internally on one of the other functions without the user needing to run them in advance.  
 \
