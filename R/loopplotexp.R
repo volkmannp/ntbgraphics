@@ -18,15 +18,14 @@
 #' @param 'saveplotdir': file directory where to save plots
 #' (default at location of Behavior and Animal List files)
 #'
-#' @return boxplot saved as PDF
+#' @return all boxplots saved in PDF
 #'
 #' @export
 #'
 #' @example
 #' loopplotexp(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
 #' analysis = "4arm",
-#' orderplots = "tcf4",
-#' saveplotdir = paste0(system.file("../plots", package = "ntbgraphics", mustWork = T),"/"))
+#' orderplots = "tcf4")
 
 
 loopplotexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko"),
@@ -37,5 +36,10 @@ loopplotexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko"),
 
   ## loop through and plot list of experiments
   myexp <- c(as.list(colnames(data.animal.joined[, -(1:2)])))
-  map(myexp, ploteachexp, directory, analysis, orderplots, saveplotdir)
+  allplots <- list()
+  allplots <- map(myexp, ploteachexp, directory, analysis, orderplots, saveplotdir = FALSE)
+
+  pdf(paste0(saveplotdir, "/All_experiments.pdf"))
+  print(allplots)
+  dev.off()
 }
