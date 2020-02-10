@@ -19,8 +19,8 @@
 #' @example
 #' getexpdata("./inst/extdata/", "2arm_tg")
 #'
-#' directory <- system.file("extdata", package = "ntbgraphics")
-#' getexpdata(directory, "4arm")
+#' directory_test <- system.file("extdata", package = "ntbgraphics")
+#' getexpdata(directory_test, "4arm")
 
 
 getexpdata <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko")) {

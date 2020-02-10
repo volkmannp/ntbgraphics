@@ -26,7 +26,8 @@ with either transgenic or knock-out animals as group of interest
 for "tcf4", plot order will be wt_hc, wt_sd, tg_hc, tg_sd (only for 4-arm experiments))}
 
 \item{'saveplotdir':}{file directory where to save plots
-(default at location of Behavior and Animal List files)}
+(default at location of Behavior and Animal List files);
+you may set to FALSE if you do not want to save plot to PDF.}
 }
 \value{
 boxplot saved as PDF

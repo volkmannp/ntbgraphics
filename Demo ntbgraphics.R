@@ -20,23 +20,18 @@ data.animal.joined <- getexpdata(directory = paste0(system.file("extdata/", pack
 ## (ploteachexp) plot a defined experiment
 ploteachexp(expname = "Meanspeed",
             directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
+          # saveplotdir = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
+            saveplotdir = FALSE,
             analysis = "4arm",
-            orderplots = "tcf4",
-            saveplotdir = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"))
+            orderplots = "tcf4")
 
 ## (loopplotexp) plot all experiments
-data.animal.matrix <- loopplotexp(
-            directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
+loopplotexp(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
             analysis = "4arm",
-            orderplots = "tcf4",
-            saveplotdir = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"))
+            orderplots = "tcf4")
 
 ## (heatmapexp) print out heatmap
 data.animal.matrix <- heatmapexp(directory = paste0(system.file("extdata", package = "ntbgraphics",
                                                                 mustWork = T),"/"),
                                  analysis = "4arm",
                                  title = "Example Data Heatmap")
-
-#################
-# saving all boxplots in one file (elegant way)
-# showing plots in README file

@@ -26,7 +26,7 @@ for "tcf4", plot order will be wt_hc, wt_sd, tg_hc, tg_sd (only for 4-arm experi
 (default at location of Behavior and Animal List files)}
 }
 \value{
-boxplot saved as PDF
+all boxplots saved in PDF
 }
 \description{
 A function that takes an NTB dataset
