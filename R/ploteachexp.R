@@ -6,6 +6,7 @@
 #'
 #' @description A function that takes experiments (columns) of an NTB dataset
 #' and visualizes the data as customized boxplots. (Requires function 'getexpdata' internally.)
+#' For right formatting of your files, please consider the "ReadMe for ntbgraphics".
 #'
 #' @param 'expname': name of a column/experiment of the NTB dataset
 #' @param 'directory': file directory of Behavior and Animal List files

@@ -6,6 +6,7 @@
 #'
 #' @description A function that produces a heatmap for an NTB dataset and a data matrix with z-scored values.
 #' (Requires function 'getexpdata'internally.)
+#' For right formatting of your files, please consider the "ReadMe for ntbgraphics".
 #'
 #' @param 'directory': file directory of Behavior and Animal List files
 #' @param 'analysis': specifying the kind of experiment performed - 4-arm by default or 2-arm

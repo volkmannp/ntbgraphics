@@ -5,6 +5,7 @@
 #' @name getexpdata
 #'
 #' @description A function that imports an NTB dataset and prepares the data for plotting and analysis.
+#' For right formatting of your files, please consider the "ReadMe for ntbgraphics".
 #'
 #' @param 'directory': file directory of Behavior and Animal List files
 #' (mind correct spelling of both files and directory!)
