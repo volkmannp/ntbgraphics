@@ -16,7 +16,8 @@
 #' (by default and for "other", plot order will depend on alphabetical order of GT_Env objects;
 #' for "tcf4", plot order will be wt_hc, wt_sd, tg_hc, tg_sd (only for 4-arm experiments))
 #' @param 'saveplotdir': file directory where to save plots
-#' (default at location of Behavior and Animal List files)
+#' (default at location of Behavior and Animal List files);
+#' you may set to FALSE if you do not want to save plot to PDF.
 #'
 #' @return boxplot saved as PDF
 #'
@@ -52,15 +53,15 @@ ploteachexp <- function(expname, directory, analysis = c("4arm", "2arm_tg", "2ar
 
   # plotting
   `if`(analysis == "2arm_tg",
-       ggplot(data.animal.joined, aes_string(x="Genotype", y=expname, fill="Genotype")),
+       outplot <- ggplot(data.animal.joined, aes_string(x="Genotype", y=expname, fill="Genotype")),
   `if`(analysis == "2arm_ko",
-       ggplot(data.animal.joined, aes_string(x="Genotype", y=expname, fill="Genotype")),
+       outplot <- ggplot(data.animal.joined, aes_string(x="Genotype", y=expname, fill="Genotype")),
   `if`(analysis == "4arm",
-       ggplot(data.animal.joined, aes_string(x="GT_Env", y=expname, fill="GT_Env"))))) +
+       outplot <- ggplot(data.animal.joined, aes_string(x="GT_Env", y=expname, fill="GT_Env")))))
 
 
     # boxplot with transparent filling
-    geom_boxplot(alpha = 0.4) +
+    outplot <- outplot + geom_boxplot(alpha = 0.4) +
 
     # choose colors
     `if`(analysis == "4arm", scale_fill_manual(values=c("#F7FCFD", "#CCECE6", "#238B45", "#00441B"))) +
@@ -131,5 +132,7 @@ ploteachexp <- function(expname, directory, analysis = c("4arm", "2arm_tg", "2ar
           legend.title = element_text(size=12))
 
   # save pdf
-  ggsave(paste0(saveplotdir, expname, ".pdf"))
+  `if`(!(saveplotdir =="FALSE"), ggsave(paste0(saveplotdir, expname, ".pdf")))
+  # return plot
+  return(outplot)
 }
