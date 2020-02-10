@@ -1,7 +1,6 @@
+ReadMe for ntbgraphics
+================
 
-# ReadMe for ntbgraphics
-
-  
 This package includes functions for importing, transforming and
 visualization of NTB datasets:
 
@@ -12,7 +11,7 @@ visualization of NTB datasets:
   - ‘ploteachexp’ for plotting of given experiments as boxplots and
     exporting the result as a PDF file;
   - ‘loopplotexp’ for plotting all experiments within a dataset as
-    boxplots and exporting the results as individual PDF files;
+    boxplots and exporting the results in one PDF file;
   - ‘heatmapexp’ for plotting all experiments as a heatmap and producing
     a datamatrix with z-scored values.
 
@@ -34,6 +33,8 @@ The following plot shows the general layout you can expect from the
 boxplot functions (‘ploteachexp’ and ‘loopplotexp’).  
   
 ![](README_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->  
+  
+  
   
   
 The following map shows the general layout you can expect from the
