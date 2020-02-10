@@ -21,9 +21,9 @@ It is also important that you mind correct **formatting** of your excel files. T
     - the Meta Behavior should list 'Meanspeed' as the very first and 'SerialLearn' as the very last of all behavioral experiments (only columns inbetween including the former will be considered for behavioral analysis) -- 'Animal' might be at the very beginning or end, but not inbetween!
 \   
 
-Furthermore, each functions require definition of the experimental setup in terms of 4-arm or 2-arm design or required type of analysis (you may want to analyze your 4-arm experiment as 2-arm, only looking at two conditions). The default setup assumes a 4-arm experiment. Further aspects can be customized depending on the specific function.
+Furthermore, each function requires definition of the experimental setup in terms of 4-arm or 2-arm design, respectively required type of analysis (you may want to analyze your 4-arm experiment as 2-arm, only looking at two conditions). The default setup assumes a 4-arm experiment. Further aspects can be customized depending on the specific function.
 
-All functions externally work on their own, which means that they may rely internally on one of the other functions without the user needing to run them in advance.  
+All functions externally work on their own, which means that they may rely internally on one of the other functions of the package without the user needing to run them in advance.  
 \
 \
 \   
