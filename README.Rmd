@@ -1,3 +1,9 @@
+---
+title: ""
+output:
+  rmarkdown::github_document
+---
+
 # ReadMe for ntbgraphics
 \
 This package includes functions for importing, transforming and visualization of NTB datasets:
