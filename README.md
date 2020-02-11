@@ -1,6 +1,8 @@
 ReadMe for ntbgraphics
 ================
-Feb 2020
+02/11/2020
+
+## Introduction
 
 This package includes functions for importing, transforming and
 visualization of NTB datasets:
@@ -16,6 +18,8 @@ visualization of NTB datasets:
   - ‘*heatmapexp*’ for plotting all experiments as a heatmap and
     producing a datamatrix with z-scored values;
   - ‘*pcatsneexp*’ for PCA and tSNE results and cluster plots.
+
+## Basic Principles of Functions and Dependences
 
 All functions take a **directory** as their input, which specifies the
 location of the **two files** “Animal List.xlsx” and “Meta
