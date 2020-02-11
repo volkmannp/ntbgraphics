@@ -35,9 +35,11 @@ heatmapexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko"), ti
           data.matrix() %>%
           na.omit %>%
           scale()
-
-        data.animal.joined <- data.animal.joined %>%
+        
+        if (analysis == "4arm") {
+        data.animal.joined <- getexpdata(directory, analysis) %>%
                 mutate(GT_Env = factor(GT_Env, levels = c("wt_hc", "wt_sd", "tg_hc", "tg_sd")))
+        }
 
         # prepare annotation table and colors by analysis type
         if (analysis == "4arm") {
