@@ -1,6 +1,6 @@
 ---
 title: "ReadMe for ntbgraphics"
-date: 02/11/2020
+last updated: 02/11/2020
 output:
   rmarkdown::github_document
 ---
@@ -130,6 +130,16 @@ b <- pcatsneexp(directory = paste0(system.file("extdata/", package = "ntbgraphic
 
 ## Installation
 
+If you want to install this package, the following lines of code provide a simple way that does not rely on any dependencies except from you having installed R and a GUI of your choice, e.g. RStudio. You may copy all of the lines in the following paragraph or skip certain lines if redundant.
+
+``` {r eval=FALSE}
+## install package devtools to get access to ntbgraphics (and every other) package on GitHub
+install.packages("devtools")
+## load package devtools
+library(devtools)
+## install ntbgraphics
+install_github("volkmannp/ntbgraphics")
+```
 
 ## Demo
 

@@ -1,6 +1,5 @@
 ReadMe for ntbgraphics
 ================
-02/11/2020
 
 ## Introduction
 
@@ -76,6 +75,22 @@ no convincing clustering).
 ![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-3-3.png)<!-- -->
 
 ## Installation
+
+If you want to install this package, the following lines of code provide
+a simple way that does not rely on any dependencies except from you
+having installed R and a GUI of your choice, e.g. RStudio. You may copy
+the whole set of code lines in the following paragraph or skip certain
+lines if
+redundant.
+
+``` r
+## install package devtools to get access to ntbgraphics (and every other) package on GitHub
+install.packages("devtools")
+## load package devtools
+library(devtools)
+## install ntbgraphics
+install_github("volkmannp/ntbgraphics")
+```
 
 ## Demo
 
