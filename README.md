@@ -79,33 +79,51 @@ no convincing clustering).
 If you want to install this package, the following lines of code provide
 a simple way that does not rely on any dependencies except from you
 having installed R and a GUI of your choice, e.g. RStudio. You may copy
-the whole set of code lines in the following paragraph or skip certain
-lines if
+all of the lines in the following paragraph or skip certain lines if
 redundant.
 
 ``` r
-## install package devtools to get access to ntbgraphics (and every other) package on GitHub
+## install package devtools to get - amongst others - functions to access ntbgraphics 
+## (and every other package on GitHub)
 install.packages("devtools")
 ## load package devtools
 library(devtools)
-## install ntbgraphics
+## install ntbgraphics with function 'install_github' from package devtools
 install_github("volkmannp/ntbgraphics")
+## that is it!
+
+## you are now ready to use ntbgraphics on your computer and may load it using...
+library(ntbgraphics)
+## for examples on how to use the functions, read on below
 ```
+
+For your information: You can use the command ‘install.packages’ for the
+installation of devtools due to its availability on CRAN (Comprehensive
+R Archive Network). Since ntbgraphics is not part of CRAN, its
+installation needs another function (‘install\_github’) that in turn is
+part of the devtools package.
 
 ## Demo
 
 After installing ntbgraphics, you probably want to explore the package
 with some random data or might simply be curious how to specifically
 deal with the functions provided. Thus, below you may find some lines of
-code that address this inquisitiveness. The example data used for the
-following is provided within the package by being included in the
-installed files. You may simply copy all lines and run them at once or
-copy indivdual lines/functions you have a particular interest in. Note:
-Each function works independently of what you may have run in advance as
-long as ntbgraphics has been loaded. Although the example shows the
-‘getexpdata’ function as its very first, running it is not necessary
-for the other functions to work. This holds true for every single
-function\!
+code that address this inquisitiveness.  
+
+The example data used for the following is provided within the package
+by being included in the installed files. You may simply copy all lines
+and run them at once or copy indivdual lines/functions you have a
+particular interest in.  
+
+Note: Each function works independently of what you may have run in
+advance as long as ntbgraphics has been loaded. Although the example
+shows the ‘getexpdata’ function as its very first, running it is not
+necessary for the other functions to work. This holds true for every
+single function\!    
+Also note that the directory within these lines aims for working on
+every computer by accessing the data provided within the package. If you
+want to work using your own files and directories, they might rather
+look like this: “/Users/user/Documents/experiments/ntb/run1”
 
 ``` r
 ## clear workspace and load libraries (and functions)
@@ -136,7 +154,8 @@ data.animal.matrix <- heatmapexp(directory = paste0(system.file("extdata", packa
                                  title = "Example Data Heatmap")
 
 ## (pcatsneexp) plot PCA and tSNE
-results <- pcatsneexp(directory = paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"),
+results <- pcatsneexp(directory = paste0(system.file("extdata/", package = "ntbgraphics", 
+                                                     mustWork = T),"/"),
                       analysis = "4arm",
                       perplex =  10,
                       theta = 0.8,
