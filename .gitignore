@@ -38,4 +38,6 @@ vignettes/*.pdf
 # ignore DS_Store
 .DS_Store
 
+# R specific files
 ntbgraphics.Rproj
+README.Rmd
