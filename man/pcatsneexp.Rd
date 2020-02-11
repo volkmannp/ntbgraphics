@@ -40,7 +40,7 @@ three cluster plots and a list containing the results
 \description{
 A function that produces cluster plots for results of Principal Component Analysis and
 t-distributed Stochastic Neighbor Embedding of a z-scored NTB dataset
-and returns a list containing the resulst.
+and returns a list containing the results (see examples for easy way to access individually).
 (Requires function 'getexpdata' internally.)
 For right formatting of your files, please consider the "ReadMe for ntbgraphics".
 }
