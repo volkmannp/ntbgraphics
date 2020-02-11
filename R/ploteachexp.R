@@ -10,15 +10,17 @@
 #'
 #' @param 'expname': name of a column/experiment of the NTB dataset
 #' @param 'directory': file directory of Behavior and Animal List files
-#' @param 'analysis': specifying the kind of experiment performed - 4-arm by default or 2-arm
+#' @param 'analysis': specifying the kind of experiment performed - 4-arm or 2-arm
 #' with either transgenic or knock-out animals as group of interest
 #' (or choosing the kind of analysis preferred)
+#' (default: "4arm")
 #' @param 'orderplots': gives user ability to specifiy order of plots
-#' (by default and for "other", plot order will depend on alphabetical order of GT_Env objects;
+#' (for "other", plot order will depend on alphabetical order of GT_Env objects;
 #' for "tcf4", plot order will be wt_hc, wt_sd, tg_hc, tg_sd (only for 4-arm experiments))
-#' @param 'saveplotdir': file directory where to save plots
-#' (default at location of Behavior and Animal List files);
-#' you may set to FALSE if you do not want to save plot to PDF.
+#' (default: "other")
+#' @param 'saveplotdir': file directory where to save plots;
+#' you may set to FALSE if you do not want to save plot to PDF
+#' (default: location of Behavior and Animal List files as specified in 'directory')
 #'
 #' @return boxplot saved as PDF
 #'
