@@ -16,10 +16,10 @@ visualization of NTB datasets:
     producing a datamatrix with z-scored values.
 
 All functions take a **directory** as their input, which specifies the
-location of the **two files** “Animal List” and “Meta Behavior” (mind
-correct spelling of these files - functions rely on specific names\!).
-It is also important that you mind correct **formatting** of your excel
-files. This includes:
+location of the **two files** “Animal List.xlsx” and “Meta
+Behavior.xlsx” (mind correct spelling of these files - functions rely
+on specific names\!). It is also important that you mind correct
+**formatting** of your excel files. This includes:
 
   - at least three columns with information about ‘RFID’, ‘Genotype’ and
     ‘Environmental’ \[Condition\] in your Animal List with these exact

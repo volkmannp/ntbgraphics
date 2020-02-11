@@ -11,7 +11,7 @@ This package includes functions for importing, transforming and visualization of
   - '*loopplotexp*' for plotting all experiments within a dataset as boxplots and exporting the results in one PDF file;
   - '*heatmapexp*' for plotting all experiments as a heatmap and producing a datamatrix with z-scored values.
   
-All functions take a **directory** as their input, which specifies the location of the **two files** "Animal List" and "Meta Behavior" (mind correct spelling of these files - functions rely on specific names!). 
+All functions take a **directory** as their input, which specifies the location of the **two files** "Animal List.xlsx" and "Meta Behavior.xlsx" (mind correct spelling of these files - functions rely on specific names!). 
 It is also important that you mind correct **formatting** of your excel files. This includes:
 
   - at least three columns with information about 'RFID', 'Genotype' and 'Environmental' [Condition] in your Animal List with these exact titles;
