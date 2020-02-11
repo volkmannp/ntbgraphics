@@ -15,5 +15,7 @@ Depends:  R (>= 3.5.0),
           ggplot2,
           ggsignif,          
           pheatmap,
-          RColorBrewer
+          RColorBrewer,
+          Rtsne,
+          ggbiplot
 License:
