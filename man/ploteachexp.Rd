@@ -17,17 +17,19 @@ ploteachexp(
 
 \item{'directory':}{file directory of Behavior and Animal List files}
 
-\item{'analysis':}{specifying the kind of experiment performed - 4-arm by default or 2-arm
+\item{'analysis':}{specifying the kind of experiment performed - 4-arm or 2-arm
 with either transgenic or knock-out animals as group of interest
-(or choosing the kind of analysis preferred)}
+(or choosing the kind of analysis preferred)
+(default: "4arm")}
 
 \item{'orderplots':}{gives user ability to specifiy order of plots
-(by default and for "other", plot order will depend on alphabetical order of GT_Env objects;
-for "tcf4", plot order will be wt_hc, wt_sd, tg_hc, tg_sd (only for 4-arm experiments))}
+(for "other", plot order will depend on alphabetical order of GT_Env objects;
+for "tcf4", plot order will be wt_hc, wt_sd, tg_hc, tg_sd (only for 4-arm experiments))
+(default: "other")}
 
-\item{'saveplotdir':}{file directory where to save plots
-(default at location of Behavior and Animal List files);
-you may set to FALSE if you do not want to save plot to PDF.}
+\item{'saveplotdir':}{file directory where to save plots;
+you may set to FALSE if you do not want to save plot to PDF
+(default: location of Behavior and Animal List files as specified in 'directory')}
 }
 \value{
 boxplot saved as PDF

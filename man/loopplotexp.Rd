@@ -2,7 +2,7 @@
 % Please edit documentation in R/loopplotexp.R
 \name{loopplotexp}
 \alias{loopplotexp}
-\title{Plot NTB experiments}
+\title{Plot every NTB experiment into one single PDF}
 \usage{
 loopplotexp(
   directory,
@@ -14,16 +14,18 @@ loopplotexp(
 \arguments{
 \item{'directory':}{file directory of Behavior and Animal List files}
 
-\item{'analysis':}{specifying the kind of experiment performed - 4-arm by default or 2-arm
+\item{'analysis':}{specifying the kind of experiment performed - 4-arm or 2-arm
 with either transgenic or knock-out animals as group of interest
-(or choosing the kind of analysis preferred)}
+(or choosing the kind of analysis preferred)
+(default: "4arm")}
 
 \item{'orderplots':}{gives user ability to specifiy order of plots
-(by default and for "other", plot order will depend on alphabetical order of GT_Env objects;
-for "tcf4", plot order will be wt_hc, wt_sd, tg_hc, tg_sd (only for 4-arm experiments))}
+(for "other", plot order will depend on alphabetical order of GT_Env objects;
+for "tcf4", plot order will be wt_hc, wt_sd, tg_hc, tg_sd (only for 4-arm experiments))
+(default: "other")}
 
 \item{'saveplotdir':}{file directory where to save plots
-(default at location of Behavior and Animal List files)}
+(default: location of Behavior and Animal List files as specified in 'directory')}
 }
 \value{
 all boxplots saved in PDF

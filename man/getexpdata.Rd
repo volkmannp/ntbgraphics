@@ -10,9 +10,10 @@ getexpdata(directory, analysis = c("4arm", "2arm_tg", "2arm_ko"))
 \item{'directory':}{file directory of Behavior and Animal List files
 (mind correct spelling of both files and directory!)}
 
-\item{'analysis':}{specifying the kind of experiment performed - 4-arm by default or 2-arm
+\item{'analysis':}{specifying the kind of experiment performed - 4-arm or 2-arm
 with either transgenic or knock-out animals as group of interest
-(or choosing the kind of analysis preferred)}
+(or choosing the kind of analysis preferred)
+(default: "4arm")}
 }
 \value{
 prepared and joined dataframe of all animals and corresponding NTB experiments

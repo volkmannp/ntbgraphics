@@ -13,9 +13,10 @@ heatmapexp(
 \arguments{
 \item{'directory':}{file directory of Behavior and Animal List files}
 
-\item{'analysis':}{specifying the kind of experiment performed - 4-arm by default or 2-arm
+\item{'analysis':}{specifying the kind of experiment performed - 4-arm or 2-arm
 with either transgenic or knock-out animals as group of interest
-(or choosing the kind of analysis preferred)}
+(or choosing the kind of analysis preferred)
+(default: "4arm")}
 
 \item{'title':}{define the title of your heatmap (default: "Heatmap")}
 }
@@ -24,7 +25,7 @@ heatmap and z-scored data matrix
 }
 \description{
 A function that produces a heatmap for an NTB dataset and a data matrix with z-scored values.
-(Requires function 'getexpdata'internally.)
+(Requires function 'getexpdata' internally.)
 For right formatting of your files, please consider the "ReadMe for ntbgraphics".
 }
 \author{
