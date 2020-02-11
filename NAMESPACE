@@ -3,4 +3,5 @@
 export(getexpdata)
 export(heatmapexp)
 export(loopplotexp)
+export(pcatsneexp)
 export(ploteachexp)
