@@ -1,5 +1,6 @@
 ---
 title: "ReadMe for ntbgraphics"
+date: Feb 2020
 output:
   rmarkdown::github_document
 ---
@@ -9,7 +10,8 @@ This package includes functions for importing, transforming and visualization of
   - '*getexpdata*' for import of the Animal List (containing animal RFIDs, corresponding Genotypes and optionally Environment) and Meta Behavior (containing animals and their behavioral measures) as well as formal preparation;
   - '*ploteachexp*' for plotting of given experiments as boxplots and exporting the result as a PDF file;
   - '*loopplotexp*' for plotting all experiments within a dataset as boxplots and exporting the results in one PDF file;
-  - '*heatmapexp*' for plotting all experiments as a heatmap and producing a datamatrix with z-scored values.
+  - '*heatmapexp*' for plotting all experiments as a heatmap and producing a datamatrix with z-scored values;
+  - '*pcatsneexp*' for PCA and tSNE results and cluster plots.
   
 All functions take a **directory** as their input, which specifies the location of the **two files** "Animal List.xlsx" and "Meta Behavior.xlsx" (mind correct spelling of these files - functions rely on specific names!). 
 It is also important that you mind correct **formatting** of your excel files. This includes:
@@ -24,20 +26,15 @@ It is also important that you mind correct **formatting** of your excel files. T
 Furthermore, each function requires definition of the experimental setup in terms of 4-arm or 2-arm design, respectively required type of analysis (you may want to analyze your 4-arm experiment as 2-arm, only looking at two conditions). The default setup assumes a 4-arm experiment. Further aspects can be customized depending on the specific function.
 
 All functions externally work on their own, which means that they may rely internally on one of the other functions of the package without the user needing to run them in advance.  
-\
-\
-\   
+ 
+## Examples
 
 The following plot shows the general layout you can expect from the boxplot functions ('ploteachexp' and 'loopplotexp').
 \   
 
 ``` {r echo=FALSE, message=FALSE, warning=FALSE}
 
-library(readxl)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-library(ggsignif)
+library(ntbgraphics)
 
 meta.data = read_excel("/Users/paul/Documents/Github_Repo/ntbgraphics/inst/extdata/Meta Behavior.xlsx")
 animal.list = read_excel("/Users/paul/Documents/Github_Repo/ntbgraphics/inst/extdata/Animal List.xlsx")
@@ -98,7 +95,7 @@ ggplot(data.animal.joined, aes_string(x="GT_Env", y="Meanspeed", fill="GT_Env"))
 \
 \   
 
-The following map shows the general layout you can expect from the 'heatmapexp' function.
+The following map shows the general layout you can expect from the 'heatmapexp' function (please note: random data; therefore most likely no convincing clustering).
 \   
 
 ``` {r echo=FALSE, message=FALSE, warning=FALSE}
@@ -109,4 +106,71 @@ a <- heatmapexp(directory = paste0(system.file("extdata", package = "ntbgraphics
                                                                 mustWork = T),"/"),
                                  analysis = "4arm",
                                  title = "Example Data Heatmap")
+```
+\
+\
+\   
+
+The following maps show the general layout you can expect from the 'pcatsneexp' function (please note: random data; therefore most likely no convincing clustering).
+\   
+
+``` {r echo=FALSE, message=FALSE, warning=FALSE}
+
+b <- pcatsneexp(directory = paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"),
+           analysis = "4arm",
+           perplex =  10,
+           theta = 0.8,
+           pastetitle = "Example PCA",
+           pastetitle2 = "Example tSNE")
+```
+
+## Installation
+
+
+## Demo
+
+After installing ntbgraphics, you probably want to explore the package with some random data or might simply be curious how to specifically deal with the functions provided. Thus, below you may find some lines of code that address this inquisitiveness. The example data used for the following is provided within the package by being included in the installed files.
+You may simply copy all lines and run them at once or copy indivdual lines/functions you have a particular interest in.
+Note: Each function works independently of what you may have run in advance as long as ntbgraphics has been loaded. Although the example shows the 'getexpdata' function as its very first, running it is not necessary for the other functions to work. This holds true for every single function!
+
+``` {r eval=FALSE}
+
+## clear workspace and load libraries (and functions)
+rm(list = ls(all.names = TRUE))
+library(ntbgraphics)
+
+## (getexpdata) get modified table with data
+data.animal.joined <- getexpdata(directory = paste0(system.file("extdata/", package = "ntbgraphics",
+                                                                mustWork = T),"/"), analysis = "4arm")
+
+## (ploteachexp) plot a defined experiment
+ploteachexp(expname = "Meanspeed",
+            directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
+          # saveplotdir = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
+            saveplotdir = FALSE,
+            analysis = "4arm",
+            orderplots = "tcf4")
+
+## (loopplotexp) plot all experiments
+loopplotexp(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
+            analysis = "4arm",
+            orderplots = "tcf4")
+
+## (heatmapexp) print out heatmap
+data.animal.matrix <- heatmapexp(directory = paste0(system.file("extdata", package = "ntbgraphics",
+                                                                mustWork = T),"/"),
+                                 analysis = "4arm",
+                                 title = "Example Data Heatmap")
+
+## (pcatsneexp) plot PCA and tSNE
+results <- pcatsneexp(directory = paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"),
+                      analysis = "4arm",
+                      perplex =  10,
+                      theta = 0.8,
+                      pastetitle = "Example PCA",
+                      pastetitle2 = "Example tSNE")
+### -> access results of pcatsneexp (requires to run pcatsneexp and store results as shown above)
+results_pca <- results[[1]]
+results_tsne <- results[[2]]
+
 ```

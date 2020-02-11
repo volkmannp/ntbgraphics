@@ -1,5 +1,6 @@
 ReadMe for ntbgraphics
 ================
+Feb 2020
 
 This package includes functions for importing, transforming and
 visualization of NTB datasets:
@@ -13,7 +14,8 @@ visualization of NTB datasets:
   - ‘*loopplotexp*’ for plotting all experiments within a dataset as
     boxplots and exporting the results in one PDF file;
   - ‘*heatmapexp*’ for plotting all experiments as a heatmap and
-    producing a datamatrix with z-scored values.
+    producing a datamatrix with z-scored values;
+  - ‘*pcatsneexp*’ for PCA and tSNE results and cluster plots.
 
 All functions take a **directory** as their input, which specifies the
 location of the **two files** “Animal List.xlsx” and “Meta
@@ -43,10 +45,9 @@ function.
 
 All functions externally work on their own, which means that they may
 rely internally on one of the other functions of the package without the
-user needing to run them in advance.  
-  
-  
- 
+user needing to run them in advance.
+
+## Examples
 
 The following plot shows the general layout you can expect from the
 boxplot functions (‘ploteachexp’ and ‘loopplotexp’).  
@@ -56,6 +57,73 @@ boxplot functions (‘ploteachexp’ and ‘loopplotexp’).  
  
 
 The following map shows the general layout you can expect from the
-‘heatmapexp’ function.  
+‘heatmapexp’ function (please note: random data; therefore most likely
+no convincing clustering).  
 
-![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->  
+  
+ 
+
+The following maps show the general layout you can expect from the
+‘pcatsneexp’ function (please note: random data; therefore most likely
+no convincing clustering).
+ 
+
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-3-3.png)<!-- -->
+
+## Installation
+
+## Demo
+
+After installing ntbgraphics, you probably want to explore the package
+with some random data or might simply be curious how to specifically
+deal with the functions provided. Thus, below you may find some lines of
+code that address this inquisitiveness. The example data used for the
+following is provided within the package by being included in the
+installed files. You may simply copy all lines and run them at once or
+copy indivdual lines/functions you have a particular interest in. Note:
+Each function works independently of what you may have run in advance as
+long as ntbgraphics has been loaded. Although the example shows the
+‘getexpdata’ function as its very first, running it is not necessary
+for the other functions to work. This holds true for every single
+function\!
+
+``` r
+## clear workspace and load libraries (and functions)
+rm(list = ls(all.names = TRUE))
+library(ntbgraphics)
+
+## (getexpdata) get modified table with data
+data.animal.joined <- getexpdata(directory = paste0(system.file("extdata/", package = "ntbgraphics",
+                                                                mustWork = T),"/"), analysis = "4arm")
+
+## (ploteachexp) plot a defined experiment
+ploteachexp(expname = "Meanspeed",
+            directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
+          # saveplotdir = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
+            saveplotdir = FALSE,
+            analysis = "4arm",
+            orderplots = "tcf4")
+
+## (loopplotexp) plot all experiments
+loopplotexp(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
+            analysis = "4arm",
+            orderplots = "tcf4")
+
+## (heatmapexp) print out heatmap
+data.animal.matrix <- heatmapexp(directory = paste0(system.file("extdata", package = "ntbgraphics",
+                                                                mustWork = T),"/"),
+                                 analysis = "4arm",
+                                 title = "Example Data Heatmap")
+
+## (pcatsneexp) plot PCA and tSNE
+results <- pcatsneexp(directory = paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"),
+                      analysis = "4arm",
+                      perplex =  10,
+                      theta = 0.8,
+                      pastetitle = "Example PCA",
+                      pastetitle2 = "Example tSNE")
+### -> access results of pcatsneexp (requires to run pcatsneexp and store results as shown above)
+results_pca <- results[[1]]
+results_tsne <- results[[2]]
+```
