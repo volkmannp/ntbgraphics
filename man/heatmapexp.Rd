@@ -7,6 +7,7 @@
 heatmapexp(
   directory,
   analysis = c("4arm", "2arm_tg", "2arm_ko", "2arm_sd"),
+  ordercolumns = c("ntb", "rdoc", "manual"),
   orderplots = c("other", "gtblock", "envblock"),
   clustercols = TRUE,
   clusterrows = TRUE,

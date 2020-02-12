@@ -44,11 +44,11 @@
 #' results_pca <- results[[1]]
 #' results_tsne <- results[[2]]
 
-pcatsneexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko", "2arm_sd"), perplex, theta = 0.5,
-                       pastetitle = "PCA", pastetitle2 = "tSNE") {
+pcatsneexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko", "2arm_sd"),
+                       perplex, theta = 0.5, pastetitle = "PCA", pastetitle2 = "tSNE") {
 
   ### get tables
-  data.animal.joined <- getexpdata(directory)
+  data.animal.joined <- getexpdata(directory, analysis)
   data.animal.matrix <- data.animal.joined %>%
     column_to_rownames(., "RFID") %>%
     select(Meanspeed:SerialLearn) %>%
@@ -57,12 +57,13 @@ pcatsneexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko", "2a
     scale()
   data.animal.list <- data.animal.joined %>%
     na.omit %>%
-    select(RFID:GT_Env) %>%
+    select(RFID:Condition) %>%
     data.frame(.) %>%
     `if`(analysis == "4arm",
-         mutate(., GT_Env = factor(GT_Env, levels = c("wt_hc", "wt_sd", "tg_hc", "tg_sd"))),.) %>%
-    `if`(analysis == "2arm_tg",mutate(., GT_Env = factor(GT_Env)),.) %>%
-    `if`(analysis == "2arm_ko",mutate(., GT_Env = factor(GT_Env)),.)
+         mutate(., Condition = factor(Condition, levels = c("wt_hc", "wt_sd", "tg_hc", "tg_sd"))),.) %>%
+    `if`(analysis == "2arm_tg",mutate(., Condition = factor(Condition)),.) %>%
+    `if`(analysis == "2arm_ko",mutate(., Condition = factor(Condition)),.) %>% 
+    `if`(analysis == "2arm_sd",mutate(., Condition = factor(Condition)),.)
 
 
   ### PCA
@@ -71,17 +72,17 @@ pcatsneexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko", "2a
 
   ## prepare plotting
   pca_analysis_plot <- cbind(data.animal.list, pca_analysis$x)
-  rownames(pca_analysis$x) <- data.animal.list$GT_Env
+  rownames(pca_analysis$x) <- data.animal.list$Condition
 
   ## plot PCA
-  pca_plot <- ggplot(pca_analysis_plot, aes(x = PC1, y = PC2, color= data.animal.list$GT_Env)) +
+  pca_plot <- ggplot(pca_analysis_plot, aes(x = PC1, y = PC2, color= data.animal.list$Condition)) +
     scale_color_manual(values = c("#ABDDA4", "#2B83BA", "#FDAE61", "#D7191C")) +
     geom_point(size = 2) +
     ggtitle(pastetitle)
   print(pca_plot)
 
-  pca_plot_ellipse <- ggbiplot(pca_analysis, ellipse=TRUE, color = data.animal.list$GT_Env,
-                               groups= data.animal.list$GT_Env)+
+  pca_plot_ellipse <- ggbiplot(pca_analysis, ellipse=TRUE, color = data.animal.list$Condition,
+                               groups= data.animal.list$Condition)+
     scale_color_manual(values = c("#ABDDA4", "#2B83BA", "#FDAE61", "#D7191C")) +
     ggtitle(paste(pastetitle, "Ellipse"))
   print(pca_plot_ellipse)
@@ -97,7 +98,7 @@ pcatsneexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko", "2a
   tsne_analysisplot <- cbind(data.animal.list, d_tsne_analysis)
 
   ## plot tSNE
-  tsne_plot <- ggplot(tsne_analysisplot, aes(x=V1, y=V2, color = data.animal.list$GT_Env,)) +
+  tsne_plot <- ggplot(tsne_analysisplot, aes(x=V1, y=V2, color = data.animal.list$Condition,)) +
     scale_color_manual(values = c("#ABDDA4", "#2B83BA", "#FDAE61", "#D7191C")) +
     geom_point(size = 2) +
     ggtitle(pastetitle2)

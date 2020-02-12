@@ -173,8 +173,13 @@ rm(list = ls(all.names = TRUE))
 library(ntbgraphics)
 
 ## (getexpdata) get modified table with data
-data.animal.joined <- getexpdata(directory = paste0(system.file("extdata/", package = "ntbgraphics",
-                                                                mustWork = T),"/"), analysis = "4arm")
+data.animal.joined <- getexpdata(directory = paste0(system.file("extdata/", package = "ntbgraphics", 
+                                                                mustWork = T),"/"), 
+                                 analysis = "4arm",
+                                 ordercolumns = "ntb",
+                                 #ordercolumns = "manual", 
+                                 #ordercolumns_manual = c("Center", "SerialLearn", "Meanspeed"),
+                                 exclude = c("900200000099671", "900200000099583"))
 
 ## (ploteachexp) plot a defined experiment
 ploteachexp(expname = "Meanspeed",
@@ -193,6 +198,8 @@ loopplotexp(directory = paste0(system.file("extdata", package = "ntbgraphics", m
 data.animal.matrix <- heatmapexp(directory = paste0(system.file("extdata", package = "ntbgraphics",
                                                                 mustWork = T),"/"),
                                  analysis = "4arm",
+                                 ordercolumns = "ntb",
+                                 clustercols = F,
                                  title = "Example Data Heatmap")
 
 ## (pcatsneexp) plot PCA and tSNE

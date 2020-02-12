@@ -4,7 +4,13 @@
 \alias{getexpdata}
 \title{Get data of NTB experiments}
 \usage{
-getexpdata(directory, analysis = c("4arm", "2arm_tg", "2arm_ko", "2arm_sd"))
+getexpdata(
+  directory,
+  analysis = c("4arm", "2arm_tg", "2arm_ko", "2arm_sd"),
+  ordercolumns = c("ntb", "rdoc", "manual"),
+  ordercolumns_manual,
+  exclude = FALSE
+)
 }
 \arguments{
 \item{'directory':}{file directory of Behavior and Animal List files

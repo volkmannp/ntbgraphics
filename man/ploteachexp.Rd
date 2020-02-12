@@ -8,6 +8,8 @@ ploteachexp(
   expname,
   directory,
   analysis = c("4arm", "2arm_tg", "2arm_ko", "2arm_sd"),
+  ordercolumns = c("ntb", "rdoc", "manual"),
+  ordercolumns_manual,
   orderplots = c("other", "tcf4"),
   saveplotdir = directory
 )

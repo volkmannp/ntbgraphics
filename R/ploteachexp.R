@@ -40,13 +40,14 @@
 
 
 ploteachexp <- function(expname, directory, analysis = c("4arm", "2arm_tg", "2arm_ko", "2arm_sd"),
+                        ordercolumns = c("ntb", "rdoc", "manual"), ordercolumns_manual, 
                         orderplots = c("other", "tcf4"), saveplotdir = directory) {
 
   #getexpdata
-  data.animal.joined <- getexpdata(directory, analysis)
+  data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual)
 
   # order plot appearance
-  `if`(orderplots == "tcf4", data.animal.joined$GT_Env <- factor(data.animal.joined$GT_Env,
+  `if`(orderplots == "tcf4", data.animal.joined$Condition <- factor(data.animal.joined$Condition,
                                                                  levels = c("wt_hc", "wt_sd",
                                                                             "tg_hc", "tg_sd")))
 
@@ -56,12 +57,11 @@ ploteachexp <- function(expname, directory, analysis = c("4arm", "2arm_tg", "2ar
 
 
   # plotting
-  `if`(analysis == "2arm_tg",
-       outplot <- ggplot(data.animal.joined, aes_string(x="Genotype", y=expname, fill="Genotype")),
-  `if`(analysis == "2arm_ko",
-       outplot <- ggplot(data.animal.joined, aes_string(x="Genotype", y=expname, fill="Genotype")),
-  `if`(analysis == "4arm",
-       outplot <- ggplot(data.animal.joined, aes_string(x="GT_Env", y=expname, fill="GT_Env")))))
+  outplot <- ggplot(data.animal.joined, aes_string(x="Condition", y=expname, fill="Condition"))
+  # `if`(analysis == "2arm_ko",
+  #      outplot <- ggplot(data.animal.joined, aes_string(x="Condition", y=expname, fill="Condition")),
+  # `if`(analysis == "4arm",
+  #      outplot <- ggplot(data.animal.joined, aes_string(x="Condition", y=expname, fill="Condition")))))
 
 
     # boxplot with transparent filling
@@ -80,9 +80,9 @@ ploteachexp <- function(expname, directory, analysis = c("4arm", "2arm_tg", "2ar
 
     # title of axes
     ylab(paste0(expname, "Score")) +
-    `if`(analysis == "4arm", xlab("Conditions")) +
-    `if`(analysis == "2arm_tg", xlab("Genotype")) +
-    `if`(analysis == "2arm_ko", xlab("Genotype")) +
+    `if`(analysis == "4arm", xlab("Condition")) +
+    `if`(analysis == "2arm_tg", xlab("Condition")) +
+    `if`(analysis == "2arm_ko", xlab("Condition")) +
 
     # range of y-axis
     coord_cartesian(ylim=c(ymin, ymax)) +

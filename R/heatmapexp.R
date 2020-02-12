@@ -40,27 +40,25 @@
 
 
 heatmapexp <- function(directory, 
-                       analysis = c("4arm", "2arm_tg", "2arm_ko", "2arm_sd"), 
+                       analysis = c("4arm", "2arm_tg", "2arm_ko", "2arm_sd"),
+                       ordercolumns = c("ntb", "rdoc", "manual"),
                        orderplots = c("other", "gtblock", "envblock"),
                        clustercols = TRUE,
                        clusterrows = TRUE,
                        title = "Heatmap") {
         
         data.animal.matrix <- getexpdata(directory, analysis) %>%
-                `if`(orderplots == "gtblock", mutate(.,GT_Env = factor(
-                        GT_Env, levels = c("wt_hc", "wt_sd", "tg_hc", "tg_sd"))),.) %>%
-                `if`(orderplots == "envblock", mutate(.,GT_Env = factor(
-                        GT_Env, levels = c("wt_hc", "tg_hc", "wt_sd", "tg_sd"))),.) %>%
-                `if`(analysis == "2arm_tg", mutate(.,Genotype = factor(Genotype, 
+                `if`(orderplots == "gtblock", mutate(.,Condition = factor(
+                        Condition, levels = c("wt_hc", "wt_sd", "tg_hc", "tg_sd"))),.) %>%
+                `if`(orderplots == "envblock", mutate(.,Condition = factor(
+                        Condition, levels = c("wt_hc", "tg_hc", "wt_sd", "tg_sd"))),.) %>%
+                `if`(analysis == "2arm_tg", mutate(.,Condition = factor(Condition, 
                                                                        levels = c("wt", "tg"))),.) %>%
-                `if`(analysis == "2arm_ko", mutate(.,Genotype = factor(Genotype, 
+                `if`(analysis == "2arm_ko", mutate(.,Condition = factor(Condition, 
                                                                        levels = c("wt", "ko"))),.) %>%
-                `if`(analysis == "2arm_sd", mutate(.,Environmental = factor(Environmental, 
+                `if`(analysis == "2arm_sd", mutate(.,Condition = factor(Condition, 
                                                                        levels = c("hc", "sd"))),.) %>%
-                `if`(analysis == "4arm", arrange(.,GT_Env),.) %>%
-                `if`(analysis == "2arm_tg", arrange(.,Genotype),.) %>%
-                `if`(analysis == "2arm_ko", arrange(.,Genotype),.) %>%
-                `if`(analysis == "2arm_sd", arrange(.,Environmental),.) %>%
+                arrange(.,Condition) %>%
                 column_to_rownames(., "RFID") %>%
                 select(Meanspeed:SerialLearn) %>%
                 data.matrix() %>%
@@ -69,52 +67,52 @@ heatmapexp <- function(directory,
         
         # prepare annotation table and colors by analysis type
         if (orderplots == "other") {
-                annotation <- list(GT_Env=(c(
+                annotation <- list(Condition=(c(
                         tg_hc="#238B45",
                         tg_sd="#00441B",
                         wt_hc="#F7FCFD",
                         wt_sd="#CCECE6")))
-                data.animal.joined <- getexpdata(directory, analysis) %>%
-                        select(., RFID, GT_Env) %>%
+                data.animal.joined <- getexpdata(directory, analysis, ordercolumns) %>%
+                        select(., RFID, Condition) %>%
                         column_to_rownames(., "RFID")
         } else if (orderplots == "gtblock") {
-                annotation <- list(GT_Env=(c(
+                annotation <- list(Condition=(c(
                         wt_hc="#F7FCFD",
                         wt_sd="#CCECE6",
                         tg_hc="#238B45",
                         tg_sd="#00441B")))
-                data.animal.joined <- getexpdata(directory, analysis) %>%
-                        select(., RFID, GT_Env) %>%
+                data.animal.joined <- getexpdata(directory, analysis, ordercolumns) %>%
+                        select(., RFID, Condition) %>%
                         column_to_rownames(., "RFID")
         } else if (orderplots == "envblock") {
-                annotation <- list(GT_Env=(c(
+                annotation <- list(Condition=(c(
                         wt_hc="#F7FCFD",
                         tg_hc="#238B45",
                         wt_sd="#CCECE6",
                         tg_sd="#00441B")))
-                data.animal.joined <- getexpdata(directory, analysis) %>%
-                        select(., RFID, GT_Env) %>%
+                data.animal.joined <- getexpdata(directory, analysis, ordercolumns) %>%
+                        select(., RFID, Condition) %>%
                         column_to_rownames(., "RFID")
         } else if (analysis == "2arm_tg") {
-                annotation <- list(Genotype=(c(
+                annotation <- list(Condition=(c(
                         wt = "#CCECE6",
                         tg = "#238B45")))
-                data.animal.joined <- getexpdata(directory, analysis) %>%
-                        select(., RFID, Genotype) %>%
+                data.animal.joined <- getexpdata(directory, analysis, ordercolumns) %>%
+                        select(., RFID, Condition) %>%
                         column_to_rownames(., "RFID")
         } else if (analysis == "2arm_ko") {
-                annotation <- list(Genotype=(c(
+                annotation <- list(Condition=(c(
                         wt = "#CCECE6",
                         ko = "#238B45")))
-                data.animal.joined <- getexpdata(directory, analysis) %>%
-                        select(., RFID, Genotype) %>%
+                data.animal.joined <- getexpdata(directory, analysis, ordercolumns) %>%
+                        select(., RFID, Condition) %>%
                         column_to_rownames(., "RFID")
         } else if (analysis == "2arm_sd") {
-                annotation <- list(Environmental=(c(
+                annotation <- list(Condition=(c(
                         hc = "#CCECE6",
                         sd = "#238B45")))
-                data.animal.joined <- getexpdata(directory, analysis) %>%
-                        select(., RFID, Environmental) %>%
+                data.animal.joined <- getexpdata(directory, analysis, ordercolumns) %>%
+                        select(., RFID, Condition) %>%
                         column_to_rownames(., "RFID")
         }
         # heatmapping of experiments
@@ -134,5 +132,6 @@ heatmapexp <- function(directory,
                  border_color = F,
                  annotation_row = data.animal.joined,
                  annotation_colors = annotation)
+        
         return(data.animal.matrix)
 }
