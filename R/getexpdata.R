@@ -10,8 +10,9 @@
 #' @param 'directory': file directory of Behavior and Animal List files
 #' (mind correct spelling of both files and directory!)
 #' @param 'analysis': specifying the kind of experiment performed - 4-arm or 2-arm
-#' with either transgenic or knock-out animals as group of interest
-#' (or choosing the kind of analysis preferred)
+#' with either transgenic or knock-out animals or with social defeat looling at environmental condition
+#' as group of interest
+#' (respectively, choosing the kind of analysis preferred)
 #' (default: "4arm")
 #'
 #' @return prepared and joined dataframe of all animals and corresponding NTB experiments
@@ -25,7 +26,7 @@
 #' getexpdata(directory_test, "4arm")
 
 
-getexpdata <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko")) {
+getexpdata <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko", "2arm_sd")) {
 
   # import data
   meta.data <-  readxl::read_excel(paste0(directory,"/Meta Behavior.xlsx"))
@@ -43,7 +44,8 @@ getexpdata <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko")) {
     # select relevant columns
     `if`(analysis == "4arm", select(., RFID, GT_Env, Meanspeed:SerialLearn),.) %>%
     `if`(analysis == "2arm_tg", select(., RFID, Genotype, Meanspeed:SerialLearn),.) %>%
-    `if`(analysis == "2arm_ko", select(., RFID, Genotype, Meanspeed:SerialLearn),.)
+    `if`(analysis == "2arm_ko", select(., RFID, Genotype, Meanspeed:SerialLearn),.) %>% 
+    `if`(analysis == "2arm_sd", select(., RFID, Environmental, Meanspeed:SerialLearn),.)
 
   #return amended dataframe
   return(data.animal.joined)

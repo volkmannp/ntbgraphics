@@ -12,8 +12,9 @@
 #'
 #' @param 'directory': file directory of Behavior and Animal List files
 #' @param 'analysis': specifying the kind of experiment performed - 4-arm or 2-arm
-#' with either transgenic or knock-out animals as group of interest
-#' (or choosing the kind of analysis preferred)
+#' with either transgenic or knock-out animals or with social defeat looling at environmental condition
+#' as group of interest
+#' (respectively, choosing the kind of analysis preferred)
 #' (default: "4arm")
 #' @param 'perplex':  define perplexity parameter (should not be bigger than >[nrow(matrix] - 1)/3<)
 #' @param 'theta': define theta in the range of 0 to 1 (speed/accuracy trade-off;
@@ -43,7 +44,7 @@
 #' results_pca <- results[[1]]
 #' results_tsne <- results[[2]]
 
-pcatsneexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko"), perplex, theta = 0.5,
+pcatsneexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko", "2arm_sd"), perplex, theta = 0.5,
                        pastetitle = "PCA", pastetitle2 = "tSNE") {
 
   ### get tables

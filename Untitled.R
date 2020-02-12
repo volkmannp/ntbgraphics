@@ -11,12 +11,14 @@ pcatsneexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko"), pe
     scale()
   data.animal.list <- data.animal.joined %>%
     na.omit %>%
-    select(RFID:GT_Env) %>%
+    `if`(analysis == "4arm", select(., RFID, GT_Env, Meanspeed:SerialLearn),.) %>%
+    `if`(analysis == "2arm_tg", select(., RFID, Genotype, Meanspeed:SerialLearn),.) %>%
+    `if`(analysis == "2arm_ko", select(., RFID, Genotype, Meanspeed:SerialLearn),.) %>%
     data.frame(.) %>%
     `if`(analysis == "4arm",
          mutate(., GT_Env = factor(GT_Env, levels = c("wt_hc", "wt_sd", "tg_hc", "tg_sd"))),.) %>%
-    `if`(analysis == "2arm_tg",mutate(., GT_Env = factor(GT_Env)),.) %>%
-    `if`(analysis == "2arm_ko",mutate(., GT_Env = factor(GT_Env)),.)
+    `if`(analysis == "2arm_tg",mutate(., Genotype = factor(Genotype)),.) %>%
+    `if`(analysis == "2arm_ko",mutate(., Genotype = factor(Genotype)),.)
   
   
   ### PCA
@@ -25,7 +27,10 @@ pcatsneexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko"), pe
   
   ## prepare plotting
   pca_analysis_plot <- cbind(data.animal.list, pca_analysis$x)
-  rownames(pca_analysis$x) <- data.animal.list$GT_Env
+  if (analysis == "4arm") {
+    rownames(pca_analysis$x) <- data.animal.list$GT_Env
+  }
+  
   
   ## plot PCA
   pca_plot <- ggplot(pca_analysis_plot, aes(x = PC1, y = PC2, color= data.animal.list$GT_Env)) +
@@ -52,6 +57,7 @@ pcatsneexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko"), pe
     # colors of points, size and title
     scale_color_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc")) +
     geom_point(size = 2) +
+    labs(color = "Legend") + 
     ggtitle(pastetitle)
   print(pca_plot)
   
@@ -78,6 +84,7 @@ pcatsneexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko"), pe
           legend.title = element_text(size=12)) +
     # colors of points, size and title
     scale_color_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc")) +
+    labs(color = "Legend") + 
     ggtitle(paste(pastetitle, "Ellipse"))
   print(pca_plot_ellipse)
   
@@ -117,11 +124,13 @@ pcatsneexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko"), pe
     # colors of points, size and title
     scale_color_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc")) +
     geom_point(size = 2) +
+    labs(color = "Legend") + 
     ggtitle(pastetitle2)
+  #tsne_plot <-  tsne_plot + scale_fill_discrete(name = "New Legend Title")
   print(tsne_plot)
   
   return(list(pca_analysis, tsne_analysis))
 }
 
 
-pcatsneexp(directory = "/Users/paul/Documents/Einführung R/Wahlfach", analysis = "4arm", perplex = 18)
+pcatsneexp(directory = "/Users/paul/Documents/Einführung R/Wahlfach", analysis = "2arm_tg", perplex = 18)

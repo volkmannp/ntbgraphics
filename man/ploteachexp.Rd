@@ -7,7 +7,7 @@
 ploteachexp(
   expname,
   directory,
-  analysis = c("4arm", "2arm_tg", "2arm_ko"),
+  analysis = c("4arm", "2arm_tg", "2arm_ko", "2arm_sd"),
   orderplots = c("other", "tcf4"),
   saveplotdir = directory
 )
@@ -18,8 +18,9 @@ ploteachexp(
 \item{'directory':}{file directory of Behavior and Animal List files}
 
 \item{'analysis':}{specifying the kind of experiment performed - 4-arm or 2-arm
-with either transgenic or knock-out animals as group of interest
-(or choosing the kind of analysis preferred)
+with either transgenic or knock-out animals or with social defeat looling at environmental condition
+as group of interest
+(respectively, choosing the kind of analysis preferred)
 (default: "4arm")}
 
 \item{'orderplots':}{gives user ability to specifiy order of plots
