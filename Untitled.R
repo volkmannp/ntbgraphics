@@ -5,20 +5,15 @@ pcatsneexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko"), pe
   data.animal.joined <- getexpdata(directory)
   data.animal.matrix <- data.animal.joined %>%
     column_to_rownames(., "RFID") %>%
-    select(Meanspeed:SerialLearn) %>%
+    select(nth(colnames(data.animal.joined), 3):last(colnames(data.animal.joined))) %>% 
     data.matrix(.) %>%
     na.omit %>%
     scale()
   data.animal.list <- data.animal.joined %>%
     na.omit %>%
-    `if`(analysis == "4arm", select(., RFID, GT_Env, Meanspeed:SerialLearn),.) %>%
-    `if`(analysis == "2arm_tg", select(., RFID, Genotype, Meanspeed:SerialLearn),.) %>%
-    `if`(analysis == "2arm_ko", select(., RFID, Genotype, Meanspeed:SerialLearn),.) %>%
-    data.frame(.) %>%
-    `if`(analysis == "4arm",
-         mutate(., GT_Env = factor(GT_Env, levels = c("wt_hc", "wt_sd", "tg_hc", "tg_sd"))),.) %>%
-    `if`(analysis == "2arm_tg",mutate(., Genotype = factor(Genotype)),.) %>%
-    `if`(analysis == "2arm_ko",mutate(., Genotype = factor(Genotype)),.)
+    select(., RFID, Condition, nth(colnames(data.animal.joined), 3):
+             last(colnames(data.animal.joined))) %>%
+    data.frame(.)
   
   
   ### PCA
@@ -28,12 +23,12 @@ pcatsneexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko"), pe
   ## prepare plotting
   pca_analysis_plot <- cbind(data.animal.list, pca_analysis$x)
   if (analysis == "4arm") {
-    rownames(pca_analysis$x) <- data.animal.list$GT_Env
+    rownames(pca_analysis$x) <- data.animal.list$Condition
   }
   
   
   ## plot PCA
-  pca_plot <- ggplot(pca_analysis_plot, aes(x = PC1, y = PC2, color= data.animal.list$GT_Env)) +
+  pca_plot <- ggplot(pca_analysis_plot, aes(x = PC1, y = PC2, color= data.animal.list$Condition)) +
     theme_bw() +
     theme_bw() +
     # customize title position and size
@@ -61,8 +56,8 @@ pcatsneexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko"), pe
     ggtitle(pastetitle)
   print(pca_plot)
   
-  pca_plot_ellipse <- ggbiplot(pca_analysis, ellipse=TRUE, color = data.animal.list$GT_Env,
-                               groups= data.animal.list$GT_Env) +
+  pca_plot_ellipse <- ggbiplot(pca_analysis, ellipse=TRUE, color = data.animal.list$Condition,
+                               groups= data.animal.list$Condition) +
     theme_bw() +
     # customize title position and size
     theme(plot.title = element_text(hjust = 0.5)) +
@@ -100,7 +95,7 @@ pcatsneexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko"), pe
   tsne_analysisplot <- cbind(data.animal.list, d_tsne_analysis)
   
   ## plot tSNE
-  tsne_plot <- ggplot(tsne_analysisplot, aes(x=V1, y=V2, color = data.animal.list$GT_Env,)) +
+  tsne_plot <- ggplot(tsne_analysisplot, aes(x=V1, y=V2, color = data.animal.list$Condition)) +
     theme_bw() +
     labs(fill = "Legend") +
     # customize title position and size
@@ -133,4 +128,4 @@ pcatsneexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko"), pe
 }
 
 
-pcatsneexp(directory = "/Users/paul/Documents/Einführung R/Wahlfach", analysis = "2arm_tg", perplex = 18)
+pcatsneexp(directory = "/Users/paul/Documents/Einführung R/Wahlfach", analysis = "4arm_sd_tg", perplex = 18)
