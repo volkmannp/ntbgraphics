@@ -9,26 +9,23 @@ heatmapexp(
   analysis = c("4arm", "2arm_tg", "2arm_ko", "2arm_sd"),
   ordercolumns = c("ntb", "rdoc", "manual"),
   orderplots = c("other", "gtblock", "envblock"),
+  exclude.animals = FALSE,
+  orderlevelcond = c("other", "gtblock", "etblock"),
   clustercols = TRUE,
   clusterrows = TRUE,
   title = "Heatmap"
 )
 }
 \arguments{
-\item{'directory':}{file directory of Behavior and Animal List files}
+\item{directory}{file directory of Behavior and Animal List files}
 
-\item{'analysis':}{specifying the kind of experiment performed - 4-arm or 2-arm
+\item{analysis}{specifying the kind of experiment performed - 4-arm or 2-arm
 with either transgenic or knock-out animals or with social defeat looling at environmental condition
 as group of interest
 (respectively, choosing the kind of analysis preferred)
 (default: "4arm")}
 
-\item{'clustercols':}{determine if columns should be clustered (boolean)}
-
-\item{'clusterrows':}{determine if rows should be clustered (boolean)
-(default: TRUE)}
-
-\item{'orderplots':}{only, if 'clusterrows' = FALSE and analysis = "4arm";
+\item{orderplots}{only, if 'clusterrows' = FALSE and analysis = "4arm";
 defines order of plots with:
 "other" for alphabetical order;
 "gtblock" for order wt_hc, wt_sd, tg_hc, tg_sd;
@@ -36,7 +33,12 @@ defines order of plots with:
 for analysis = "2arm_x", order always is wt, x
 (default: "other")}
 
-\item{'title':}{define the title of your heatmap (default: "Heatmap")}
+\item{clustercols}{determine if columns should be clustered (boolean)}
+
+\item{clusterrows}{determine if rows should be clustered (boolean)
+(default: TRUE)}
+
+\item{title}{define the title of your heatmap (default: "Heatmap")}
 }
 \value{
 heatmap and z-scored data matrix
