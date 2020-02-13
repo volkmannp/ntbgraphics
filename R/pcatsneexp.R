@@ -10,20 +10,20 @@
 #' (Requires function 'getexpdata' internally.)
 #' For right formatting of your files, please consider the "ReadMe for ntbgraphics".
 #'
-#' @param 'directory': file directory of Behavior and Animal List files
-#' @param 'analysis': specifying the kind of experiment performed - 4-arm or 2-arm
+#' @param directory file directory of Behavior and Animal List files
+#' @param analysis specifying the kind of experiment performed - 4-arm or 2-arm
 #' with either transgenic or knock-out animals or with social defeat looling at environmental condition
 #' as group of interest
 #' (respectively, choosing the kind of analysis preferred)
 #' (default: "4arm")
-#' @param 'perplex':  define perplexity parameter (should not be bigger than >[nrow(matrix] - 1)/3<)
-#' @param 'theta': define theta in the range of 0 to 1 (speed/accuracy trade-off;
+#' @param perplex  define perplexity parameter (should not be bigger than >[nrow(matrix] - 1)/3<)
+#' @param theta define theta in the range of 0 to 1 (speed/accuracy trade-off;
 #' increase for less accuracy, set to 0 for exact TSNE)
 #' (default: 0.5)
-#' @param 'pastetitle': customize title of PCA plots; title for PCA will be "pastetitle",
+#' @param pastetitle customize title of PCA plots; title for PCA will be "pastetitle",
 #' title for PCA with ellipse will be "pastetitle Ellipse"
 #' (default: "PCA")
-#' @param 'pastetitle2': define title of tSNE plot
+#' @param pastetitle2 define title of tSNE plot
 #' (default: "tSNE")
 #'
 #' @return three cluster plots and a list containing the results

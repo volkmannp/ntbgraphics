@@ -9,17 +9,47 @@
 #' (Requires functions 'ploteachexp' and 'getexpdata' internally.)
 #' For right formatting of your files, please consider the "ReadMe for ntbgraphics".
 #'
-#' @param 'directory': file directory of Behavior and Animal List files
-#' @param 'analysis': specifying the kind of experiment performed - 4-arm or 2-arm
-#' with either transgenic or knock-out animals or with social defeat looling at environmental condition
-#' as group of interest
-#' (respectively, choosing the kind of analysis preferred)
-#' (default: "4arm")
-#' @param 'orderplots': gives user ability to specifiy order of plots
-#' (for "other", plot order will depend on alphabetical order of GT_Env objects;
-#' for "tcf4", plot order will be wt_hc, wt_sd, tg_hc, tg_sd (only for 4-arm experiments))
+#' @param directory file directory of 'Meta Behavior' and 'Animal List' files
+#' (mind correct spelling of both files and directory!)
+#' (no default)
+#' @param analysis specifying the kind of experiment performed;
+#' "4arm_sd_tg", "4arm_sd_ko", "4arm_treat_tg", "4arm_treat_ko",
+#' "2arm_tg", "2arm_ko", "2arm_sd", "2arm_treat";
+#' (tg for transgenic, ko for knockout;
+#' 4arm_sd_x assumes a stress paradigm with social defeat (sd) and housing or handling control (hc) as 
+#' control;
+#' 4arm_treat_x assumes a treatment paradigm with treated (treat) and untreated (untreat) animals;
+#' 2arm_x assumes wildtype controls (wt) for tg and ko, housing or handling controls (hc) for sd and
+#' untreated controls (untreat) for treat
+#' (analysis defines the kind of experiment performed, respectively the kind of analysis preferred - 
+#' you can easily perform 2arm analysis for 4arm experiments, looking only at the groups of interest, 
+#' but not the other way around)
+#' (default: "2arm_ko")
+#' @param ordercolumns defining the order of plot appearance regarding experiments in final PDF;
+#' RFID and Condition are always listed first and need no specification;
+#' order of experiments may be chronological with "ntb", follow RDoC clustering with "rdoc" or be customized
+#' manually with "manual" (-> use ordercolumns_manual for exact appearance; there, you may also choose to 
+#' exclude experiments)
+#' (default: "ntb")
+#' @param ordercolumns_manual customizing order of appearance and appearance itself of experiments 
+#' in final PDF (experiments that are not listed will not be included);
+#' only if ordercolumns = "manual";
+#' user has to provide a vector containing characters (e.g. by using c("Meanspeed", "SerialLearn")) 
+#' with all experiments he wants to include into the final tabel
+#' (no default; no need for specification if ordercolumns is not "manual")
+#' @param exclude.animals excluding animals from analysis by RFID
+#' user has to provide a vector containing characters (e.g. by using c("900200000067229", "900200000065167")) 
+#' with all animals he wants to exclude from the final table;
+#' if FALSE is provided, no animal will be excluded
+#' (default= FALSE)
+#' @param orderlevelcond defines order of boxplots within each experiment:
+#' "other" for alphabetical order in case of 4arm and >'control', 'condition'< as order for 2arm experiments;
+#' "gtblock" for order wt_x, wt_y, tg_x, tg_y;
+#' "etblock" for order x_hc, y_hc, x_sd, y_sd;
+#' note that no specification is possible for 2arm experiments
 #' (default: "other")
-#' @param 'saveplotdir': file directory where to save plots
+#' @param saveplotdir file directory where to save plots;
+#' you may set to FALSE if you do not want to save plot to PDF
 #' (default: location of Behavior and Animal List files as specified in 'directory')
 #'
 #' @return all boxplots saved in PDF
@@ -27,16 +57,27 @@
 #' @export
 #'
 #' @example
+#' loopplotexp(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"))
+#' 
 #' loopplotexp(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
-#' analysis = "4arm",
-#' orderplots = "tcf4")
+#' analysis = "4arm_sd_tg,
+#' ordercolumns = "rdoc",
+#' exclude.animals = c("900200000064438", "900200000070142"),
+#' orderlevelcond = "gtblock")
 
 
-loopplotexp <- function(directory, analysis = c("4arm", "2arm_tg", "2arm_ko", "2arm_sd"),
-                      orderplots = c("other", "tcf4"), saveplotdir = directory) {
+loopplotexp <- function(directory, 
+                        analysis = c("2arm_ko","2arm_tg", "2arm_sd", "2arm_treat",
+                                     "4arm_sd_ko", "4arm_sd_tg", "4arm_treat_ko", "4arm_treat_tg"),
+                        ordercolumns = c("ntb", "rdoc", "manual"),
+                        ordercolumns_manual,
+                        exclude.animals = FALSE,
+                        orderlevelcond = c("other", "gtblock", "etblock"),
+                        saveplotdir = directory) {
 
   ## get and modify data
-  data.animal.joined <- getexpdata(directory, analysis)
+  data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual,exclude.animals,
+                                   orderlevelcond)
 
   ## loop through and plot list of experiments
   myexp <- c(as.list(colnames(data.animal.joined[, -(1:2)])))

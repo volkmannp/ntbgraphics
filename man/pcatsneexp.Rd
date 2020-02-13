@@ -14,25 +14,25 @@ pcatsneexp(
 )
 }
 \arguments{
-\item{'directory':}{file directory of Behavior and Animal List files}
+\item{directory}{file directory of Behavior and Animal List files}
 
-\item{'analysis':}{specifying the kind of experiment performed - 4-arm or 2-arm
+\item{analysis}{specifying the kind of experiment performed - 4-arm or 2-arm
 with either transgenic or knock-out animals or with social defeat looling at environmental condition
 as group of interest
 (respectively, choosing the kind of analysis preferred)
 (default: "4arm")}
 
-\item{'perplex':}{define perplexity parameter (should not be bigger than >[nrow(matrix] - 1)/3<)}
+\item{perplex}{define perplexity parameter (should not be bigger than >[nrow(matrix] - 1)/3<)}
 
-\item{'theta':}{define theta in the range of 0 to 1 (speed/accuracy trade-off;
+\item{theta}{define theta in the range of 0 to 1 (speed/accuracy trade-off;
 increase for less accuracy, set to 0 for exact TSNE)
 (default: 0.5)}
 
-\item{'pastetitle':}{customize title of PCA plots; title for PCA will be "pastetitle",
+\item{pastetitle}{customize title of PCA plots; title for PCA will be "pastetitle",
 title for PCA with ellipse will be "pastetitle Ellipse"
 (default: "PCA")}
 
-\item{'pastetitle2':}{define title of tSNE plot
+\item{pastetitle2}{define title of tSNE plot
 (default: "tSNE")}
 }
 \value{

@@ -5,32 +5,51 @@
 \title{Plot NTB experiments}
 \usage{
 ploteachexp(
-  expname,
   directory,
-  analysis = c("4arm", "2arm_tg", "2arm_ko", "2arm_sd"),
+  expname,
+  analysis = c("2arm_ko", "2arm_tg", "2arm_sd", "2arm_treat", "4arm_sd_ko",
+    "4arm_sd_tg", "4arm_treat_ko", "4arm_treat_tg"),
   ordercolumns = c("ntb", "rdoc", "manual"),
-  ordercolumns_manual,
-  orderplots = c("other", "tcf4"),
+  exclude.animals = FALSE,
+  orderlevelcond = c("other", "gtblock", "etblock"),
   saveplotdir = directory
 )
 }
 \arguments{
-\item{'expname':}{name of a column/experiment of the NTB dataset}
+\item{directory}{file directory of 'Meta Behavior' and 'Animal List' files
+(mind correct spelling of both files and directory!)
+(no default)}
 
-\item{'directory':}{file directory of Behavior and Animal List files}
+\item{expname}{name of a column/experiment of the NTB dataset}
 
-\item{'analysis':}{specifying the kind of experiment performed - 4-arm or 2-arm
-with either transgenic or knock-out animals or with social defeat looling at environmental condition
-as group of interest
-(respectively, choosing the kind of analysis preferred)
-(default: "4arm")}
+\item{analysis}{specifying the kind of experiment performed;
+"4arm_sd_tg", "4arm_sd_ko", "4arm_treat_tg", "4arm_treat_ko",
+"2arm_tg", "2arm_ko", "2arm_sd", "2arm_treat";
+(tg for transgenic, ko for knockout;
+4arm_sd_x assumes a stress paradigm with social defeat (sd) and housing or handling control (hc) as 
+control;
+4arm_treat_x assumes a treatment paradigm with treated (treat) and untreated (untreat) animals;
+2arm_x assumes wildtype controls (wt) for tg and ko, housing or handling controls (hc) for sd and
+untreated controls (untreat) for treat
+(analysis defines the kind of experiment performed, respectively the kind of analysis preferred - 
+you can easily perform 2arm analysis for 4arm experiments, looking only at the groups of interest, 
+but not the other way around)
+(default: "2arm_ko")}
 
-\item{'orderplots':}{gives user ability to specifiy order of plots
-(for "other", plot order will depend on alphabetical order of GT_Env objects;
-for "tcf4", plot order will be wt_hc, wt_sd, tg_hc, tg_sd (only for 4-arm experiments))
+\item{exclude.animals}{excluding animals from analysis by RFID
+user has to provide a vector containing characters (e.g. by using c("900200000067229", "900200000065167")) 
+with all animals he wants to exclude from the final table;
+if FALSE is provided, no animal will be excluded
+(default= FALSE)}
+
+\item{orderlevelcond}{defines order of boxplots within each experiment:
+"other" for alphabetical order in case of 4arm and >'control', 'condition'< as order for 2arm experiments;
+"gtblock" for order wt_x, wt_y, tg_x, tg_y;
+"etblock" for order x_hc, y_hc, x_sd, y_sd;
+note that no specification is possible for 2arm experiments
 (default: "other")}
 
-\item{'saveplotdir':}{file directory where to save plots;
+\item{saveplotdir}{file directory where to save plots;
 you may set to FALSE if you do not want to save plot to PDF
 (default: location of Behavior and Animal List files as specified in 'directory')}
 }
