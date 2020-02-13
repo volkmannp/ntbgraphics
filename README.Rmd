@@ -20,14 +20,14 @@ This package includes functions for importing, transforming and visualization of
 All functions take a **directory** as their input, which specifies the location of the **two files** "Animal List.xlsx" and "Meta Behavior.xlsx" (mind correct spelling of these files - functions rely on specific names!). 
 It is also important that you mind correct **formatting** of your excel files. This includes:
 
-  - at least three columns with information about 'RFID', 'Genotype' and 'Environmental' [Condition] in your Animal List with these exact titles;
-  - at least three columns with information about 'Animal', 'Meanspeed'	and	'SerialLearn' in your Meta Behavior with these exact titles;
-  - correct order of columns: 
-    - the Animal List does not require a certain order;
-    - the Meta Behavior should list 'Meanspeed' as the very first and 'SerialLearn' as the very last of all behavioral experiments (only columns inbetween including the former will be considered for behavioral analysis) -- 'Animal' might be at the very beginning or end, but not inbetween!
-\  
+  - at least two columns with information about 'RFID' and 'Genotype'/'Environmental'[Condition]/'Treatment' in your Animal List with these exact titles;
+  - at least two columns with information about 'Animal', and at least one behavioral test in your Meta Behavior with exact titles:
+  "Animal" "Meanspeed" "Rotations" "Center"	"Alternations" "Choices" "Context" "Cue" "FreezeBase" "Timeimmobile" "Baseline"	"inhibition70" "inhibition75" "inhibition80" "SucPref" "PlacePref" "ReversalLearn" "Activity" "Nocturnal" "SerialLearn"
+  (-> this is the current entity of all available experiment names for plotting; if you need to add more
+  experiments to this list, please refer to the creator of package)
+\   
 
-Furthermore, each function requires definition of the experimental setup in terms of 4-arm or 2-arm design, respectively required type of analysis (you may want to analyze your 4-arm experiment as 2-arm, only looking at two conditions). The default setup assumes a 4-arm experiment. Further aspects can be customized depending on the specific function.
+Further aspects can be customized depending on the specific function within that function.
 
 All functions externally work on their own, which means that they may rely internally on one of the other functions of the package without the user needing to run them in advance.  
  
@@ -175,19 +175,22 @@ library(ntbgraphics)
 ## (getexpdata) get modified table with data
 data.animal.joined <- getexpdata(directory = paste0(system.file("extdata/", package = "ntbgraphics", 
                                                                 mustWork = T),"/"), 
-                                 analysis = "4arm",
+                                 analysis = "4arm_sd_tg",
                                  ordercolumns = "ntb",
                                  #ordercolumns = "manual", 
                                  #ordercolumns_manual = c("Center", "SerialLearn", "Meanspeed"),
-                                 exclude = c("900200000099671", "900200000099583"))
+                                 exclude.animals = c("900200000099671", "900200000099583"),
+                                 orderlevelcond = "gtblock")
 
 ## (ploteachexp) plot a defined experiment
 ploteachexp(expname = "Meanspeed",
             directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
+            analysis = "4arm_sd_tg",
+            orderlevelcond = "etblock",
           # saveplotdir = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
-            saveplotdir = FALSE,
-            analysis = "4arm",
-            orderplots = "tcf4")
+            saveplotdir = FALSE)
+
+
 
 ## (loopplotexp) plot all experiments
 loopplotexp(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
@@ -197,9 +200,16 @@ loopplotexp(directory = paste0(system.file("extdata", package = "ntbgraphics", m
 ## (heatmapexp) print out heatmap
 data.animal.matrix <- heatmapexp(directory = paste0(system.file("extdata", package = "ntbgraphics",
                                                                 mustWork = T),"/"),
-                                 analysis = "4arm",
+                                 analysis = "4arm_sd_tg",
                                  ordercolumns = "ntb",
-                                 clustercols = F,
+                              #  ordercolumns_manual = 
+                                 exclude.animals = FALSE,
+                                 orderlevelcond = "gtblock",
+                                 naomit = TRUE,
+                                 directional = FALSE,
+                                 absoluteval = FALSE,
+                                 clustercols = TRUE,
+                                 clusterrows = TRUE,
                                  title = "Example Data Heatmap")
 
 ## (pcatsneexp) plot PCA and tSNE
