@@ -2,73 +2,134 @@
 % Please edit documentation in R/getexpdata.R
 \name{getexpdata}
 \alias{getexpdata}
-\title{Get data of NTB experiments}
+\title{Get data of NTB experiments in customized format}
 \usage{
 getexpdata(
   directory,
   analysis = c("2arm_ko", "2arm_tg", "2arm_sd", "2arm_treat", "4arm_sd_ko",
     "4arm_sd_tg", "4arm_treat_ko", "4arm_treat_tg"),
   ordercolumns = c("ntb", "rdoc", "manual"),
-  ordercolumns_manual,
+  ordercolumns_manual = FALSE,
   exclude.animals = FALSE,
-  orderlevelcond = c("other", "gtblock", "etblock")
+  orderlevelcond = c("other", "gtblock", "etblock", "2rev"),
+  acceptable.nas = "unlimited",
+  return.matrix = FALSE,
+  return.matrix.mean = FALSE,
+  naomit = FALSE,
+  directional = FALSE,
+  absoluteval = FALSE
 )
 }
 \arguments{
-\item{directory}{file directory of 'Meta Behavior' and 'Animal List' files
-(mind correct spelling of both files and directory!)
-(no default)}
+\item{directory}{specifies file directory of 'Meta Behavior' and 'Animal List' files within quotation 
+marks (mind correct spelling of both files and 'directory'!);
+no default}
 
-\item{analysis}{specifying the kind of experiment performed;
-"4arm_sd_tg", "4arm_sd_ko", "4arm_treat_tg", "4arm_treat_ko",
-"2arm_tg", "2arm_ko", "2arm_sd", "2arm_treat";
+\item{analysis}{specifies the kind of experiment performed within quotation marks;
+"2arm_ko","2arm_tg", "2arm_sd", "2arm_treat",
+"4arm_sd_ko", "4arm_sd_tg", "4arm_treat_ko", "4arm_treat_tg"
 (tg for transgenic, ko for knockout;
 4arm_sd_x assumes a stress paradigm with social defeat (sd) and housing or handling control (hc) as 
 control;
 4arm_treat_x assumes a treatment paradigm with treated (treat) and untreated (untreat) animals;
 2arm_x assumes wildtype controls (wt) for tg and ko, housing or handling controls (hc) for sd and
-untreated controls (untreat) for treat
-(analysis defines the kind of experiment performed, respectively the kind of analysis preferred - 
-you can easily perform 2arm analysis for 4arm experiments, looking only at the groups of interest, 
-but not the other way around)
-(default: "2arm_ko")}
+untreated controls (untreat) for treated animals;
+('analysis' defines the kind of experiment performed, respectively the kind of analysis preferred - 
+you can easily perform 2arm analysis for 4arm experiments looking only at the groups of interest, 
+but not the other way around);
+default: "2arm_ko"}
 
-\item{ordercolumns}{defining the order of experiment column appearance in final table;
+\item{ordercolumns}{defines the order paradigm of experiment column appearance in final table within 
+quotation marks: "ntb", "rdoc", "manual";
 RFID and Condition are always listed first and need no specification;
 order of experiments may be chronological with "ntb", follow RDoC clustering with "rdoc" or be customized
-manually with "manual" (-> use ordercolumns_manual for exact appearance; there, you may also choose to 
-exclude experiments)
-(default: "ntb")}
+manually with "manual" (-> use 'ordercolumns_manual' for exact appearance; there, you may also choose to 
+exclude experiments);
+default: "ntb"}
 
-\item{ordercolumns_manual}{customizing order of appearance and appearance itself of experiment columns 
+\item{ordercolumns_manual}{customizes order of appearance and appearance itself of experiment columns 
 in final table (experiments that are not listed will not be included);
-only if ordercolumns = "manual";
-user has to provide a vector containing characters (e.g. by using c("Meanspeed", "SerialLearn")) 
-with all experiments he wants to include into the final tabel
-(no default; no need for specification if ordercolumns is not "manual")}
+only if 'ordercolumns' = "manual";
+user has to provide a vector containing characters within quotation marks (e.g. by using 
+c("Meanspeed", "SerialLearn")) with all experiments he wants to include into the final tabel with desired
+order;
+no need for specification if 'ordercolumns' is not "manual"
+default: FALSE}
 
-\item{exclude.animals}{excluding animals from analysis by RFID
-user has to provide a vector containing characters (e.g. by using c("900200000067229", "900200000065167")) 
-with all animals he wants to exclude from the final table;
-if FALSE is provided, no animal will be excluded
-(default= FALSE)}
+\item{exclude.animals}{excluding animals from analysis by RFID;
+user has to provide a vector containing characters within quotation marks (e.g. by using 
+c("900200000067229", "900200000065167")) with all animals he wants to exclude from the final table;
+if FALSE is provided, no animal will be excluded;
+default: FALSE}
 
-\item{orderlevelcond}{defines order of factor levels of conditions 
-(which might be important when it comes to plotting or displaying your data grouped by condition 
+\item{orderlevelcond}{defines order of factor levels of conditions within quotation marks:
+"other", "gtblock", "etblock", "2rev";
+(might be important when it comes to plotting or displaying your data grouped by condition 
 in a defined order):
-"other" for alphabetical order in case of 4arm and >'control', 'condition'< as default order for 
-2arm experiments;
+"other" for alphabetical order in case of 4arm; also for default order of 2arm experiments
+(which lists the 'control' first, then the 'condition');
 "gtblock" for order wt_x, wt_y, tg_x, tg_y;
 "etblock" for order x_hc, y_hc, x_sd, y_sd;
-note that no (further) specification is possible for 2arm experiments
-(default: "other")}
+"2rev" for inverse order of 2arm default only, meaning listing the 'condition' first, then the 'control';
+default: "other"}
+
+\item{acceptable.nas}{defines the maximum number of NAs allowed within the same row;
+if number of actual NAs within one row is bigger than the number provided, the row will be excluded from 
+table and following analyses;
+if the number of acceptable NAs should be unlimited, no value has to be provided;
+default: "unlimited"}
+
+\item{return.matrix}{boolean that defines if the standard dataframe or a z-scored matrix should be 
+provided;
+by default, getexpdata generates a dataframe containing raw joined animal and experiment information;
+'return.matrix' can further process the dataframe with customizable functions to return a z-scored matrix,
+for e.g. heatmapping, pca and tsne;
+default: FALSE}
+
+\item{naomit}{boolean that specifies if each columns with any number of NAs bigger than 0 should be 
+excluded; only applied and useful if 'return.matrix' is TRUE;
+may appear redundant concerning earlier listed 'acceptable.nas', but gives user the opportunity, to save
+settings within function with different needs for dataframe and (probably later needed) matrix;
+default: FALSE}
+
+\item{directional}{boolean that specifies if directionality paradigm following RDoC concept should be
+applied; if TRUE, columns 'Rotations', 'FreezeBase', 'Timeimmobile', 'Baseline', 'Activity', 'Choices' and
+'Meanspeed' are multiplied by -1; only applied and useful if 'return.matrix' is TRUE and if 'absoluteval'
+is FALSE;
+default: FALSE}
+
+\item{absoluteval}{boolean that specifies if only absolute values of z-scored matrix should be given;
+only applied and useful if 'return.matrix' is TRUE;
+default: FALSE}
+
+\item{return.matrix, mean}{boolean that specifies if matrix should only contain the mean of each group
+for each experiment; grouping follows specification of groups to be analyzed as defined by 'analysis';
+only useful if 'return.matrix' is TRUE;
+default: FALSE}
 }
 \value{
-prepared and joined dataframe of all animals and corresponding NTB experiments
+prepared and joined dataframe of all animals and corresponding NTB experiments 
+or customized z-scored matrix
 }
 \description{
-A function that imports an NTB dataset and prepares the data for plotting and analysis.
+A function that imports an NTB dataset and prepares the data for plotting and analysis as 
+dataframe or matrix.
 For right formatting of your files, please consider the "ReadMe for ntbgraphics".
+}
+\examples{
+getexpdata(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"))
+
+getexpdata(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"), 
+                   analysis = "4arm_sd_tg", 
+                   ordercolumns = "manual", 
+                   ordercolumns_manual = c("Meanspeed", "SerialLearn", "Center"), 
+                   exclude.animals = c("900200000070142"), 
+                   orderlevelcond = "2rev", 
+                   acceptable.nas = 3, 
+                   return.matrix = TRUE, 
+                   naomit = TRUE, 
+                   directional = TRUE)
+                   
 }
 \author{
 Paul Volkmann

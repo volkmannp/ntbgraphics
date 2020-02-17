@@ -6,47 +6,129 @@
 \usage{
 heatmapexp(
   directory,
-  analysis = c("4arm", "2arm_tg", "2arm_ko", "2arm_sd"),
+  analysis = c("2arm_ko", "2arm_tg", "2arm_sd", "2arm_treat", "4arm_sd_ko",
+    "4arm_sd_tg", "4arm_treat_ko", "4arm_treat_tg"),
   ordercolumns = c("ntb", "rdoc", "manual"),
-  orderplots = c("other", "gtblock", "envblock"),
+  ordercolumns_manual,
   exclude.animals = FALSE,
   orderlevelcond = c("other", "gtblock", "etblock"),
+  acceptable.nas = "unlimited",
+  return.matrix.mean = FALSE,
+  directional = FALSE,
+  absoluteval = FALSE,
   clustercols = TRUE,
   clusterrows = TRUE,
+  colorbrewname = "RdYlBu",
   title = "Heatmap"
 )
 }
 \arguments{
-\item{directory}{file directory of Behavior and Animal List files}
+\item{directory}{specifies file directory of 'Meta Behavior' and 'Animal List' files within quotation 
+marks (mind correct spelling of both files and 'directory'!);
+no default}
 
-\item{analysis}{specifying the kind of experiment performed - 4-arm or 2-arm
-with either transgenic or knock-out animals or with social defeat looling at environmental condition
-as group of interest
-(respectively, choosing the kind of analysis preferred)
-(default: "4arm")}
+\item{analysis}{specifies the kind of experiment performed within quotation marks;
+"2arm_ko","2arm_tg", "2arm_sd", "2arm_treat",
+"4arm_sd_ko", "4arm_sd_tg", "4arm_treat_ko", "4arm_treat_tg"
+(tg for transgenic, ko for knockout;
+4arm_sd_x assumes a stress paradigm with social defeat (sd) and housing or handling control (hc) as 
+control;
+4arm_treat_x assumes a treatment paradigm with treated (treat) and untreated (untreat) animals;
+2arm_x assumes wildtype controls (wt) for tg and ko, housing or handling controls (hc) for sd and
+untreated controls (untreat) for treated animals;
+('analysis' defines the kind of experiment performed, respectively the kind of analysis preferred - 
+you can easily perform 2arm analysis for 4arm experiments looking only at the groups of interest, 
+but not the other way around);
+default: "2arm_ko"}
 
-\item{orderplots}{only, if 'clusterrows' = FALSE and analysis = "4arm";
-defines order of plots with:
-"other" for alphabetical order;
-"gtblock" for order wt_hc, wt_sd, tg_hc, tg_sd;
-"envblock" for order wt_hc, tg_hc, wt_sd, tg_sd;
-for analysis = "2arm_x", order always is wt, x
-(default: "other")}
+\item{ordercolumns}{defines the order paradigm of experiment column appearance in final heatmap (if
+clustercolumns is set FALSE) within quotation marks: "ntb", "rdoc", "manual";
+order of experiments may be chronological with "ntb", follow RDoC clustering with "rdoc" or be customized
+manually with "manual" (-> use 'ordercolumns_manual' for exact appearance; there, you may also choose to 
+exclude experiments);
+default: "ntb"}
 
-\item{clustercols}{determine if columns should be clustered (boolean)}
+\item{ordercolumns_manual}{customizes order of appearance and appearance itself of experiment columns 
+in final heatmap (experiments that are not listed will not be included);
+only if 'ordercolumns' = "manual";
+user has to provide a vector containing characters within quotation marks (e.g. by using 
+c("Meanspeed", "SerialLearn")) with all experiments he wants to include into the final heatmap with desired
+order;
+no need for specification if 'ordercolumns' is not "manual"
+default: FALSE}
 
-\item{clusterrows}{determine if rows should be clustered (boolean)
-(default: TRUE)}
+\item{exclude.animals}{excluding animals from analysis by RFID;
+user has to provide a vector containing characters within quotation marks (e.g. by using 
+c("900200000067229", "900200000065167")) with all animals he wants to exclude from the final table;
+if FALSE is provided, no animal will be excluded;
+default: FALSE}
 
-\item{title}{define the title of your heatmap (default: "Heatmap")}
+\item{orderlevelcond}{defines order of factor levels of conditions within quotation marks:
+"other", "gtblock", "etblock", "2rev";
+defines order of data grouped by condition in final heatmap if clusterrows is set FALSE:
+"other" for alphabetical order in case of 4arm; also for default order of 2arm experiments
+(which lists the 'control' first, then the 'condition');
+"gtblock" for order wt_x, wt_y, tg_x, tg_y;
+"etblock" for order x_hc, y_hc, x_sd, y_sd;
+"2rev" for inverse order of 2arm default only, meaning listing the 'condition' first, then the 'control';
+default: "other"}
+
+\item{acceptable.nas}{defines the maximum number of NAs allowed within the same row;
+if number of actual NAs within one row is bigger than the number provided, the row will be excluded from 
+table and following analyses;
+if the number of acceptable NAs should be unlimited, no value has to be provided;
+default: "unlimited"}
+
+\item{directional}{boolean that specifies if directionality paradigm following RDoC concept should be
+applied; if TRUE columns 'Rotations', 'FreezeBase', 'Timeimmobile', 'Baseline', 'Activity', 'Choices' and
+'Meanspeed' are multiplied by -1; only applied and useful if 'absoluteval' is FALSE;
+default: FALSE}
+
+\item{absoluteval}{boolean that specifies if only absolute values of z-scored matrix should be given in
+heatmap;
+default: FALSE}
+
+\item{clustercols}{boolean that determines if columns should be clustered;
+default: TRUE}
+
+\item{clusterrows}{boolean that determines if rows should be clustered;
+default: TRUE}
+
+\item{colorbrewname}{specifies the color palette used for drawing the heatmap;
+you may check your options with 'display.brewer.all()';
+examples include: "YlOrRd", "YlGn", "Purples", "OrRd", "Greys", "Set1", "Pastel1", "Paired", "Spectral",
+"RdYlBu" or "BrBG" and many more;
+default: "RdYlBu"}
+
+\item{title}{defines the title of the heatmap; character within quotation marks;
+default: "Heatmap"}
+
+\item{return.matrix, mean}{boolean that specifies if heatmap should only contain the mean of each group
+for each experiment; grouping follows specification of groups to be analyzed as defined by 'analysis';
+default: FALSE}
 }
 \value{
-heatmap and z-scored data matrix
+heatmap and data matrix
 }
 \description{
 A function that produces a heatmap for an NTB dataset and a data matrix with z-scored values.
 (Requires function 'getexpdata' internally.)
 For right formatting of your files, please consider the "ReadMe for ntbgraphics".
+}
+\examples{
+heatmapexp(paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"))
+
+heatmapexp(directory = paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/")),
+                     analysis = "4arm_sd_tg",
+                     ordercolumns = "rdoc",
+                     exclude.animals = c("900200000070142"),
+                     orderlevelcond = "gtblock",
+                     acceptable.nas = 0,
+                     directional = TRUE,
+                     clustercols = FALSE,
+                     clusterrows = FALSE,
+                     colorbrewname = "Greys",
+                     title = "new_testdata_heatmap_09-04-2044")
 }
 \author{
 Paul Volkmann

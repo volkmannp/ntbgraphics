@@ -8,35 +8,94 @@
 #' (Requires function 'getexpdata' internally.)
 #' For right formatting of your files, please consider the "ReadMe for ntbgraphics".
 #'
-#' @param directory file directory of Behavior and Animal List files
-#' @param analysis specifying the kind of experiment performed - 4-arm or 2-arm
-#' with either transgenic or knock-out animals or with social defeat looling at environmental condition
-#' as group of interest
-#' (respectively, choosing the kind of analysis preferred)
-#' (default: "4arm")
-#' @param clustercols determine if columns should be clustered (boolean)
-#' @param clusterrows determine if rows should be clustered (boolean)
-#' (default: TRUE)
-#' @param orderplots only, if 'clusterrows' = FALSE and analysis = "4arm";
-#' defines order of plots with:
-#' "other" for alphabetical order;
-#' "gtblock" for order wt_hc, wt_sd, tg_hc, tg_sd;
-#' "envblock" for order wt_hc, tg_hc, wt_sd, tg_sd;
-#' for analysis = "2arm_x", order always is wt, x
-#' (default: "other")
-#' @param title define the title of your heatmap (default: "Heatmap")
+#' @param directory specifies file directory of 'Meta Behavior' and 'Animal List' files within quotation 
+#' marks (mind correct spelling of both files and 'directory'!);
+#' no default
+#' @param analysis specifies the kind of experiment performed within quotation marks;
+#' "2arm_ko","2arm_tg", "2arm_sd", "2arm_treat",
+#' "4arm_sd_ko", "4arm_sd_tg", "4arm_treat_ko", "4arm_treat_tg"
+#' (tg for transgenic, ko for knockout;
+#' 4arm_sd_x assumes a stress paradigm with social defeat (sd) and housing or handling control (hc) as 
+#' control;
+#' 4arm_treat_x assumes a treatment paradigm with treated (treat) and untreated (untreat) animals;
+#' 2arm_x assumes wildtype controls (wt) for tg and ko, housing or handling controls (hc) for sd and
+#' untreated controls (untreat) for treated animals;
+#' ('analysis' defines the kind of experiment performed, respectively the kind of analysis preferred - 
+#' you can easily perform 2arm analysis for 4arm experiments looking only at the groups of interest, 
+#' but not the other way around);
+#' default: "2arm_ko"
+#' @param ordercolumns defines the order paradigm of experiment column appearance in final heatmap (if
+#' clustercolumns is set FALSE) within quotation marks: "ntb", "rdoc", "manual";
+#' order of experiments may be chronological with "ntb", follow RDoC clustering with "rdoc" or be customized
+#' manually with "manual" (-> use 'ordercolumns_manual' for exact appearance; there, you may also choose to 
+#' exclude experiments);
+#' default: "ntb"
+#' @param ordercolumns_manual customizes order of appearance and appearance itself of experiment columns 
+#' in final heatmap (experiments that are not listed will not be included);
+#' only if 'ordercolumns' = "manual";
+#' user has to provide a vector containing characters within quotation marks (e.g. by using 
+#' c("Meanspeed", "SerialLearn")) with all experiments he wants to include into the final heatmap with desired
+#' order;
+#' no need for specification if 'ordercolumns' is not "manual"
+#' default: FALSE
+#' @param exclude.animals excluding animals from analysis by RFID;
+#' user has to provide a vector containing characters within quotation marks (e.g. by using 
+#' c("900200000067229", "900200000065167")) with all animals he wants to exclude from the final table;
+#' if FALSE is provided, no animal will be excluded;
+#' default: FALSE
+#' @param orderlevelcond defines order of factor levels of conditions within quotation marks:
+#' "other", "gtblock", "etblock", "2rev";
+#' defines order of data grouped by condition in final heatmap if clusterrows is set FALSE:
+#' "other" for alphabetical order in case of 4arm; also for default order of 2arm experiments
+#' (which lists the 'control' first, then the 'condition');
+#' "gtblock" for order wt_x, wt_y, tg_x, tg_y;
+#' "etblock" for order x_hc, y_hc, x_sd, y_sd;
+#' "2rev" for inverse order of 2arm default only, meaning listing the 'condition' first, then the 'control';
+#' default: "other"
+#' @param acceptable.nas defines the maximum number of NAs allowed within the same row;
+#' if number of actual NAs within one row is bigger than the number provided, the row will be excluded from 
+#' table and following analyses;
+#' if the number of acceptable NAs should be unlimited, no value has to be provided;
+#' default: "unlimited"
+#' @param return.matrix,mean boolean that specifies if heatmap should only contain the mean of each group
+#' for each experiment; grouping follows specification of groups to be analyzed as defined by 'analysis';
+#' default: FALSE
+#' @param directional boolean that specifies if directionality paradigm following RDoC concept should be
+#' applied; if TRUE columns 'Rotations', 'FreezeBase', 'Timeimmobile', 'Baseline', 'Activity', 'Choices' and
+#' 'Meanspeed' are multiplied by -1; only applied and useful if 'absoluteval' is FALSE;
+#' default: FALSE
+#' @param absoluteval boolean that specifies if only absolute values of z-scored matrix should be given in
+#' heatmap;
+#' default: FALSE
+#' @param clustercols boolean that determines if columns should be clustered;
+#' default: TRUE
+#' @param clusterrows boolean that determines if rows should be clustered;
+#' default: TRUE
+#' @param colorbrewname specifies the color palette used for drawing the heatmap;
+#' you may check your options with 'display.brewer.all()';
+#' examples include: "YlOrRd", "YlGn", "Purples", "OrRd", "Greys", "Set1", "Pastel1", "Paired", "Spectral",
+#' "RdYlBu" or "BrBG" and many more;
+#' default: "RdYlBu"
+#' @param title defines the title of the heatmap; character within quotation marks;
+#' default: "Heatmap"
 #'
-#' @return heatmap and z-scored data matrix
+#' @return heatmap and data matrix
 #'
 #' @export
 #'
-#' @example
-#' heatmapexp(paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"))
+#' @examples heatmapexp(paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"))
 #'
-#' data.animal.matrix <- heatmapexp(
-#' directory = paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/")),
-#' analysis = "2arm_tg",
-#' title = "new_testdata_heatmap_09-04-2044")
+#' @examples heatmapexp(directory = paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/")),
+#'                      analysis = "4arm_sd_tg",
+#'                      ordercolumns = "rdoc",
+#'                      exclude.animals = c("900200000070142"),
+#'                      orderlevelcond = "gtblock",
+#'                      acceptable.nas = 0,
+#'                      directional = TRUE,
+#'                      clustercols = FALSE,
+#'                      clusterrows = FALSE,
+#'                      colorbrewname = "Greys",
+#'                      title = "new_testdata_heatmap_09-04-2044")
 
 
 heatmapexp <- function(directory, 
@@ -46,119 +105,118 @@ heatmapexp <- function(directory,
                        ordercolumns_manual,
                        exclude.animals = FALSE,
                        orderlevelcond = c("other", "gtblock", "etblock"),
-                       naomit = TRUE,
+                       acceptable.nas = "unlimited",
+                       return.matrix.mean = FALSE,
                        directional = FALSE,
                        absoluteval = FALSE,
                        clustercols = TRUE,
                        clusterrows = TRUE,
                        colorbrewname = "RdYlBu",
                        title = "Heatmap") {
+       
         
-        # get data and arrange by condition, select RFIDs as rownames
+        if (grepl("2arm", analysis)) {
+                return.matrix.mean = FALSE
+        }
+        # get data
         data.animal.matrix <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual, 
-                                         exclude.animals, orderlevelcond) %>%
-                arrange(.,Condition) %>% 
-                column_to_rownames(., "RFID")
-        
-        # unselect condition and transfrom into matrix, z-scoring
-        data.animal.matrix <- data.animal.matrix %>% 
-                select(nth(colnames(data.animal.matrix), 2):last(colnames(data.animal.matrix))) %>%
-                data.matrix() %>%
-                `if`(naomit == TRUE, na.omit(.), .) %>%
-                scale()
-        
-        data.animal.matrix[is.na(data.animal.matrix)] <- 0
-        
-        # inverse z-scoring accordingly to directionality paradigm
-        col.names.actual <- colnames(data.animal.matrix)
-        
-        if ('Rotations' %in% col.names.actual == TRUE && directional == TRUE) {
-                data.animal.matrix[, "Rotations"] <- data.animal.matrix[, "Rotations"]*-1
-        }
-        if ('FreezeBase' %in% col.names.actual == TRUE && directional == TRUE) {
-                data.animal.matrix[, "FreezeBase"] <- data.animal.matrix[, "FreezeBase"]*-1
-        }
-        if ('Timeimmobile' %in% col.names.actual == TRUE && directional == TRUE) {
-                data.animal.matrix[, "Timeimmobile"] <- data.animal.matrix[, "Timeimmobile"]*-1
-        }
-        if ('Baseline' %in% col.names.actual == TRUE && directional == TRUE) {
-                data.animal.matrix[, "Baseline"] <- data.animal.matrix[, "Baseline"]*-1
-        }
-        if ('Activity' %in% col.names.actual == TRUE && directional == TRUE) {
-                data.animal.matrix[, "Activity"] <- data.animal.matrix[, "Activity"]*-1
-        }
-        if ('Choices' %in% col.names.actual == TRUE && directional == TRUE) {
-                data.animal.matrix[, "Choices"] <- data.animal.matrix[, "Choices"]*-1
-        }
-        if ("Meanspeed" %in% col.names.actual == TRUE && directional == TRUE) {
-                data.animal.matrix[, "Meanspeed"] <- data.animal.matrix[, "Meanspeed"]*-1
-        }
-        
-        # optional take absolute values
-        if (absoluteval == TRUE) {
-                data.animal.matrix <- abs(data.animal.matrix)
-        }
-        
+                                         exclude.animals, orderlevelcond, acceptable.nas, return.matrix = T,
+                                         return.matrix.mean, naomit = FALSE, directional, absoluteval) 
+
         # prepare annotation table and colors by analysis type
-        if (analysis == "2arm_tg") {
+        if (return.matrix.mean == TRUE && analysis == "4arm_sd_tg") {
+                data.animal.joined <- matrix(c("wt_hc", "wt_sd", "tg_hc", "tg_sd",
+                                               "wt_hc_mean", "wt_sd_mean", "tg_hc_mean",  "tg_sd_mean"), 
+                                             nrow = 4, ncol =2)
+                data.animal.joined <- as.data.frame(data.animal.joined)
+                data.animal.joined <- column_to_rownames(data.animal.joined, "V1")
+                names(data.animal.joined)[1] <- "Condition"
                 annotation <- list(Condition=(c(
-                        wt = "#CCECE6",
-                        tg = "#238B45")))
+                        wt_hc_mean="#b4b4b4",
+                        wt_sd_mean="#3c3c3c",
+                        tg_hc_mean="#84dcff",
+                        tg_sd_mean="#1e24fc")))
+        } else if (return.matrix.mean == TRUE && analysis == "4arm_sd_ko") {
+                data.animal.joined <- matrix(c("wt_hc", "wt_sd", "ko_hc", "ko_sd",
+                                               "wt_hc_mean", "wt_sd_mean", "ko_hc_mean",  "ko_sd_mean"), 
+                                             nrow = 4, ncol =2)
+                data.animal.joined <- as.data.frame(data.animal.joined)
+                data.animal.joined <- column_to_rownames(data.animal.joined, "V1")
+                names(data.animal.joined)[1] <- "Condition"
+                annotation <- list(Condition=(c(
+                        wt_hc_mean="#b4b4b4",
+                        wt_sd_mean="#3c3c3c",
+                        ko_hc_mean="#84dcff",
+                        ko_sd_mean="#1e24fc")))
+        } else if (return.matrix.mean == TRUE && analysis == "4arm_treat_tg") {
+                data.animal.joined <- matrix(c("wt_untreat", "wt_treat", "tg_untreat", "tg_treat",
+                                               "wt_untreat_mean", "wt_treat_mean", 
+                                               "tg_untreat_mean",  "tg_treat_mean"), 
+                                             nrow = 4, ncol =2)
+                data.animal.joined <- as.data.frame(data.animal.joined)
+                data.animal.joined <- column_to_rownames(data.animal.joined, "V1")
+                names(data.animal.joined)[1] <- "Condition"
+                annotation <- list(Condition=(c(
+                        wt_untreat_mean="#b4b4b4",
+                        wt_treat_mean="#3c3c3c",
+                        tg_untreat_mean="#84dcff",
+                        tg_treat_mean="#1e24fc")))
+        } else if (return.matrix.mean == TRUE && analysis == "4arm_treat_ko") {
+                data.animal.joined <- matrix(c("wt_untreat", "wt_treat", "ko_untreat", "ko_treat",
+                                               "wt_untreat_mean", "wt_treat_mean", 
+                                               "ko_untreat_mean",  "ko_treat_mean"), 
+                                             nrow = 4, ncol =2)
+                data.animal.joined <- as.data.frame(data.animal.joined)
+                data.animal.joined <- column_to_rownames(data.animal.joined, "V1")
+                names(data.animal.joined)[1] <- "Condition"
+                annotation <- list(Condition=(c(
+                        wt_untreat_mean="#b4b4b4",
+                        wt_treat_mean="#3c3c3c",
+                        ko_untreat_mean="#84dcff",
+                        ko_treat_mean="#1e24fc")))
+               
+                
+                
+                
+        } else if (analysis == "2arm_tg") {
+                annotation <- list(Condition=(c(
+                        wt = "#3c3c3c",
+                        tg = "#84dcff")))
                 data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual, 
                                                  exclude.animals, orderlevelcond) %>%
                         select(., RFID, Condition) %>%
                         column_to_rownames(., "RFID")
         } else if (analysis == "2arm_ko") {
                 annotation <- list(Condition=(c(
-                        wt = "#CCECE6",
-                        ko = "#238B45")))
+                        wt = "#3c3c3c",
+                        ko = "#84dcff")))
                 data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual, 
                                                  exclude.animals, orderlevelcond) %>%
                         select(., RFID, Condition) %>%
                         column_to_rownames(., "RFID")
         } else if (analysis == "2arm_sd") {
                 annotation <- list(Condition=(c(
-                        hc = "#CCECE6",
-                        sd = "#238B45")))
+                        hc = "#3c3c3c",
+                        sd = "#84dcff")))
                 data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual, 
                                                  exclude.animals, orderlevelcond) %>%
                         select(., RFID, Condition) %>%
                         column_to_rownames(., "RFID")
         } else if (analysis == "2arm_treat") {
                 annotation <- list(Condition=(c(
-                        untreat = "#CCECE6",
-                        treat = "#238B45")))
+                        untreat = "#3c3c3c",
+                        treat = "#84dcff")))
                 data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual, 
                                                  exclude.animals, orderlevelcond) %>%
                         select(., RFID, Condition) %>%
                         column_to_rownames(., "RFID")
-        } else if (orderlevelcond == "gtblock") {
+        } else if (orderlevelcond == "gtblock" || orderlevelcond == "etblock" || orderlevelcond == "other") {
                 annotation <- list(Condition=(c(
-                        wt_hc="#F7FCFD",
-                        wt_sd="#CCECE6",
-                        tg_hc="#238B45",
-                        tg_sd="#00441B")))
+                        wt_hc="#b4b4b4",
+                        wt_sd="#3c3c3c",
+                        tg_hc="#84dcff",
+                        tg_sd="#1e24fc")))
                 data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual,  
-                                                 exclude.animals, orderlevelcond) %>%
-                        select(., RFID, Condition) %>%
-                        column_to_rownames(., "RFID")
-        } else if (orderlevelcond == "etblock") {
-                annotation <- list(Condition=(c(
-                        wt_hc="#F7FCFD",
-                        tg_hc="#238B45",
-                        wt_sd="#CCECE6",
-                        tg_sd="#00441B")))
-                data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual,
-                                                 exclude.animals, orderlevelcond) %>%
-                        select(., RFID, Condition) %>%
-                        column_to_rownames(., "RFID")
-        } else if (orderlevelcond == "other") {
-                annotation <- list(Condition=(c(
-                        tg_hc="#238B45",
-                        tg_sd="#00441B",
-                        wt_hc="#F7FCFD",
-                        wt_sd="#CCECE6")))
-                data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual, 
                                                  exclude.animals, orderlevelcond) %>%
                         select(., RFID, Condition) %>%
                         column_to_rownames(., "RFID")
@@ -190,6 +248,7 @@ heatmapexp <- function(directory,
                  clustering_distance_rows = "correlation",
                  color = colorRampPalette(rev(brewer.pal(n = 11, name = colorbrewname)))
                  (length(seq(0, 20, by = 1))),
+              #  na_col = "Grey",
                  legend_breaks = legend_breaks,
                  legend_labels = legend_labels,
                  border_color = F,
