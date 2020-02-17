@@ -180,7 +180,8 @@ data.animal.joined <- getexpdata(directory = paste0(system.file("extdata/", pack
                                  #ordercolumns = "manual", 
                                  #ordercolumns_manual = c("Center", "SerialLearn", "Meanspeed"),
                                  exclude.animals = c("900200000099671", "900200000099583"),
-                                 orderlevelcond = "gtblock")
+                                 orderlevelcond = "gtblock",
+                                 acceptable.nas = 1)
 
 ## (ploteachexp) plot a defined experiment
 ploteachexp(expname = "Meanspeed",
@@ -205,11 +206,13 @@ data.animal.matrix <- heatmapexp(directory = paste0(system.file("extdata", packa
                               #  ordercolumns_manual = 
                                  exclude.animals = FALSE,
                                  orderlevelcond = "gtblock",
+                                 return.matrix.mean = FALSE,
                                  naomit = TRUE,
                                  directional = FALSE,
                                  absoluteval = FALSE,
                                  clustercols = TRUE,
                                  clusterrows = TRUE,
+                                 colorbrewname = "Greys",
                                  title = "Example Data Heatmap")
 
 ## (pcatsneexp) plot PCA and tSNE
