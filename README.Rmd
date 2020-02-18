@@ -63,7 +63,7 @@ a <- heatmapexp(directory = paste0(system.file("extdata", package = "ntbgraphics
                 acceptable.nas = 0,
                 cutree_rows = 4,
                 palette = "viridis",
-                viridisname = plasma,
+                viridisname = inferno,
                 title = "Example Data Heatmap")
 ```
 \
@@ -148,8 +148,8 @@ data.animal.joined <- getexpdata(directory = paste0(system.file("extdata/", pack
                                  absoluteval = FALSE)
 
 ## (ploteachexp) plot a defined experiment
-ploteachexp(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
-            expname = "Meanspeed",
+ploteachexp(expname = "Meanspeed",
+            directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
             analysis = "4arm_sd_tg",
             exclude.animals = FALSE,
             orderlevelcond = "etblock",
