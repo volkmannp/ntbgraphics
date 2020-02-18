@@ -23,28 +23,25 @@ visualization of NTB datasets:
 All functions take a **directory** as their input, which specifies the
 location of the **two files** “Animal List.xlsx” and “Meta
 Behavior.xlsx” (mind correct spelling of these files - functions rely
-on specific names\!). It is also important that you mind correct
-**formatting** of your excel files. This includes:
+on specific names as given\!). It is also important that you mind
+correct **formatting** of your excel files. This includes:
 
-  - at least three columns with information about ‘RFID’, ‘Genotype’ and
-    ‘Environmental’ \[Condition\] in your Animal List with these exact
-    titles;
-  - at least three columns with information about ‘Animal’, ‘Meanspeed’
-    and ‘SerialLearn’ in your Meta Behavior with these exact titles;
-  - correct order of columns:
-      - the Animal List does not require a certain order;
-      - the Meta Behavior should list ‘Meanspeed’ as the very first and
-        ‘SerialLearn’ as the very last of all behavioral experiments
-        (only columns inbetween including the former will be considered
-        for behavioral analysis) – ‘Animal’ might be at the very
-        beginning or end, but not inbetween\!  
+  - at least two columns with information about ‘RFID’ and
+    ‘Genotype’/‘Environmental’/‘Treatment’ in your Animal List
+    with these exact titles;
+  - at least one column with information about ‘Animal’ (matching the
+    information in the RFID column in the Animal List), and at least one
+    behavioral test in your Meta Behavior with exact titles: “Animal”
+    “Meanspeed” “Rotations” “Center” “Alternations” “Choices”
+    “Context” “Cue” “FreezeBase” “Timeimmobile” “Baseline”
+    “inhibition70” “inhibition75” “inhibition80” “SucPref” “PlacePref”
+    “ReversalLearn” “Activity” “Nocturnal” “SerialLearn” (-\> this is
+    the current entity of all available experiment names for plotting;
+    if you need to add more experiments to this list, please refer to
+    the creator of this package)  
 
-Furthermore, each function requires definition of the experimental setup
-in terms of 4-arm or 2-arm design, respectively required type of
-analysis (you may want to analyze your 4-arm experiment as 2-arm, only
-looking at two conditions). The default setup assumes a 4-arm
-experiment. Further aspects can be customized depending on the specific
-function.
+Further aspects can be customized depending on the specific function
+within that function.
 
 All functions externally work on their own, which means that they may
 rely internally on one of the other functions of the package without the
@@ -94,6 +91,7 @@ install_github("volkmannp/ntbgraphics")
 
 ## you are now ready to use ntbgraphics on your computer and may load it using...
 library(ntbgraphics)
+
 ## for examples on how to use the functions, read on below
 ```
 
@@ -108,7 +106,9 @@ part of the devtools package.
 After installing ntbgraphics, you probably want to explore the package
 with some random data or might simply be curious how to specifically
 deal with the functions provided. Thus, below you may find some lines of
-code that address this inquisitiveness.  
+code that address this inquisitiveness. However, they do not explore
+every single possible option available for the functions of this
+package.  
 
 The example data used for the following is provided within the package
 by being included in the installed files. You may simply copy all lines
@@ -122,8 +122,8 @@ necessary for the other functions to work. This holds true for every
 single function\!    
 Also note that the directory within these lines aims for working on
 every computer by accessing the data provided within the package. If you
-want to work using your own files and directories, they might rather
-look like this: “/Users/user/Documents/experiments/ntb/run1”
+want to work using your own files, the directory might rather look like
+this: “/Users/user/Documents/experiments/ntb/run1”
 
 ``` r
 ## clear workspace and load libraries (and functions)
@@ -131,34 +131,71 @@ rm(list = ls(all.names = TRUE))
 library(ntbgraphics)
 
 ## (getexpdata) get modified table with data
-data.animal.joined <- getexpdata(directory = paste0(system.file("extdata/", package = "ntbgraphics",
-                                                                mustWork = T),"/"), analysis = "4arm")
+data.animal.joined <- getexpdata(directory = paste0(system.file("extdata/", package = "ntbgraphics", 
+                                                                mustWork = T),"/"),
+                                 analysis = "4arm_sd_tg",
+                                 ordercolumns = "ntb",
+                                 ordercolumns_manual = FALSE,
+                                #ordercolumns = "manual", 
+                                #ordercolumns_manual = c("Center", "SerialLearn", "Meanspeed"),
+                                 exclude.animals =  c("900200000099671", "900200000099583"),
+                                 orderlevelcond = "gtblock",
+                                 acceptable.nas = 1,
+                                 return.matrix = FALSE,
+                                #return.matrix = TRUE,
+                                 return.matrix.mean = FALSE,
+                                 naomit = FALSE,
+                                 directional = TRUE,
+                                 absoluteval = FALSE)
 
 ## (ploteachexp) plot a defined experiment
-ploteachexp(expname = "Meanspeed",
-            directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
-          # saveplotdir = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
-            saveplotdir = FALSE,
-            analysis = "4arm",
-            orderplots = "tcf4")
+ploteachexp(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
+            expname = "Meanspeed",
+            analysis = "4arm_sd_tg",
+            exclude.animals = FALSE,
+            orderlevelcond = "etblock",
+            acceptable.nas = 2,
+            saveplotdir = FALSE)
+           #saveplotdir = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"))
 
 ## (loopplotexp) plot all experiments
 loopplotexp(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
-            analysis = "4arm",
-            orderplots = "tcf4")
+            analysis = "4arm_sd_tg",
+           #analysis = "2arm_sd",
+            ordercolumns = "rdoc",
+            exclude.animals = FALSE,
+            orderlevelcond = "etblock",
+            acceptable.nas = 0,
+            saveplotdir = directory)
 
 ## (heatmapexp) print out heatmap
 data.animal.matrix <- heatmapexp(directory = paste0(system.file("extdata", package = "ntbgraphics",
                                                                 mustWork = T),"/"),
-                                 analysis = "4arm",
+                                 analysis = "4arm_sd_tg",
+                                 ordercolumns = "ntb",
+                                #ordercolumns_manual = c("Center", "Meanspeed"),
+                                 exclude.animals = FALSE,
+                                 orderlevelcond = "gtblock",
+                                 acceptable.nas = 1,
+                                 return.matrix.mean = FALSE,
+                                 directional = TRUE,
+                                 absoluteval = FALSE,
+                                 clustercols = FALSE,
+                                 clusterrows = TRUE,
+                                 palette = "viridis",
+                                #colorbrewname = "Greys",
+                                 viridisname = viridis,
                                  title = "Example Data Heatmap")
 
 ## (pcatsneexp) plot PCA and tSNE
 results <- pcatsneexp(directory = paste0(system.file("extdata/", package = "ntbgraphics", 
                                                      mustWork = T),"/"),
-                      analysis = "4arm",
+                      analysis = "4arm_sd_tg",
+                      orderlevelcond = "other",
                       perplex =  10,
                       theta = 0.8,
+                      ellipse_tsne = TRUE,
+                      ellconf = 0.6,
                       pastetitle = "Example PCA",
                       pastetitle2 = "Example tSNE")
 ### -> access results of pcatsneexp (requires to run pcatsneexp and store results as shown above)

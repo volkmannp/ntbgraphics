@@ -1,6 +1,6 @@
 ---
 title: "ReadMe for ntbgraphics"
-last updated: 02/11/2020
+last update: 02/18/2020
 output:
   rmarkdown::github_document
 ---
@@ -17,14 +17,14 @@ This package includes functions for importing, transforming and visualization of
   
 ## Basic Principles of Functions and Dependences
   
-All functions take a **directory** as their input, which specifies the location of the **two files** "Animal List.xlsx" and "Meta Behavior.xlsx" (mind correct spelling of these files - functions rely on specific names!). 
+All functions take a **directory** as their input, which specifies the location of the **two files** "Animal List.xlsx" and "Meta Behavior.xlsx" (mind correct spelling of these files - functions rely on specific names as given!). 
 It is also important that you mind correct **formatting** of your excel files. This includes:
 
-  - at least two columns with information about 'RFID' and 'Genotype'/'Environmental'[Condition]/'Treatment' in your Animal List with these exact titles;
-  - at least two columns with information about 'Animal', and at least one behavioral test in your Meta Behavior with exact titles:
+  - at least two columns with information about 'RFID' and 'Genotype'/'Environmental'/'Treatment' in your Animal List with these exact titles;
+  - at least one column with information about 'Animal' (matching the information in the RFID column in the Animal List), and at least one behavioral test in your Meta Behavior with exact titles:
   "Animal" "Meanspeed" "Rotations" "Center"	"Alternations" "Choices" "Context" "Cue" "FreezeBase" "Timeimmobile" "Baseline"	"inhibition70" "inhibition75" "inhibition80" "SucPref" "PlacePref" "ReversalLearn" "Activity" "Nocturnal" "SerialLearn"
   (-> this is the current entity of all available experiment names for plotting; if you need to add more
-  experiments to this list, please refer to the creator of package)
+  experiments to this list, please refer to the creator of this package)
 \   
 
 Further aspects can be customized depending on the specific function within that function.
@@ -40,63 +40,12 @@ The following plot shows the general layout you can expect from the boxplot func
 
 library(ntbgraphics)
 
-meta.data = read_excel("/Users/paul/Documents/Github_Repo/ntbgraphics/inst/extdata/Meta Behavior.xlsx")
-animal.list = read_excel("/Users/paul/Documents/Github_Repo/ntbgraphics/inst/extdata/Animal List.xlsx")
-
-data.animal.joined = animal.list %>%
-  filter(Genotype!= 'NA') %>%
-  unite(col="GT_Env", Genotype, Environmental, sep= "_", remove = FALSE) %>%
-  left_join(meta.data, by = c("RFID" = "Animal")) %>%
-  dplyr::mutate_at(vars(Meanspeed:SerialLearn),(funs(as.numeric))) %>%
-  select(RFID, GT_Env, Meanspeed:SerialLearn)
-
-data.animal.joined$GT_Env <- factor(data.animal.joined$GT_Env, levels = c("wt_hc", "wt_sd",
-                                                                          "tg_hc", "tg_sd"))
-
-ymin = min(data.animal.joined$Meanspeed, na.rm = TRUE)*0.25
-ymax = max(data.animal.joined$Meanspeed, na.rm = TRUE)*1.25
-
-ggplot(data.animal.joined, aes_string(x="GT_Env", y="Meanspeed", fill="GT_Env")) +
-
-  geom_boxplot(alpha = 0.4) +
-  
-  scale_fill_manual(values=c("#F7FCFD", "#CCECE6", "#238B45", "#00441B")) +
-  scale_color_manual(values=c("#F7FCFD", "#CCECE6", "#238B45", "#00441B")) +
-
-  geom_point(pch = 21, stroke=0.93, position = position_jitterdodge()) +
-
-  ylab("MeanspeedScore") +
-  xlab("Conditions") +
-
-  coord_cartesian(ylim=c(ymin, ymax)) +
-
-  geom_signif(test = "t.test",  
-           comparisons = list(c(1, 2),
-                              c(3, 4),
-                              c(2, 3),
-                              c(2, 4)), 
-           y=c(0.85*ymax, 0.85*ymax, 0.89*ymax, 0.95*ymax), 
-           map_signif_level = c("***"=0.001, "**"=0.01, "*"=0.05), 
-           textsize = 5,  tip_length = 0.005) +
-
-  ggtitle("Meanspeed") +
-  theme_bw() +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  theme(plot.title = element_text(size = 16)) +
-  theme(panel.grid.major = element_blank(),
-    panel.border = element_blank(),
-    panel.grid.minor = element_blank(),
-    legend.key = element_blank(),
-    strip.background = element_blank(),
-    
-    axis.line.y = element_line(colour = "black", size=0.6),
-    axis.ticks.x = element_blank(),
-    axis.text.x = element_text(angle=0, size=10),
-    axis.text.y = element_text(angle=0, size=10),
-    text = element_text(size=14),
-    
-    legend.text = element_text(size=9),
-    legend.title = element_text(size=12))
+ploteachexp(directory = paste0(system.file("extdata", package = "ntbgraphics",
+                                                                mustWork = T),"/"),
+            expname = "Meanspeed",
+            analysis = "4arm_sd_tg",
+            orderlevelcond = "gtblock",
+            saveplotdir = FALSE)
 ```
 \
 \
@@ -107,12 +56,14 @@ The following map shows the general layout you can expect from the 'heatmapexp' 
 
 ``` {r echo=FALSE, message=FALSE, warning=FALSE}
 
-library(ntbgraphics)
-
 a <- heatmapexp(directory = paste0(system.file("extdata", package = "ntbgraphics",
                                                                 mustWork = T),"/"),
-                                 analysis = "4arm",
-                                 title = "Example Data Heatmap")
+                analysis = "4arm_sd_tg",
+                orderlevelcond = "gtblock",
+                acceptable.nas = 0,
+                palette = "viridis",
+                viridisname = plasma,
+                title = "Example Data Heatmap")
 ```
 \
 \
@@ -124,11 +75,14 @@ The following maps show the general layout you can expect from the 'pcatsneexp' 
 ``` {r echo=FALSE, message=FALSE, warning=FALSE}
 
 b <- pcatsneexp(directory = paste0(system.file("extdata/", package = "ntbgraphics", mustWork = T),"/"),
-           analysis = "4arm",
-           perplex =  10,
-           theta = 0.8,
-           pastetitle = "Example PCA",
-           pastetitle2 = "Example tSNE")
+                analysis = "4arm_sd_tg",
+                orderlevelcond = "gtblock",
+                perplex =  10,
+                theta = 0.8,
+                ellipse_tsne = TRUE,
+                ellconf = 0.3, 
+                pastetitle = "Example PCA",
+                pastetitle2 = "Example tSNE")
 ```
 
 ## Installation
@@ -148,14 +102,16 @@ install_github("volkmannp/ntbgraphics")
 
 ## you are now ready to use ntbgraphics on your computer and may load it using...
 library(ntbgraphics)
+
 ## for examples on how to use the functions, read on below
+
 ```
 
 For your information: You can use the command 'install.packages' for the installation of devtools due to its availability on CRAN (Comprehensive R Archive Network). Since ntbgraphics is not part of CRAN, its installation needs another function ('install_github') that in turn is part of the devtools package.
 
 ## Demo
 
-After installing ntbgraphics, you probably want to explore the package with some random data or might simply be curious how to specifically deal with the functions provided. Thus, below you may find some lines of code that address this inquisitiveness. 
+After installing ntbgraphics, you probably want to explore the package with some random data or might simply be curious how to specifically deal with the functions provided. Thus, below you may find some lines of code that address this inquisitiveness. However, they do not explore every single possible option available for the functions of this package.
 \   
 
 The example data used for the following is provided within the package by being included in the installed files.
@@ -164,7 +120,7 @@ You may simply copy all lines and run them at once or copy indivdual lines/funct
 
 Note: Each function works independently of what you may have run in advance as long as ntbgraphics has been loaded. Although the example shows the 'getexpdata' function as its very first, running it is not necessary for the other functions to work. This holds true for every single function!
 \   
-Also note that the directory within these lines aims for working on every computer by accessing the data provided within the package. If you want to work using your own files and directories, they might rather look like this: "/Users/user/Documents/experiments/ntb/run1"
+Also note that the directory within these lines aims for working on every computer by accessing the data provided within the package. If you want to work using your own files, the directory might rather look like this: "/Users/user/Documents/experiments/ntb/run1"
 
 ``` {r eval=FALSE}
 
@@ -174,53 +130,70 @@ library(ntbgraphics)
 
 ## (getexpdata) get modified table with data
 data.animal.joined <- getexpdata(directory = paste0(system.file("extdata/", package = "ntbgraphics", 
-                                                                mustWork = T),"/"), 
+                                                                mustWork = T),"/"),
                                  analysis = "4arm_sd_tg",
                                  ordercolumns = "ntb",
-                                 #ordercolumns = "manual", 
-                                 #ordercolumns_manual = c("Center", "SerialLearn", "Meanspeed"),
-                                 exclude.animals = c("900200000099671", "900200000099583"),
+                                 ordercolumns_manual = FALSE,
+                                #ordercolumns = "manual", 
+                                #ordercolumns_manual = c("Center", "SerialLearn", "Meanspeed"),
+                                 exclude.animals =  c("900200000099671", "900200000099583"),
                                  orderlevelcond = "gtblock",
-                                 acceptable.nas = 1)
+                                 acceptable.nas = 1,
+                                 return.matrix = FALSE,
+                                #return.matrix = TRUE,
+                                 return.matrix.mean = FALSE,
+                                 naomit = FALSE,
+                                 directional = TRUE,
+                                 absoluteval = FALSE)
 
 ## (ploteachexp) plot a defined experiment
-ploteachexp(expname = "Meanspeed",
-            directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
+ploteachexp(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
+            expname = "Meanspeed",
             analysis = "4arm_sd_tg",
+            exclude.animals = FALSE,
             orderlevelcond = "etblock",
-          # saveplotdir = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
+            acceptable.nas = 2,
             saveplotdir = FALSE)
-
-
+           #saveplotdir = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"))
 
 ## (loopplotexp) plot all experiments
 loopplotexp(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
-            analysis = "4arm",
-            orderplots = "tcf4")
+            analysis = "4arm_sd_tg",
+           #analysis = "2arm_sd",
+            ordercolumns = "rdoc",
+            exclude.animals = FALSE,
+            orderlevelcond = "etblock",
+            acceptable.nas = 0,
+            saveplotdir = directory)
 
 ## (heatmapexp) print out heatmap
 data.animal.matrix <- heatmapexp(directory = paste0(system.file("extdata", package = "ntbgraphics",
                                                                 mustWork = T),"/"),
                                  analysis = "4arm_sd_tg",
                                  ordercolumns = "ntb",
-                              #  ordercolumns_manual = 
+                                #ordercolumns_manual = c("Center", "Meanspeed"),
                                  exclude.animals = FALSE,
                                  orderlevelcond = "gtblock",
+                                 acceptable.nas = 1,
                                  return.matrix.mean = FALSE,
-                                 naomit = TRUE,
-                                 directional = FALSE,
+                                 directional = TRUE,
                                  absoluteval = FALSE,
-                                 clustercols = TRUE,
+                                 clustercols = FALSE,
                                  clusterrows = TRUE,
-                                 colorbrewname = "Greys",
+                                 palette = "viridis",
+                                #colorbrewname = "Greys",
+                                 viridisname = viridis,
                                  title = "Example Data Heatmap")
 
 ## (pcatsneexp) plot PCA and tSNE
 results <- pcatsneexp(directory = paste0(system.file("extdata/", package = "ntbgraphics", 
                                                      mustWork = T),"/"),
-                      analysis = "4arm",
+                      analysis = "4arm_sd_tg",
+                      orderlevelcond = "other",
                       perplex =  10,
                       theta = 0.8,
+                      ellipse_tsne = TRUE,
+                      ellconf = 0.6,
                       pastetitle = "Example PCA",
                       pastetitle2 = "Example tSNE")
 ### -> access results of pcatsneexp (requires to run pcatsneexp and store results as shown above)
