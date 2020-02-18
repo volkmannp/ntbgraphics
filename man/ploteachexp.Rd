@@ -5,8 +5,8 @@
 \title{Plot single NTB experiments}
 \usage{
 ploteachexp(
-  directory,
   expname,
+  directory,
   analysis = c("2arm_ko", "2arm_tg", "2arm_sd", "2arm_treat", "4arm_sd_ko",
     "4arm_sd_tg", "4arm_treat_ko", "4arm_treat_tg"),
   ordercolumns = c("ntb", "rdoc", "manual"),
@@ -18,12 +18,12 @@ ploteachexp(
 )
 }
 \arguments{
-\item{directory}{specifies file directory of 'Meta Behavior' and 'Animal List' files within quotation 
-marks (mind correct spelling of both files and 'directory'!);
-no default}
-
 \item{expname}{name of an experiment respectively column in dataframe of the NTB dataset to be analyzed
 within quotation marks;
+no default}
+
+\item{directory}{specifies file directory of 'Meta Behavior' and 'Animal List' files within quotation 
+marks (mind correct spelling of both files and 'directory'!);
 no default}
 
 \item{analysis}{specifies the kind of experiment performed within quotation marks;
@@ -91,11 +91,11 @@ and visualizes the data as customized boxplots. Requires function 'getexpdata' i
 For right formatting of your files, please consider the "ReadMe for ntbgraphics".
 }
 \examples{
-ploteachexp(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
-                     expname = "Meanspeed")
+ploteachexp(expname = "Meanspeed",
+                     directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"))
 
-ploteachexp(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
-                     expname = "Center",
+ploteachexp(expname = "Center",
+                     directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
                      analysis = "4arm_sd_tg",
                      ordercolumns = "manual",
                      ordercolumns_manual = c("Center"),
