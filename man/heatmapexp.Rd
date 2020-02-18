@@ -18,6 +18,8 @@ heatmapexp(
   absoluteval = FALSE,
   clustercols = TRUE,
   clusterrows = TRUE,
+  cutree_cols = 1,
+  cutree_rows = 1,
   palette = c("cRP", "viridis"),
   colorbrewname = "RdYlBu",
   viridisname = plasma,
@@ -95,6 +97,16 @@ default: TRUE}
 
 \item{clusterrows}{boolean that determines if rows should be clustered;
 default: TRUE}
+
+\item{cutree_cols}{defines number of clusters the columns are divided into, based on the hierarchical 
+clustering;
+only if clustercols is TRUE;
+default: 1}
+
+\item{cutree_rows}{defines number of clusters the rows are divided into, based on the hierarchical 
+clustering;
+only if clusterrows is TRUE;
+default: 1}
 
 \item{palette}{specifies the color package to choose from for usage of palettes (find options below) for
 color design of the heatmap within quotation marks;

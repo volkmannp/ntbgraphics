@@ -71,6 +71,14 @@
 #' default: TRUE
 #' @param clusterrows boolean that determines if rows should be clustered;
 #' default: TRUE
+#' @param cutree_cols defines number of clusters the columns are divided into, based on the hierarchical 
+#' clustering;
+#' only if clustercols is TRUE;
+#' default: 1
+#' @param cutree_rows defines number of clusters the rows are divided into, based on the hierarchical 
+#' clustering;
+#' only if clusterrows is TRUE;
+#' default: 1
 #' @param palette specifies the color package to choose from for usage of palettes (find options below) for
 #' color design of the heatmap within quotation marks;
 #' available are: "cRP" (colorRampPalette from RColorBrewer), "viridis" (from viridis);
@@ -122,6 +130,8 @@ heatmapexp <- function(directory,
                        absoluteval = FALSE,
                        clustercols = TRUE,
                        clusterrows = TRUE,
+                       cutree_cols = 1,
+                       cutree_rows = 1,
                        palette = c("cRP", "viridis"),
                        colorbrewname = "RdYlBu",
                        viridisname = plasma,
@@ -286,6 +296,8 @@ heatmapexp <- function(directory,
                  treeheight_row = 43,
                  cluster_cols = clustercols,
                  cluster_rows = clusterrows,
+                 cutree_cols = cutree_cols,
+                 cutree_rows = cutree_rows,
                  clustering_distance_rows = "correlation",
                  color = color_spec,
                  legend_breaks = legend_breaks,
