@@ -96,18 +96,18 @@ ploteachexp <- function(expname,
   #getexpdata
   data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual, exclude.animals, 
                                    orderlevelcond, acceptable.nas, return.matrix = F)
-
+  
   # define axis limits
   ymin = min(data.animal.joined[[expname]], na.rm = TRUE)*0.25
   ymax = max(data.animal.joined[[expname]], na.rm = TRUE)*1.25
-
-
+  
+  
   # plotting
   outplot <- ggplot(data.animal.joined, aes_string(x="Condition", y=expname, fill="Condition"))
-
+  
   # boxplot with transparent filling
   outplot <- outplot + geom_boxplot(alpha = 0.4) +
-
+    
     # choose colors (GT first, than other factors)
     `if`(analysis == "4arm_sd_tg" && orderlevelcond == "gtblock", 
          scale_fill_manual(values=c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
@@ -168,46 +168,46 @@ ploteachexp <- function(expname,
     `if`(analysis == "2arm_sd", scale_color_manual(values=c("#3c3c3c", "#1e24fc"))) +
     `if`(analysis =="2arm_treat", scale_fill_manual(values=c("#3c3c3c", "#1e24fc"))) +
     `if`(analysis == "2arm_treat", scale_color_manual(values=c("#3c3c3c", "#1e24fc"))) +
-
+    
     # add data points
-    geom_point(pch = 21, stroke=0.93, position = position_jitterdodge()) +
-
+    geom_point(pch = 21, stroke=1.3, position = position_jitterdodge()) +
+    
     # title of axes
     ylab(paste0(expname, "Score")) +
     xlab("Condition") +
-
+    
     # range of y-axis
     coord_cartesian(ylim = c(ymin, ymax)) +
-
+    
     # asterisks for significance
     `if`(analysis == "4arm_sd_tg" || analysis == "4arm_sd_ko" ||
            analysis == "4arm_treat_tg" || analysis == "4arm_treat_ko", 
          geom_signif(test = "t.test",
-                comparisons = list(c(1, 2),
-                                   c(3, 4),
-                                   c(2, 3),
-                                   c(2, 4)),
-                y=c(0.85*ymax, 0.85*ymax, 0.89*ymax, 0.95*ymax),
-                map_signif_level = c("***"=0.001, "**"=0.01, "*"=0.05),
-                textsize = 5,  tip_length = 0.005)) +
-    `if`(analysis == "2arm_tg" || analysis == "2arm_ko"
-         || analysis == "2arm_sd" || analysis == "2arm_treat"
-         , geom_signif(test = "t.test",
-                comparisons = list(c(1, 2)),
-                y=0.89*ymax,
-                map_signif_level = c("***"=0.001, "**"=0.01, "*"=0.05),
-                textsize = 5,  tip_length = 0.005)) +
-
+                     comparisons = list(c(1, 2),
+                                        c(3, 4),
+                                        c(2, 3),
+                                        c(2, 4)),
+                     y=c(0.85*ymax, 0.85*ymax, 0.89*ymax, 0.95*ymax),
+                     map_signif_level = c("***"=0.001, "**"=0.01, "*"=0.05),
+                     textsize = 5,  tip_length = 0.005)) +
+    `if`(analysis == "2arm_tg" || analysis == "2arm_ko" || 
+           analysis == "2arm_sd" || analysis == "2arm_treat", 
+         geom_signif(test = "t.test",
+                     comparisons = list(c(1, 2)),
+                     y=0.89*ymax,
+                     map_signif_level = c("***"=0.001, "**"=0.01, "*"=0.05),
+                     textsize = 5,  tip_length = 0.005)) +
+    
     # customize title
     ggtitle(expname) +
-
+    
     # choose theme for layout (theme_choose)
     theme_bw() +
-
+    
     # customize title position and size
     theme(plot.title = element_text(hjust = 0.5)) +
-    theme(plot.title = element_text(size = 16)) +
-
+    theme(plot.title = element_text(size = 35)) +
+    
     # all elements blank
     theme(panel.grid.major = element_blank(),
           panel.border = element_blank(),
@@ -215,15 +215,15 @@ ploteachexp <- function(expname,
           legend.key = element_blank(),
           strip.background = element_blank(),
           # customize axes
-          axis.line.y = element_line(colour = "black", size=0.6),
+          axis.line.y = element_line(colour = "black", size=1),
           axis.ticks.x = element_blank(),
-          axis.text.x = element_text(angle=0, size=10),
-          axis.text.y = element_text(angle=0, size=10),
-          text = element_text(size=14),
+          axis.text.x = element_text(angle=0, size=21),
+          axis.text.y = element_text(angle=0, size=18),
+          text = element_text(size=27),
           # customize legend
-          legend.text = element_text(size=9),
-          legend.title = element_text(size=12))
-
+          legend.text = element_text(size=20),
+          legend.title = element_text(size=27))
+  
   # save pdf
   `if`(!(saveplotdir =="FALSE"), ggsave(paste0(saveplotdir, expname, ".pdf")))
   
