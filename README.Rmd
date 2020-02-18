@@ -64,7 +64,7 @@ a <- heatmapexp(directory = paste0(system.file("extdata", package = "ntbgraphics
                 cutree_rows = 4,
                 palette = "viridis",
                 viridisname = inferno,
-                title = "Example Data Heatmap")
+                title = "Test Data Heatmap")
 ```
 \
 \
@@ -82,8 +82,8 @@ b <- pcatsneexp(directory = paste0(system.file("extdata/", package = "ntbgraphic
                 theta = 0.8,
                 ellipse_tsne = TRUE,
                 ellconf = 0.3, 
-                pastetitle = "Example PCA",
-                pastetitle2 = "Example tSNE")
+                pastetitle = "Test PCA",
+                pastetitle2 = "Test tSNE")
 ```
 
 ## Installation
