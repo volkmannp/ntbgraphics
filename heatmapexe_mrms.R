@@ -1,4 +1,4 @@
-matrix <- heatmapexp(directory = "/Users/paul/Documents/Einführung R/Wahlfach", 
+heatmapexp(directory = "/Users/paul/Documents/Einführung R/Wahlfach", 
            analysis = "4arm_sd_tg", 
            ordercolumns = "ntb",
            exclude.animals = FALSE,
@@ -9,6 +9,8 @@ matrix <- heatmapexp(directory = "/Users/paul/Documents/Einführung R/Wahlfach"
            directional = FALSE, 
            absoluteval = FALSE, 
            clustercols = TRUE, 
-           clusterrows = FALSE, 
-           colorbrewname = "RdYlBu", 
-           title = "Standard Heatmap RdYlBu")
+           clusterrows = TRUE, 
+           palette = "viridis",
+           colorbrewname = "Greys",
+           viridisname = plasma,
+           title = "Standard vHeatmap plasma")
