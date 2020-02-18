@@ -71,11 +71,21 @@
 #' default: TRUE
 #' @param clusterrows boolean that determines if rows should be clustered;
 #' default: TRUE
-#' @param colorbrewname specifies the color palette used for drawing the heatmap;
+#' @param palette specifies the color package to choose from for usage of palettes (find options below) for
+#' color design of the heatmap within quotation marks;
+#' available are: "cRP" (colorRampPalette from RColorBrewer), "viridis" (from viridis);
+#' default: "cRP"
+#' @param colorbrewname specifies the color palette used for drawing the heatmap within quotation marks;
+#' only if palette is "cRP";
 #' you may check your options with 'display.brewer.all()';
 #' examples include: "YlOrRd", "YlGn", "Purples", "OrRd", "Greys", "Set1", "Pastel1", "Paired", "Spectral",
 #' "RdYlBu" or "BrBG" and many more;
 #' default: "RdYlBu"
+#' @param viridisname specifies the color palette used for drawing the heatmap without (!) quotation marks;
+#' only if palette is "viridis";
+#' you may check out the five available options by just trying out;
+#' available are: viridis, magma, plasma, inferno, cividis;
+#' default: plasma
 #' @param title defines the title of the heatmap; character within quotation marks;
 #' default: "Heatmap"
 #'
@@ -94,7 +104,8 @@
 #'                      directional = TRUE,
 #'                      clustercols = FALSE,
 #'                      clusterrows = FALSE,
-#'                      colorbrewname = "Greys",
+#'                      palette = "viridis",
+#'                      viridisname = inferno,
 #'                      title = "new_testdata_heatmap_09-04-2044")
 
 
@@ -111,7 +122,9 @@ heatmapexp <- function(directory,
                        absoluteval = FALSE,
                        clustercols = TRUE,
                        clusterrows = TRUE,
+                       palette = c("cRP", "viridis"),
                        colorbrewname = "RdYlBu",
+                       viridisname = plasma,
                        title = "Heatmap") {
        
         
@@ -123,7 +136,7 @@ heatmapexp <- function(directory,
                                          exclude.animals, orderlevelcond, acceptable.nas, return.matrix = T,
                                          return.matrix.mean, naomit = FALSE, directional, absoluteval) 
 
-        # prepare annotation table and colors by analysis type
+        # prepare annotation table and colors of groups by analysis type
         if (return.matrix.mean == TRUE && analysis == "4arm_sd_tg") {
                 data.animal.joined <- matrix(c("wt_hc", "wt_sd", "tg_hc", "tg_sd",
                                                "wt_hc_mean", "wt_sd_mean", "tg_hc_mean",  "tg_sd_mean"), 
@@ -175,9 +188,7 @@ heatmapexp <- function(directory,
                         ko_untreat_mean="#84dcff",
                         ko_treat_mean="#1e24fc")))
                
-                
-                
-                
+        # define order of groups by analysis type
         } else if (analysis == "2arm_tg") {
                 annotation <- list(Condition=(c(
                         wt = "#3c3c3c",
@@ -210,12 +221,32 @@ heatmapexp <- function(directory,
                                                  exclude.animals, orderlevelcond) %>%
                         select(., RFID, Condition) %>%
                         column_to_rownames(., "RFID")
-        } else if (orderlevelcond == "gtblock" || orderlevelcond == "etblock" || orderlevelcond == "other") {
+        } else if (orderlevelcond == "gtblock") {
                 annotation <- list(Condition=(c(
                         wt_hc="#b4b4b4",
                         wt_sd="#3c3c3c",
                         tg_hc="#84dcff",
                         tg_sd="#1e24fc")))
+                data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual,  
+                                                 exclude.animals, orderlevelcond) %>%
+                        select(., RFID, Condition) %>%
+                        column_to_rownames(., "RFID")
+        } else if (orderlevelcond == "etblock") {
+                annotation <- list(Condition=(c(
+                        wt_hc="#b4b4b4",
+                        tg_hc="#84dcff",
+                        wt_sd="#3c3c3c",
+                        tg_sd="#1e24fc")))
+                data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual,  
+                                                 exclude.animals, orderlevelcond) %>%
+                        select(., RFID, Condition) %>%
+                        column_to_rownames(., "RFID")
+        } else if (orderlevelcond == "other") {
+                annotation <- list(Condition=(c(
+                        tg_hc="#84dcff",
+                        tg_sd="#1e24fc",
+                        wt_hc="#b4b4b4",
+                        wt_sd="#3c3c3c")))
                 data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual,  
                                                  exclude.animals, orderlevelcond) %>%
                         select(., RFID, Condition) %>%
@@ -236,6 +267,16 @@ heatmapexp <- function(directory,
                 legend_breaks = seq(0, 4.5, by = 0.9)
         }
         
+        # specify palette to use for colors
+        if (palette == "cRP") {
+                color_spec = colorRampPalette(
+                        rev(brewer.pal(n = 11, name = colorbrewname)))(length(seq(0, 20, by = 1)))
+        }
+        if (palette == "viridis") {
+                color_spec = viridisname(n = 21, begin = 0.15, end = 1)
+        }
+        
+        
         # heatmapping of experiments
         pheatmap(data.animal.matrix,
                  main = paste(title),
@@ -246,9 +287,7 @@ heatmapexp <- function(directory,
                  cluster_cols = clustercols,
                  cluster_rows = clusterrows,
                  clustering_distance_rows = "correlation",
-                 color = colorRampPalette(rev(brewer.pal(n = 11, name = colorbrewname)))
-                 (length(seq(0, 20, by = 1))),
-              #  na_col = "Grey",
+                 color = color_spec,
                  legend_breaks = legend_breaks,
                  legend_labels = legend_labels,
                  border_color = F,

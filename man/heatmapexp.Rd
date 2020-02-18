@@ -18,7 +18,9 @@ heatmapexp(
   absoluteval = FALSE,
   clustercols = TRUE,
   clusterrows = TRUE,
+  palette = c("cRP", "viridis"),
   colorbrewname = "RdYlBu",
+  viridisname = plasma,
   title = "Heatmap"
 )
 }
@@ -94,11 +96,23 @@ default: TRUE}
 \item{clusterrows}{boolean that determines if rows should be clustered;
 default: TRUE}
 
-\item{colorbrewname}{specifies the color palette used for drawing the heatmap;
+\item{palette}{specifies the color package to choose from for usage of palettes (find options below) for
+color design of the heatmap within quotation marks;
+available are: "cRP" (colorRampPalette from RColorBrewer), "viridis" (from viridis);
+default: "cRP"}
+
+\item{colorbrewname}{specifies the color palette used for drawing the heatmap within quotation marks;
+only if palette is "cRP";
 you may check your options with 'display.brewer.all()';
 examples include: "YlOrRd", "YlGn", "Purples", "OrRd", "Greys", "Set1", "Pastel1", "Paired", "Spectral",
 "RdYlBu" or "BrBG" and many more;
 default: "RdYlBu"}
+
+\item{viridisname}{specifies the color palette used for drawing the heatmap without (!) quotation marks;
+only if palette is "viridis";
+you may check out the five available options by just trying out;
+available are: viridis, magma, plasma, inferno, cividis;
+default: plasma}
 
 \item{title}{defines the title of the heatmap; character within quotation marks;
 default: "Heatmap"}
@@ -127,7 +141,8 @@ heatmapexp(directory = paste0(system.file("extdata/", package = "ntbgraphics", m
                      directional = TRUE,
                      clustercols = FALSE,
                      clusterrows = FALSE,
-                     colorbrewname = "Greys",
+                     palette = "viridis",
+                     viridisname = inferno,
                      title = "new_testdata_heatmap_09-04-2044")
 }
 \author{
