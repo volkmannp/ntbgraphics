@@ -75,10 +75,10 @@
 #' @param ellipse_tsne boolean that defines if conficdence interval ellipses should be displayed in tSNE plot;
 #' default: FALSE
 #' @param ellconf defines confidence level for ellipses in all plots (where applicable) between 0 and 1:
-#' default: 0.7
+#' default: 0.75
 #' @param ellalpha defines transparency of ellipses in all plots (where applicable); takes values between 0 
 #' for high transparency/low intensity and 1 for low transparency/high intensity of filling:
-#' default: 0.15
+#' default: 0.2
 #' @param pastetitle customizes title of PCA plots within quotation marks; title for PCA will be "pastetitle",
 #' title for PCA with ellipse will be "pastetitle Ellipse";
 #' default: "PCA"
@@ -121,8 +121,8 @@ pcatsneexp <- function(directory,
                        theta = 0.5,
                        ellipse_pca = FALSE,
                        ellipse_tsne = FALSE,
-                       ellconf = 0.7,
-                       ellalpha = 0.15,
+                       ellconf = 0.75,
+                       ellalpha = 0.2,
                        pastetitle = "PCA", 
                        pastetitle2 = "tSNE") {
   
@@ -226,31 +226,31 @@ pcatsneexp <- function(directory,
     theme_bw() +
     # customize title position and size
     theme(plot.title = element_text(hjust = 0.5)) +
-    theme(plot.title = element_text(size = 16)) +
+    theme(plot.title = element_text(size = 35)) +
     # all elements blank
     theme(panel.grid.major = element_blank(),
           panel.border = element_blank(),
           legend.key = element_blank(),
           strip.background = element_blank(),
           # customize axes
-          axis.line.y = element_line(colour = "black", size=0.6),
-          axis.line.x = element_line(colour = "black", size=0.6),
+          axis.line.y = element_line(colour = "black", size=1),
+          axis.line.x = element_line(colour = "black", size=1),
           # axis.ticks.x = element_line(colour = "black", size=0.6),
-          axis.text.x = element_text(angle=0, size=10),
-          axis.text.y = element_text(angle=0, size=10),
-          text = element_text(size=14),
+          axis.text.x = element_text(angle=0, size=15),
+          axis.text.y = element_text(angle=0, size=15),
+          text = element_text(size=25),
           # customize legend
-          legend.text = element_text(size=9),
-          legend.title = element_text(size=12)) +
+          legend.text = element_text(size=20),
+          legend.title = element_text(size=25)) +
     `if`(ellipse_pca == TRUE, stat_ellipse(aes(x = PC1, y = PC2, color = data.animal.list$Condition),
-                 alpha = ellalpha,
-                 geom = "polygon",
-                 size = 0.4,
-                 type = "t", 
-                 level = ellconf,
-                 segments = 51,
-                 inherit.aes = TRUE,
-                 show.legend = FALSE)) +
+                                           alpha = ellalpha,
+                                           geom = "polygon",
+                                           size = 0.85,
+                                           type = "t", 
+                                           level = ellconf,
+                                           segments = 51,
+                                           inherit.aes = TRUE,
+                                           show.legend = FALSE)) +
     # colors of points
     `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
          scale_color_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
@@ -270,7 +270,7 @@ pcatsneexp <- function(directory,
     `if`(grepl("2arm", analysis), 
          scale_fill_manual(values = c("#b4b4b4", "#1e24fc"))) +
     # point size
-    geom_point(size = 2) +
+    geom_point(size = 4) +
     # customize legend title
     labs(color = "Legend") + 
     # hide legend for fillings
@@ -288,27 +288,27 @@ pcatsneexp <- function(directory,
     theme_bw() +
     # customize title position and size
     theme(plot.title = element_text(hjust = 0.5)) +
-    theme(plot.title = element_text(size = 16)) +
+    theme(plot.title = element_text(size = 35)) +
     # all elements blank
     theme(panel.grid.major = element_blank(),
           panel.border = element_blank(),
           legend.key = element_blank(),
           strip.background = element_blank(),
           # customize axes
-          axis.line.y = element_line(colour = "black", size=0.6),
-          axis.line.x = element_line(colour = "black", size=0.6),
+          axis.line.y = element_line(colour = "black", size=1),
+          axis.line.x = element_line(colour = "black", size=1),
           # axis.ticks.x = element_line(colour = "black", size=0.6),
-          axis.text.x = element_text(angle=0, size=10),
-          axis.text.y = element_text(angle=0, size=10),
-          text = element_text(size=14),
+          axis.text.x = element_text(angle=0, size=15),
+          axis.text.y = element_text(angle=0, size=15),
+          text = element_text(size=18),
           # customize legend
-          legend.text = element_text(size=9),
-          legend.title = element_text(size=12)) +
+          legend.text = element_text(size=20),
+          legend.title = element_text(size=25)) +
     stat_ellipse(aes(x = xvar, y = yvar, color = data.animal.list$Condition,
                      fill = data.animal.list$Condition),
                  alpha = ellalpha,
                  geom = "polygon",
-                 size = 0.4,
+                 size = 0.85,
                  type = "t",
                  level = ellconf,
                  segments = 51,
@@ -332,6 +332,7 @@ pcatsneexp <- function(directory,
          scale_fill_manual(values = c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
     `if`(grepl("2arm", analysis), 
          scale_fill_manual(values = c("#b4b4b4", "#1e24fc"))) +
+    geom_point(aes(colour=data.animal.list$Condition), size = 4) +
     # point size and title
     labs(color = "Legend") + 
     ggtitle(paste(pastetitle, "Arrows"))
@@ -354,31 +355,31 @@ pcatsneexp <- function(directory,
     labs(fill = "Legend") +
     # customize title position and size
     theme(plot.title = element_text(hjust = 0.5)) +
-    theme(plot.title = element_text(size = 16)) +
+    theme(plot.title = element_text(size = 35)) +
     # all elements blank
     theme(panel.grid.major = element_blank(),
           panel.border = element_blank(),
           legend.key = element_blank(),
           strip.background = element_blank(),
           # customize axes
-          axis.line.y = element_line(colour = "black", size=0.6),
-          axis.line.x = element_line(colour = "black", size=0.6),
+          axis.line.y = element_line(colour = "black", size=1),
+          axis.line.x = element_line(colour = "black", size=1),
           # axis.ticks.x = element_line(colour = "black", size=0.6),
-          axis.text.x = element_text(angle=0, size=10),
-          axis.text.y = element_text(angle=0, size=10),
-          text = element_text(size=14),
+          axis.text.x = element_text(angle=0, size=15),
+          axis.text.y = element_text(angle=0, size=15),
+          text = element_text(size=25),
           # customize legend
-          legend.text = element_text(size=9),
-          legend.title = element_text(size=12)) +
+          legend.text = element_text(size=20),
+          legend.title = element_text(size=25)) +
     `if`(ellipse_tsne == TRUE, stat_ellipse(aes(x = V1, y = V2, color = data.animal.list$Condition),
-                 alpha = ellalpha,
-                 geom = "polygon",
-                 size = 0.4,
-                 type = "t", 
-                 level = ellconf,
-                 segments = 51,
-                 inherit.aes = TRUE,
-                 show.legend = FALSE)) +
+                                            alpha = ellalpha,
+                                            geom = "polygon",
+                                            size = 0.85,
+                                            type = "t", 
+                                            level = ellconf,
+                                            segments = 51,
+                                            inherit.aes = TRUE,
+                                            show.legend = FALSE)) +
     # colors of points
     `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
          scale_color_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
@@ -398,7 +399,7 @@ pcatsneexp <- function(directory,
     `if`(grepl("2arm", analysis), 
          scale_fill_manual(values = c("#b4b4b4", "#1e24fc"))) +
     # point size and title
-    geom_point(size = 2) +
+    geom_point(size = 4) +
     labs(color = "Legend") + 
     ggtitle(pastetitle2)
   #tsne_plot <-  tsne_plot + scale_fill_discrete(name = "New Legend Title")

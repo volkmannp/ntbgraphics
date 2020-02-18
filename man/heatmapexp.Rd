@@ -21,8 +21,8 @@ heatmapexp(
   cutree_cols = 1,
   cutree_rows = 1,
   palette = c("cRP", "viridis"),
-  colorbrewname = "RdYlBu",
-  viridisname = plasma,
+  colorbrewname = "PuOr",
+  viridisname = inferno,
   title = "Heatmap"
 )
 }
@@ -118,13 +118,13 @@ only if palette is "cRP";
 you may check your options with 'display.brewer.all()';
 examples include: "YlOrRd", "YlGn", "Purples", "OrRd", "Greys", "Set1", "Pastel1", "Paired", "Spectral",
 "RdYlBu" or "BrBG" and many more;
-default: "RdYlBu"}
+default: "PuOr"}
 
 \item{viridisname}{specifies the color palette used for drawing the heatmap without (!) quotation marks;
 only if palette is "viridis";
 you may check out the five available options by just trying out;
 available are: viridis, magma, plasma, inferno, cividis;
-default: plasma}
+default: inferno}
 
 \item{title}{defines the title of the heatmap; character within quotation marks;
 default: "Heatmap"}

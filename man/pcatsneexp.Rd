@@ -19,8 +19,8 @@ pcatsneexp(
   theta = 0.5,
   ellipse_pca = FALSE,
   ellipse_tsne = FALSE,
-  ellconf = 0.7,
-  ellalpha = 0.15,
+  ellconf = 0.75,
+  ellalpha = 0.2,
   pastetitle = "PCA",
   pastetitle2 = "tSNE"
 )
@@ -99,11 +99,11 @@ default: FALSE}
 default: FALSE}
 
 \item{ellconf}{defines confidence level for ellipses in all plots (where applicable) between 0 and 1:
-default: 0.7}
+default: 0.75}
 
 \item{ellalpha}{defines transparency of ellipses in all plots (where applicable); takes values between 0 
 for high transparency/low intensity and 1 for low transparency/high intensity of filling:
-default: 0.15}
+default: 0.2}
 
 \item{pastetitle}{customizes title of PCA plots within quotation marks; title for PCA will be "pastetitle",
 title for PCA with ellipse will be "pastetitle Ellipse";
