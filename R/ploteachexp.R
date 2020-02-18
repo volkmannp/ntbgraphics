@@ -8,11 +8,11 @@
 #' and visualizes the data as customized boxplots. Requires function 'getexpdata' internally.
 #' For right formatting of your files, please consider the "ReadMe for ntbgraphics".
 #'
-#' @param directory specifies file directory of 'Meta Behavior' and 'Animal List' files within quotation 
-#' marks (mind correct spelling of both files and 'directory'!);
-#' no default
 #' @param expname name of an experiment respectively column in dataframe of the NTB dataset to be analyzed
 #' within quotation marks;
+#' no default
+#' @param directory specifies file directory of 'Meta Behavior' and 'Animal List' files within quotation 
+#' marks (mind correct spelling of both files and 'directory'!);
 #' no default
 #' @param analysis specifies the kind of experiment performed within quotation marks;
 #' "2arm_ko","2arm_tg", "2arm_sd", "2arm_treat",
@@ -68,11 +68,11 @@
 #'
 #' @export
 #'
-#' @examples ploteachexp(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
-#'                      expname = "Meanspeed")
+#' @examples ploteachexp(expname = "Meanspeed",
+#'                      directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"))
 #' 
-#' @examples ploteachexp(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
-#'                      expname = "Center",
+#' @examples ploteachexp(expname = "Center",
+#'                      directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
 #'                      analysis = "4arm_sd_tg",
 #'                      ordercolumns = "manual",
 #'                      ordercolumns_manual = c("Center"),
@@ -82,8 +82,8 @@
 #'                      saveplotdir = paste0(system.file("../plots", package = "ntbgraphics", mustWork = T),"/"))
 
 
-ploteachexp <- function(directory,
-                        expname,
+ploteachexp <- function(expname,
+                        directory,
                         analysis = c("2arm_ko","2arm_tg", "2arm_sd", "2arm_treat",
                                      "4arm_sd_ko", "4arm_sd_tg", "4arm_treat_ko", "4arm_treat_tg"),
                         ordercolumns = c("ntb", "rdoc", "manual"),

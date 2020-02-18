@@ -97,6 +97,7 @@ loopplotexp <- function(directory,
   allplots <- map(myexp, ploteachexp, directory, analysis, ordercolumns, ordercolumns_manual, 
                   exclude.animals, orderlevelcond, acceptable.nas, saveplotdir = F)
 
+  # save all plots in one PDF
   pdf(paste0(saveplotdir, "/All_experiments.pdf"))
   print(allplots)
   dev.off()
