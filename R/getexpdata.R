@@ -194,7 +194,6 @@ getexpdata <- function(directory,
     `if`(exclude.animals != FALSE, filter(., !RFID %in% exclude.animals),.)
   
   # order factor levels of conditions (e.g. for order of plot appearance)
-  # consider stringr::str_detect(analysis, "^4arm_sd") && order…
   if (analysis == "4arm_sd_tg" && orderlevelcond == "gtblock") {
     data.animal.joined$Condition <- factor(data.animal.joined$Condition,
                                            levels = c("wt_hc", "wt_sd", "tg_hc", "tg_sd"))
