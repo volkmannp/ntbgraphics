@@ -16,6 +16,7 @@ Depends: R (>= 3.5.0),
           ggsignif,          
           pheatmap,
           RColorBrewer,
+          viridis,
           doBy,
           Rtsne,
           ggbiplot
