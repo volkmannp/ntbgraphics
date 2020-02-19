@@ -40,4 +40,4 @@ vignettes/*.pdf
 
 # R specific files
 ntbgraphics.Rproj
-README.Rmd
+README.Rm
