@@ -121,6 +121,10 @@ getexpdata <- function(directory,
   meta.data <-  readxl::read_excel(paste0(directory,"/Meta Behavior.xlsx"))
   animal.list <-  readxl::read_excel(paste0(directory, "/Animal List.xlsx"))
   
+  # ensure that Animal is a character - important for joining both tables
+  meta.data <- meta.data %>% 
+    mutate_at(., vars("Animal"),list(as.character))
+    
   # modify tables
   data.animal.joined <-  animal.list %>%
     # exclude NAs in Genotype
@@ -139,6 +143,8 @@ getexpdata <- function(directory,
     `if`(analysis == "2arm_ko", dplyr::rename(., Condition = Genotype), .) %>% 
     `if`(analysis == "2arm_sd", dplyr::rename(., Condition = Environmental), .) %>%
     `if`(analysis == "2arm_treat", dplyr::rename(., Condition = Treatment), .) %>%
+    # ensure that RFID is a character - important for joining both tables
+    mutate_at(., vars("RFID"),list(as.character)) %>% 
     # join animals and behavior data
     left_join(meta.data, by = c("RFID" = "Animal"))
   
