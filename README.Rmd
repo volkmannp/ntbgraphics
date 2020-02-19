@@ -9,7 +9,7 @@ output:
 
 This package includes functions for importing, transforming and visualization of NTB datasets:
 
-  - '*getexpdata*' for import of the Animal List (containing animal RFIDs, corresponding Genotypes and optionally Environment) and Meta Behavior (containing animals and their behavioral measures) as well as formal preparation;
+  - '*getexpdata*' for import of the Animal List (containing animal *RFIDs*, corresponding Genotypes and optionally Environment) and Meta Behavior (containing columns *Animal* and the animal's behavioral measures) as well as formal preparation;
   - '*ploteachexp*' for plotting of given experiments as boxplots and exporting the result as a PDF file;
   - '*loopplotexp*' for plotting all experiments within a dataset as boxplots and exporting the results in one PDF file;
   - '*heatmapexp*' for plotting all experiments as a heatmap and producing a datamatrix with z-scored values;
@@ -21,7 +21,7 @@ All functions take a **directory** as their input, which specifies the location 
 It is also important that you mind correct **formatting** of your excel files. This includes:
 
   - at least two columns with information about 'RFID' and 'Genotype'/'Environmental'/'Treatment' in your Animal List with these exact titles;
-  - at least one column with information about 'Animal' (matching the information in the RFID column in the Animal List), and at least one behavioral test in your Meta Behavior with exact titles:
+  - at least one column with information about 'Animal' (matching the information in the 'RFID' column in the Animal List), and at least one behavioral test in your Meta Behavior with exact titles:
   "Animal" "Meanspeed" "Rotations" "Center"	"Alternations" "Choices" "Context" "Cue" "FreezeBase" "Timeimmobile" "Baseline"	"inhibition70" "inhibition75" "inhibition80" "SucPref" "PlacePref" "ReversalLearn" "Activity" "Nocturnal" "SerialLearn"
   (-> this is the current entity of all available experiment names for plotting; if you need to add more
   experiments to this list, please refer to the creator of this package)
