@@ -174,25 +174,25 @@ pcatsneexp <- function(directory,
     data.animal.matrix <-  renameCol(data.animal.matrix, c("Choices"), c("Chc"))
   }
   if("Activity" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("Activity"), c("iAct"))
+    data.animal.matrix <-  renameCol(data.animal.matrix, c("Activity"), c("Act"))
   }
   if("Nocturnal" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("Nocturnal"), c("iNoc"))
+    data.animal.matrix <-  renameCol(data.animal.matrix, c("Nocturnal"), c("Noc"))
   }
   if("PlacePref" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("PlacePref"), c("iPlP"))
+    data.animal.matrix <-  renameCol(data.animal.matrix, c("PlacePref"), c("PlP"))
   }
   if("SerialLearn" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("SerialLearn"), c("iSrL"))
+    data.animal.matrix <-  renameCol(data.animal.matrix, c("SerialLearn"), c("SrL"))
   }
   if("ReversalLearn" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("ReversalLearn"), c("iRvL"))
+    data.animal.matrix <-  renameCol(data.animal.matrix, c("ReversalLearn"), c("RvL"))
   }
   if("SucPref" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("SucPref"), c("iScP"))
+    data.animal.matrix <-  renameCol(data.animal.matrix, c("SucPref"), c("ScP"))
   }
   if("Baseline" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("Baseline"), c("ppBs"))
+    data.animal.matrix <-  renameCol(data.animal.matrix, c("Baseline"), c("ppiBs"))
   }
   if("inhibition70" %in% colnames(data.animal.matrix)) {
     data.animal.matrix <-  renameCol(data.animal.matrix, c("inhibition70"), c("in70"))
@@ -204,13 +204,13 @@ pcatsneexp <- function(directory,
     data.animal.matrix <-  renameCol(data.animal.matrix, c("inhibition80"), c("in80"))
   }
   if("Timeimmobile" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("Timeimmobile"), c("TmIm"))
+    data.animal.matrix <-  renameCol(data.animal.matrix, c("Timeimmobile"), c("Tim"))
   }
   if("FreezeBase" %in% colnames(data.animal.matrix)) {
     data.animal.matrix <-  renameCol(data.animal.matrix, c("FreezeBase"), c("FrBs"))
   }
   if("Context" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("Context"), c("Ctx"))
+    data.animal.matrix <-  renameCol(data.animal.matrix, c("Context"), c("Con"))
   }
   if("Cue" %in% colnames(data.animal.matrix)) {
     data.animal.matrix <-  renameCol(data.animal.matrix, c("Cue"), c("Cue"))
