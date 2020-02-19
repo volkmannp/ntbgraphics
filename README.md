@@ -7,9 +7,9 @@ This package includes functions for importing, transforming and
 visualization of NTB datasets:
 
   - ‘*getexpdata*’ for import of the Animal List (containing animal
-    RFIDs, corresponding Genotypes and optionally Environment) and Meta
-    Behavior (containing animals and their behavioral measures) as well
-    as formal preparation;
+    *RFIDs*, corresponding Genotypes and optionally Environment) and
+    Meta Behavior (containing columns *Animal* and the animal’s
+    behavioral measures) as well as formal preparation;
   - ‘*ploteachexp*’ for plotting of given experiments as boxplots and
     exporting the result as a PDF file;
   - ‘*loopplotexp*’ for plotting all experiments within a dataset as
@@ -30,10 +30,10 @@ correct **formatting** of your excel files. This includes:
     ‘Genotype’/‘Environmental’/‘Treatment’ in your Animal List
     with these exact titles;
   - at least one column with information about ‘Animal’ (matching the
-    information in the RFID column in the Animal List), and at least one
-    behavioral test in your Meta Behavior with exact titles: “Animal”
-    “Meanspeed” “Rotations” “Center” “Alternations” “Choices”
-    “Context” “Cue” “FreezeBase” “Timeimmobile” “Baseline”
+    information in the ‘RFID’ column in the Animal List), and at least
+    one behavioral test in your Meta Behavior with exact titles:
+    “Animal” “Meanspeed” “Rotations” “Center” “Alternations”
+    “Choices” “Context” “Cue” “FreezeBase” “Timeimmobile” “Baseline”
     “inhibition70” “inhibition75” “inhibition80” “SucPref” “PlacePref”
     “ReversalLearn” “Activity” “Nocturnal” “SerialLearn” (-\> this is
     the current entity of all available experiment names for plotting;
@@ -133,72 +133,31 @@ library(ntbgraphics)
 ## (getexpdata) get modified table with data
 data.animal.joined <- getexpdata(directory = paste0(system.file("extdata/", package = "ntbgraphics", 
                                                                 mustWork = T),"/"),
-                                 analysis = "4arm_sd_tg",
-                                 ordercolumns = "ntb",
-                                 ordercolumns_manual = FALSE,
-                                #ordercolumns = "manual", 
-                                #ordercolumns_manual = c("Center", "SerialLearn", "Meanspeed"),
-                                 exclude.animals =  c("900200000099671", "900200000099583"),
-                                 orderlevelcond = "gtblock",
-                                 acceptable.nas = 1,
-                                 return.matrix = FALSE,
-                                #return.matrix = TRUE,
-                                 return.matrix.mean = FALSE,
-                                 naomit = FALSE,
-                                 directional = TRUE,
-                                 absoluteval = FALSE)
+                                 analysis = "4arm_sd_tg")
 
 ## (ploteachexp) plot a defined experiment
 ploteachexp(expname = "Meanspeed",
             directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
             analysis = "4arm_sd_tg",
-            exclude.animals = FALSE,
-            orderlevelcond = "etblock",
-            acceptable.nas = 2,
             saveplotdir = FALSE)
-           #saveplotdir = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"))
 
 ## (loopplotexp) plot all experiments
 loopplotexp(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
-            analysis = "4arm_sd_tg",
-           #analysis = "2arm_sd",
-            ordercolumns = "rdoc",
-            exclude.animals = FALSE,
-            orderlevelcond = "etblock",
-            acceptable.nas = 0,
-            saveplotdir = directory)
+            analysis = "4arm_sd_tg")
 
 ## (heatmapexp) print out heatmap
 data.animal.matrix <- heatmapexp(directory = paste0(system.file("extdata", package = "ntbgraphics",
                                                                 mustWork = T),"/"),
                                  analysis = "4arm_sd_tg",
-                                 ordercolumns = "ntb",
-                                #ordercolumns_manual = c("Center", "Meanspeed"),
-                                 exclude.animals = FALSE,
                                  orderlevelcond = "gtblock",
-                                 acceptable.nas = 1,
-                                 return.matrix.mean = FALSE,
-                                 directional = TRUE,
-                                 absoluteval = FALSE,
-                                 clustercols = TRUE,
-                                 clusterrows = FALSE,
-                                 cutree_cols = 2,
-                                 palette = "viridis",
-                                #colorbrewname = "Greys",
-                                 viridisname = viridis,
-                                 title = "Example Data Heatmap")
+                                 saveplotdir = FALSE)
 
 ## (pcatsneexp) plot PCA and tSNE
 results <- pcatsneexp(directory = paste0(system.file("extdata/", package = "ntbgraphics", 
                                                      mustWork = T),"/"),
                       analysis = "4arm_sd_tg",
-                      orderlevelcond = "other",
                       perplex =  10,
-                      theta = 0.8,
-                      ellipse_tsne = TRUE,
-                      ellconf = 0.6,
-                      pastetitle = "Example PCA",
-                      pastetitle2 = "Example tSNE")
+                      saveplotdir = FALSE)
 ### -> access results of pcatsneexp (requires to run pcatsneexp and store results as shown above)
 results_pca <- results[[1]]
 results_tsne <- results[[2]]
