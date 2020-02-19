@@ -84,6 +84,9 @@
 #' default: "PCA"
 #' @param pastetitle2 defines title of tSNE plot within quotation marks;
 #' default: "tSNE"
+#' @param saveplotdir file directory where to save plots within quotation marks;
+#' you may set to FALSE if you do not want to save plot to PDF;
+#' default: location of Behavior and Animal List files as specified in 'directory'
 #' 
 #' @return three cluster plots (two for PCA, one for tSNE) and a list containing the results
 #'
@@ -102,7 +105,8 @@
 #'                                     ellconf = 0.95,
 #'                                     ellalpha = 0.10,
 #'                                     pastetitle = "new_testdata_pca_09-04-2044",
-#'                                     pastetitle2 = "new_testdata_tsne_09-04-2044")
+#'                                     pastetitle2 = "new_testdata_tsne_09-04-2044",
+#'                                     saveplotdir = FALSE)
 #'          results_pca <- results[[1]]
 #'          results_tsne <- results[[2]]
 
@@ -124,7 +128,8 @@ pcatsneexp <- function(directory,
                        ellconf = 0.75,
                        ellalpha = 0.2,
                        pastetitle = "PCA", 
-                       pastetitle2 = "tSNE") {
+                       pastetitle2 = "tSNE",
+                       saveplotdir = directory) {
   
   ### get data
   ## get matrix
@@ -404,6 +409,14 @@ pcatsneexp <- function(directory,
     ggtitle(pastetitle2)
   #tsne_plot <-  tsne_plot + scale_fill_discrete(name = "New Legend Title")
   print(tsne_plot)
+  
+  if (saveplotdir != FALSE) {
+    pdf(paste0(saveplotdir, "/PCA&tSNE.pdf"), width = 7, height = 5)
+    print(pca_plot)
+    print(pca_plot_arrow)
+    print(tsne_plot)
+    dev.off()
+  }
   
   return(list(pca_analysis, tsne_analysis))
 }

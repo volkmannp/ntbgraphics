@@ -135,17 +135,15 @@ heatmapexp <- function(directory,
                        palette = c("cRP", "viridis"),
                        colorbrewname = "PuOr",
                        viridisname = inferno,
-                       title = "Heatmap") {
-       
+                       title = "Heatmap",
+                       saveplotdir = directory) {
         
-        if (grepl("2arm", analysis)) {
-                return.matrix.mean = FALSE
-        }
+        
         # get data
         data.animal.matrix <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual, 
                                          exclude.animals, orderlevelcond, acceptable.nas, return.matrix = T,
                                          return.matrix.mean, naomit = FALSE, directional, absoluteval) 
-
+        
         # prepare annotation table and colors of groups by analysis type
         if (return.matrix.mean == TRUE && analysis == "4arm_sd_tg") {
                 data.animal.joined <- matrix(c("wt_hc", "wt_sd", "tg_hc", "tg_sd",
@@ -197,8 +195,8 @@ heatmapexp <- function(directory,
                         wt_treat_mean="#3c3c3c",
                         ko_untreat_mean="#84dcff",
                         ko_treat_mean="#1e24fc")))
-               
-        # define order of groups by analysis type
+                
+                # define order of groups by analysis type
         } else if (analysis == "2arm_tg") {
                 annotation <- list(Condition=(c(
                         wt = "#3c3c3c",
@@ -294,25 +292,31 @@ heatmapexp <- function(directory,
         }
         
         # heatmapping of experiments
-        pheatmap(data.animal.matrix,
-                 main = paste(title),
-                 fontsize = 16,
-                 fontsize_col = 12,
-                 show_rownames = F,
-                 treeheight_row = 43,
-                 cluster_cols = clustercols,
-                 cluster_rows = clusterrows,
-                 cutree_cols = cutree_cols,
-                 cutree_rows = cutree_rows,
-                 gaps_col = gapscol,
-                 clustering_distance_rows = "manhattan",
-                 clustering_distance_cols = "manhattan",
-                 color = color_spec,
-                 legend_breaks = legend_breaks,
-                 legend_labels = legend_labels,
-                 border_color = F,
-                 annotation_row = data.animal.joined,
-                 annotation_colors = annotation)
+        heatmap <- pheatmap(data.animal.matrix,
+                            main = paste(title),
+                            fontsize = 16,
+                            fontsize_col = 12,
+                            show_rownames = F,
+                            treeheight_row = 43,
+                            cluster_cols = clustercols,
+                            cluster_rows = clusterrows,
+                            cutree_cols = cutree_cols,
+                            cutree_rows = cutree_rows,
+                            gaps_col = gapscol,
+                            clustering_distance_rows = "manhattan",
+                            clustering_distance_cols = "manhattan",
+                            color = color_spec,
+                            legend_breaks = legend_breaks,
+                            legend_labels = legend_labels,
+                            border_color = F,
+                            annotation_row = data.animal.joined,
+                            annotation_colors = annotation)
+        
+        if (saveplotdir != FALSE) {
+                pdf(paste0(saveplotdir, "/Heatmap.pdf"), width = 7, height = 5)
+                print(heatmap)
+                dev.off()
+        }
         
         return(data.animal.matrix)
 }

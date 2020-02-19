@@ -225,7 +225,9 @@ ploteachexp <- function(expname,
           legend.title = element_text(size=27))
   
   # save pdf
-  `if`(!(saveplotdir =="FALSE"), ggsave(paste0(saveplotdir, expname, ".pdf")))
+  `if`(!(saveplotdir =="FALSE"), ggsave(filename = paste0(saveplotdir, "/", "Boxplot_", expname, ".pdf"), 
+                                        width = 7,
+                                        height = 5))
   
   # return plot
   return(outplot)

@@ -74,7 +74,6 @@ if the number of acceptable NAs should be unlimited, no value has to be provided
 default: "unlimited"}
 
 \item{saveplotdir}{file directory where to save plots;
-you may set to FALSE if you do not want to save plots to PDF;
 default: location of Behavior and Animal List files as specified in 'directory'}
 }
 \value{

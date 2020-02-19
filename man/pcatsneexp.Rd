@@ -22,7 +22,8 @@ pcatsneexp(
   ellconf = 0.75,
   ellalpha = 0.2,
   pastetitle = "PCA",
-  pastetitle2 = "tSNE"
+  pastetitle2 = "tSNE",
+  saveplotdir = directory
 )
 }
 \arguments{
@@ -112,6 +113,10 @@ default: "PCA"}
 \item{pastetitle2}{defines title of tSNE plot within quotation marks;
 default: "tSNE"}
 
+\item{saveplotdir}{file directory where to save plots within quotation marks;
+you may set to FALSE if you do not want to save plot to PDF;
+default: location of Behavior and Animal List files as specified in 'directory'}
+
 \item{return.matrix, mean}{boolean that specifies if matrix and following analysis should only consist of 
 the mean of each group for each experiment; grouping follows specification of groups to be analyzed as 
 defined by 'analysis';
@@ -141,7 +146,8 @@ results <- pcatsneexp(directory = paste0(system.file("extdata/", package = "ntbg
                                     ellconf = 0.95,
                                     ellalpha = 0.10,
                                     pastetitle = "new_testdata_pca_09-04-2044",
-                                    pastetitle2 = "new_testdata_tsne_09-04-2044")
+                                    pastetitle2 = "new_testdata_tsne_09-04-2044",
+                                    saveplotdir = FALSE)
          results_pca <- results[[1]]
          results_tsne <- results[[2]]
 }

@@ -23,7 +23,8 @@ heatmapexp(
   palette = c("cRP", "viridis"),
   colorbrewname = "PuOr",
   viridisname = inferno,
-  title = "Heatmap"
+  title = "Heatmap",
+  saveplotdir = directory
 )
 }
 \arguments{
