@@ -196,7 +196,7 @@ heatmapexp <- function(directory,
                         ko_untreat_mean="#84dcff",
                         ko_treat_mean="#1e24fc")))
                 
-                # define order of groups by analysis type
+        # define order of groups by analysis type
         } else if (analysis == "2arm_tg") {
                 annotation <- list(Condition=(c(
                         wt = "#3c3c3c",
