@@ -14,15 +14,18 @@ heatmapexp(
   orderlevelcond = c("other", "gtblock", "etblock"),
   acceptable.nas = "unlimited",
   return.matrix.mean = FALSE,
+  healthy_norm = FALSE,
   directional = FALSE,
   absoluteval = FALSE,
   clustercols = TRUE,
   clusterrows = TRUE,
   cutree_cols = 1,
   cutree_rows = 1,
-  palette = c("cRP", "viridis"),
+  palette = c("cRP", "viridis", "spaced"),
   colorbrewname = "PuOr",
   viridisname = inferno,
+  color_spaced1 = "mediumpurple",
+  color_spaced2 = "tan",
   title = "Heatmap",
   saveplotdir = directory
 )
@@ -84,6 +87,11 @@ table and following analyses;
 if the number of acceptable NAs should be unlimited, no value has to be provided;
 default: "unlimited"}
 
+\item{healthy_norm}{boolean that specifies if mean matrix should be normalized to healthy controls by
+subtracting all values by the healthy controls;
+only if return.matrix and return.matrix.mean are TRUE; not possible for 2arm experiments;
+default: FALSE}
+
 \item{directional}{boolean that specifies if directionality paradigm following RDoC concept should be
 applied; if TRUE columns 'Rotations', 'FreezeBase', 'Timeimmobile', 'Baseline', 'Activity', 'Choices' and
 'Meanspeed' are multiplied by -1; only applied and useful if 'absoluteval' is FALSE;
@@ -111,7 +119,8 @@ default: 1}
 
 \item{palette}{specifies the color package to choose from for usage of palettes (find options below) for
 color design of the heatmap within quotation marks;
-available are: "cRP" (colorRampPalette from RColorBrewer), "viridis" (from viridis);
+available are: "cRP" (colorRampPalette from RColorBrewer), "viridis" (from viridis), "spaced" (from
+ntbgraphics) for own customizable diverging color palette;
 default: "cRP"}
 
 \item{colorbrewname}{specifies the color palette used for drawing the heatmap within quotation marks;
@@ -126,6 +135,14 @@ only if palette is "viridis";
 you may check out the five available options by just trying out;
 available are: viridis, magma, plasma, inferno, cividis;
 default: inferno}
+
+\item{color_spaced1}{specifies color1 of own diverging color palette within quotation marks;
+only if palette is "spaced";
+default: "mediumpurple"}
+
+\item{color_spaced2}{specifies color2 of own diverging color palette within quotation marks;
+only if palette is "spaced";
+default: "tan"}
 
 \item{title}{defines the title of the heatmap; character within quotation marks;
 default: "Heatmap"}

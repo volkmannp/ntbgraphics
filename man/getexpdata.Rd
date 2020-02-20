@@ -15,6 +15,7 @@ getexpdata(
   acceptable.nas = "unlimited",
   return.matrix = FALSE,
   return.matrix.mean = FALSE,
+  healthy_norm = FALSE,
   naomit = FALSE,
   directional = FALSE,
   absoluteval = FALSE
@@ -84,6 +85,11 @@ provided;
 by default, getexpdata generates a dataframe containing raw joined animal and experiment information;
 'return.matrix' can further process the dataframe with customizable functions to return a z-scored matrix,
 for e.g. heatmapping, pca and tsne;
+default: FALSE}
+
+\item{healthy_norm}{boolean that specifies if mean matrix should be normalized to healthy controls by
+subtracting all values by the healthy controls;
+only if return.matrix and return.matrix.mean are TRUE; not possible for 2arm experiments;
 default: FALSE}
 
 \item{naomit}{boolean that specifies if each columns with any number of NAs bigger than 0 should be 
