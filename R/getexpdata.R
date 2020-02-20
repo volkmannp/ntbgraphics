@@ -69,6 +69,10 @@
 #' for each experiment; grouping follows specification of groups to be analyzed as defined by 'analysis';
 #' only useful if 'return.matrix' is TRUE;
 #' default: FALSE
+#' @param healthy_norm boolean that specifies if mean matrix should be normalized to healthy controls by
+#' subtracting all values by the healthy controls;
+#' only if return.matrix and return.matrix.mean are TRUE; not possible for 2arm experiments;
+#' default: FALSE
 #' @param naomit boolean that specifies if each columns with any number of NAs bigger than 0 should be 
 #' excluded; only applied and useful if 'return.matrix' is TRUE;
 #' may appear redundant concerning earlier listed 'acceptable.nas', but gives user the opportunity, to save
@@ -113,6 +117,7 @@ getexpdata <- function(directory,
                        acceptable.nas = "unlimited",
                        return.matrix = FALSE,
                        return.matrix.mean = FALSE,
+                       healthy_norm = FALSE,
                        naomit = FALSE,
                        directional = FALSE,
                        absoluteval = FALSE) {
@@ -310,6 +315,20 @@ getexpdata <- function(directory,
       column_to_rownames("Group.1") %>% 
       data.matrix() %>% 
       scale()
+    
+    # optionally subtract the wt_hc values from all other values
+    if (healthy_norm == TRUE && analysis == "4arm_sd_ko") {
+      data.animal.matrix <- sweep(data.animal.matrix, 2, data.animal.matrix["wt_hc",], "-")
+    }
+    if (healthy_norm == TRUE && analysis == "4arm_sd_tg") {
+      data.animal.matrix <- sweep(data.animal.matrix, 2, data.animal.matrix["wt_hc",], "-")
+    }
+    if (healthy_norm == TRUE && analysis == "4arm_treat_ko") {
+      data.animal.matrix <- sweep(data.animal.matrix, 2, data.animal.matrix["wt_untreat",], "-")
+    }
+    if (healthy_norm == TRUE && analysis == "4arm_treat_tg") {
+      data.animal.matrix <- sweep(data.animal.matrix, 2, data.animal.matrix["wt_untreat",], "-")
+    }
     }
     
     # inverse z-scoring accordingly to directionality paradigm
@@ -341,6 +360,7 @@ getexpdata <- function(directory,
     if (absoluteval == TRUE) {
       data.animal.matrix <- abs(data.animal.matrix)
     }
+    
   }
   
   # return amended dataframe
