@@ -60,6 +60,10 @@
 #' @param return.matrix,mean boolean that specifies if heatmap should only contain the mean of each group
 #' for each experiment; grouping follows specification of groups to be analyzed as defined by 'analysis';
 #' default: FALSE
+#' @param healthy_norm boolean that specifies if mean matrix should be normalized to healthy controls by
+#' subtracting all values by the healthy controls;
+#' only if return.matrix and return.matrix.mean are TRUE; not possible for 2arm experiments;
+#' default: FALSE
 #' @param directional boolean that specifies if directionality paradigm following RDoC concept should be
 #' applied; if TRUE columns 'Rotations', 'FreezeBase', 'Timeimmobile', 'Baseline', 'Activity', 'Choices' and
 #' 'Meanspeed' are multiplied by -1; only applied and useful if 'absoluteval' is FALSE;
@@ -81,7 +85,8 @@
 #' default: 1
 #' @param palette specifies the color package to choose from for usage of palettes (find options below) for
 #' color design of the heatmap within quotation marks;
-#' available are: "cRP" (colorRampPalette from RColorBrewer), "viridis" (from viridis);
+#' available are: "cRP" (colorRampPalette from RColorBrewer), "viridis" (from viridis), "spaced" (from
+#' ntbgraphics) for own customizable diverging color palette;
 #' default: "cRP"
 #' @param colorbrewname specifies the color palette used for drawing the heatmap within quotation marks;
 #' only if palette is "cRP";
@@ -94,6 +99,12 @@
 #' you may check out the five available options by just trying out;
 #' available are: viridis, magma, plasma, inferno, cividis;
 #' default: inferno
+#' @param color_spaced1 specifies color1 of own diverging color palette within quotation marks;
+#' only if palette is "spaced";
+#' default: "mediumpurple"
+#' @param color_spaced2 specifies color2 of own diverging color palette within quotation marks;
+#' only if palette is "spaced";
+#' default: "tan"
 #' @param title defines the title of the heatmap; character within quotation marks;
 #' default: "Heatmap"
 #'
@@ -126,15 +137,18 @@ heatmapexp <- function(directory,
                        orderlevelcond = c("other", "gtblock", "etblock"),
                        acceptable.nas = "unlimited",
                        return.matrix.mean = FALSE,
+                       healthy_norm = FALSE,
                        directional = FALSE,
                        absoluteval = FALSE,
                        clustercols = TRUE,
                        clusterrows = TRUE,
                        cutree_cols = 1,
                        cutree_rows = 1,
-                       palette = c("cRP", "viridis"),
+                       palette = c("cRP", "viridis", "spaced"),
                        colorbrewname = "PuOr",
                        viridisname = inferno,
+                       color_spaced1 = "mediumpurple",
+                       color_spaced2 = "tan",
                        title = "Heatmap",
                        saveplotdir = directory) {
         
@@ -142,7 +156,8 @@ heatmapexp <- function(directory,
         # get data
         data.animal.matrix <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual, 
                                          exclude.animals, orderlevelcond, acceptable.nas, return.matrix = T,
-                                         return.matrix.mean, naomit = FALSE, directional, absoluteval) 
+                                         return.matrix.mean, healthy_norm, naomit = FALSE, directional, 
+                                         absoluteval) 
         
         # prepare annotation table and colors of groups by analysis type
         if (return.matrix.mean == TRUE && analysis == "4arm_sd_tg") {
@@ -282,6 +297,10 @@ heatmapexp <- function(directory,
         }
         if (palette == "viridis") {
                 color_spec = viridisname(n = 21, begin = 0.15, end = 1)
+        }
+        if (palette == "spaced") {
+                color_spec <- colordiverger(color1 = color_spaced1, color2 = color_spaced2,
+                                            min.val = -5, max.val = 5)
         }
         
         # introducing breaks if columns are ordered following rdoc and not being clustered
