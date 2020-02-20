@@ -13,11 +13,12 @@ This package includes functions for importing, transforming and visualization of
   - '*ploteachexp*' for plotting of given experiments as boxplots and exporting the result as a PDF file;
   - '*loopplotexp*' for plotting all experiments within a dataset as boxplots and exporting the results in one PDF file;
   - '*heatmapexp*' for plotting all experiments as a heatmap and producing a datamatrix with z-scored values;
-  - '*pcatsneexp*' for PCA and tSNE results and cluster plots.
+  - '*pcatsneexp*' for PCA and tSNE results and cluster plots;
+  - '*colordiverger*' for creating a customized diverging color palette for visualization in different contexts.
   
 ## Basic Principles of Functions and Dependences
   
-All functions take a **directory** as their input, which specifies the location of the **two files** "Animal List.xlsx" and "Meta Behavior.xlsx" (mind correct spelling of these files - functions rely on specific names as given!). 
+All functions (apart from 'colordiverger') take a **directory** as their input, which specifies the location of the **two files** "Animal List.xlsx" and "Meta Behavior.xlsx" (mind correct spelling of these files - functions rely on specific names as given!). 
 It is also important that you mind correct **formatting** of your excel files. This includes:
 
   - at least two columns with information about 'RFID' and 'Genotype'/'Environmental'/'Treatment' in your Animal List with these exact titles;
@@ -162,5 +163,9 @@ results <- pcatsneexp(directory = paste0(system.file("extdata/", package = "ntbg
 ### -> access results of pcatsneexp (requires to run pcatsneexp and store results as shown above)
 results_pca <- results[[1]]
 results_tsne <- results[[2]]
+
+## (colordiverger) create own color palette
+my_own_palette <- colordiverger(color1 = "lightgoldenrod",
+                                color2 = "blue")
 
 ```
