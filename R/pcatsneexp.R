@@ -142,6 +142,7 @@ pcatsneexp <- function(directory,
                                    acceptable.nas = 0,
                                    return.matrix = TRUE,
                                    return.matrix.mean,
+                                   healthy_norm = FALSE,
                                    naomit = TRUE,
                                    directional,
                                    absoluteval)
