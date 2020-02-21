@@ -16,15 +16,18 @@ visualization of NTB datasets:
     boxplots and exporting the results in one PDF file;
   - ‘*heatmapexp*’ for plotting all experiments as a heatmap and
     producing a datamatrix with z-scored values;
-  - ‘*pcatsneexp*’ for PCA and tSNE results and cluster plots.
+  - ‘*pcatsneexp*’ for PCA and tSNE results and cluster plots;
+  - ‘*colordiverger*’ for creating a customized diverging color palette
+    for visualization in different contexts.
 
 ## Basic Principles of Functions and Dependences
 
-All functions take a **directory** as their input, which specifies the
-location of the **two files** “Animal List.xlsx” and “Meta
-Behavior.xlsx” (mind correct spelling of these files - functions rely
-on specific names as given\!). It is also important that you mind
-correct **formatting** of your excel files. This includes:
+All functions (apart from ‘colordiverger’) take a **directory** as their
+input, which specifies the location of the **two files** “Animal
+List.xlsx” and “Meta Behavior.xlsx” (mind correct spelling of these
+files - functions rely on specific names as given\!). It is also
+important that you mind correct **formatting** of your excel files. This
+includes:
 
   - at least two columns with information about ‘RFID’ and
     ‘Genotype’/‘Environmental’/‘Treatment’ in your Animal List
@@ -46,6 +49,15 @@ within that function.
 All functions externally work on their own, which means that they may
 rely internally on one of the other functions of the package without the
 user needing to run them in advance.
+
+For heatmapping and especially for PCA and tSNE, it is important to have
+a sufficient number of animals for each group that ran through all of
+the tests that have been performed in that cohort or that will be
+analyzed. While ‘heatmapexp’ will display NAs (missing values) as 0 from
+the z-scored matrix and therefor simply in a neutral color - which will
+still lead to an interpretable result -, PCA and tSNE will exclude all
+animals with missing values completely, and thus might look quite poor
+with low animal numbers\!
 
 ## Examples
 
@@ -159,6 +171,10 @@ results <- pcatsneexp(directory = paste0(system.file("extdata/", package = "ntbg
                       perplex =  10,
                       saveplotdir = FALSE)
 ### -> access results of pcatsneexp (requires to run pcatsneexp and store results as shown above)
-results_pca <- results[[1]]
-results_tsne <- results[[2]]
+results_pca <- results[["pca_analysis"]]
+results_tsne <- results[["tsne_analysis"]]
+
+## (colordiverger) create own color palette
+my_own_palette <- colordiverger(color1 = "lightgoldenrod",
+                                color2 = "blue")
 ```
