@@ -107,8 +107,8 @@
 #'                                     pastetitle = "new_testdata_pca_09-04-2044",
 #'                                     pastetitle2 = "new_testdata_tsne_09-04-2044",
 #'                                     saveplotdir = FALSE)
-#'          results_pca <- results[[1]]
-#'          results_tsne <- results[[2]]
+#'          results_pca <- results[["pca_analysis"]]
+#'          results_tsne <- results[["tsne_analysis"]]
 
 
 pcatsneexp <- function(directory, 
@@ -130,6 +130,12 @@ pcatsneexp <- function(directory,
                        pastetitle = "PCA", 
                        pastetitle2 = "tSNE",
                        saveplotdir = directory) {
+  
+  # check if saveplotdir exists
+  if (saveplotdir != FALSE && dir.exists(saveplotdir) == FALSE) {
+    stop(sprintf("The path for saving the plot as specified in saveplotdir `%s` does not exist!",
+                 saveplotdir))
+  }
   
   ### get data
   ## get matrix
@@ -158,65 +164,21 @@ pcatsneexp <- function(directory,
     na.omit() %>%
     select(RFID:Condition) %>%
     data.frame(.)
-  # rename columns with abbreviations
-  if("Meanspeed" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("Meanspeed"), c("Mnsp"))
-  }
-  if("Rotations" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("Rotations"), c("Rot"))
-  }
-  if("Center" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("Center"), c("Ctr"))
-  }
-  if("Alternations" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("Alternations"), c("Alt"))
-  }
-  if("Choices" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("Choices"), c("Chc"))
-  }
-  if("Activity" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("Activity"), c("Act"))
-  }
-  if("Nocturnal" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("Nocturnal"), c("Noc"))
-  }
-  if("PlacePref" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("PlacePref"), c("PlP"))
-  }
-  if("SerialLearn" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("SerialLearn"), c("SrL"))
-  }
-  if("ReversalLearn" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("ReversalLearn"), c("RvL"))
-  }
-  if("SucPref" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("SucPref"), c("ScP"))
-  }
-  if("Baseline" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("Baseline"), c("ppiBs"))
-  }
-  if("inhibition70" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("inhibition70"), c("in70"))
-  }
-  if("inhibition75" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("inhibition75"), c("in75"))
-  }
-  if("inhibition80" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("inhibition80"), c("in80"))
-  }
-  if("Timeimmobile" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("Timeimmobile"), c("Tim"))
-  }
-  if("FreezeBase" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("FreezeBase"), c("FrBs"))
-  }
-  if("Context" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("Context"), c("Con"))
-  }
-  if("Cue" %in% colnames(data.animal.matrix)) {
-    data.animal.matrix <-  renameCol(data.animal.matrix, c("Cue"), c("Cue"))
-  }
-  
+  # create data frame of abbreviations
+  abbreviations <- tibble::tibble(experiment = factor(c("Meanspeed", "Rotations","Center",
+                                                        "Alternations","Choices","Activity",
+                                                        "Nocturnal","PlacePref","SerialLearn",
+                                                        "ReversalLearn","SucPref","Baseline",
+                                                        "inhibition70","inhibition75","inhibition80",
+                                                        "Timeimmobile", "FreezeBase", "Context", "Cue")),
+                                  abbreviations = c("Mnsp","Rot","Ctr","Alt","Chc","Act","Noc",
+                                                    "PlP", "SrL","RvL","ScP", "ppiBs","in70",
+                                                    "in75","in80","Tim","FrBs","Con","Cue"))
+  colnames(data.animal.matrix) <- suppressWarnings((colnames(data.animal.matrix) %>% 
+                                                      as.data.frame() %>% 
+                                                      left_join(abbreviations, by = c("."="experiment"))
+  )$abbreviations)
+
   
   ### PCA
   ## perform PCA
@@ -419,5 +381,7 @@ pcatsneexp <- function(directory,
     dev.off()
   }
   
-  return(list(pca_analysis, tsne_analysis))
+  # return a named list for access of both experiments
+  return(list(pca_analysis = pca_analysis, 
+              tsne_analysis = tsne_analysis))
 }

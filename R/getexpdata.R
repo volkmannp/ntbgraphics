@@ -122,6 +122,24 @@ getexpdata <- function(directory,
                        directional = FALSE,
                        absoluteval = FALSE) {
   
+  ## for analysis, ordercolumns and orderlevelcond check out assertthat package for more assertions
+  # check if directory is provided and if it exists
+  if (missing(directory)) {
+    stop("Please provide path to 'Meta Behavior' and 'Animal List' files!")
+  } else if (dir.exists(directory) == FALSE) {
+    stop(sprintf("The path `%s` does not exist!", directory))
+  } 
+  # check for data file
+  if (file.exists(paste0(directory,"/Meta Behavior.xlsx")) == FALSE |
+      file.exists(paste0(directory,"/Animal List.xlsx")) == FALSE) {
+    stop(sprintf("Path `%s` does not contain one of or both input excel files!", directory))
+  }
+  
+  # ensure that in case of no provided argument, first one of list is taken
+  analysis <- analysis[1]
+  ordercolumns <- ordercolumns[1]
+  orderlevelcond <- orderlevelcond[1]
+  
   ## import data
   meta.data <-  readxl::read_excel(paste0(directory,"/Meta Behavior.xlsx"))
   animal.list <-  readxl::read_excel(paste0(directory, "/Animal List.xlsx"))

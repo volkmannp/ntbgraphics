@@ -93,9 +93,27 @@ ploteachexp <- function(expname,
                         acceptable.nas = "unlimited",
                         saveplotdir = directory) {
   
+  # check if expname is provided
+  if (missing(expname)) {
+    stop("Please provide expname!")
+  }
+    
+  # check if saveplotdir exists
+  if (saveplotdir != FALSE && dir.exists(saveplotdir) == FALSE) {
+    stop(sprintf("The path for saving the plot as specified in saveplotdir `%s` does not exist!",
+                 saveplotdir))
+  }
+  
   #getexpdata
   data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual, exclude.animals, 
                                    orderlevelcond, acceptable.nas, return.matrix = F)
+  
+  # check if expname exists in files provided
+  col.names.expname <- colnames(data.animal.joined)
+  if (expname %in% col.names.expname != TRUE) {
+    stop(sprintf("The expname `%s` does not exist within the provided Meta Behavior!", 
+                 expname))
+  }
   
   # define axis limits
   ymin = min(data.animal.joined[[expname]], na.rm = TRUE)*0.25

@@ -107,6 +107,9 @@
 #' default: "tan"
 #' @param title defines the title of the heatmap; character within quotation marks;
 #' default: "Heatmap"
+#' @param saveplotdir file directory where to save heatmap within quotation marks;
+#' you may set to FALSE if you do not want to save heatmap to PDF;
+#' default: location of Behavior and Animal List files as specified in 'directory'
 #'
 #' @return heatmap and data matrix
 #'
@@ -125,7 +128,8 @@
 #'                      clusterrows = FALSE,
 #'                      palette = "viridis",
 #'                      viridisname = inferno,
-#'                      title = "new_testdata_heatmap_09-04-2044")
+#'                      title = "new_testdata_heatmap_09-04-2044",
+#'                      saveplotdir = FALSE)
 
 
 heatmapexp <- function(directory, 
@@ -152,6 +156,14 @@ heatmapexp <- function(directory,
                        title = "Heatmap",
                        saveplotdir = directory) {
         
+        # ensure that in case of no provided argument, first one of list is taken
+        palette <- palette[1]
+        
+        # check if saveplotdir exists
+        if (saveplotdir != FALSE && dir.exists(saveplotdir) == FALSE) {
+                stop(sprintf("The path for saving the heatmap as specified in saveplotdir `%s` does not exist!", 
+                 saveplotdir))
+        }
         
         # get data
         data.animal.matrix <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual, 

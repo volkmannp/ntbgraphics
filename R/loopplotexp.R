@@ -85,7 +85,13 @@ loopplotexp <- function(directory,
                         orderlevelcond = c("other", "gtblock", "etblock", "2rev"),
                         acceptable.nas = "unlimited",
                         saveplotdir = directory) {
-
+  
+  # check if saveplotdir exists
+  if (dir.exists(saveplotdir) == FALSE) {
+    stop(sprintf("The path for saving the plot as specified in saveplotdir `%s` does not exist!",
+                 saveplotdir))
+  }
+  
   ## get and modify data
   data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual, exclude.animals, 
                                    orderlevelcond, acceptable.nas, return.matrix = F)
