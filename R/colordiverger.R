@@ -33,6 +33,9 @@ colordiverger <- function(color1 = "mediumpurple",
                           min.val = -5,
                           max.val = 5) {
   
+  # turn warnings off
+  options(warn=-1)
+  
   # define range of data
   data.range <- max.val-min.val
   
@@ -59,5 +62,8 @@ colordiverger <- function(color1 = "mediumpurple",
                  c(colorRampPalette(colors = c(paste0(color2, 3), paste0(color2, 4)))(n = length(brk9)))))))))))
  
   return(colordesign)
+  
+  # turn warnings back on
+  options(warn=0)
 }
 

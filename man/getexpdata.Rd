@@ -126,7 +126,7 @@ For right formatting of your files, please consider the "ReadMe for ntbgraphics"
 getexpdata(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"))
 
 getexpdata(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"), 
-                   analysis = "4arm_sd_tg", 
+                   analysis = "2arm_sd", 
                    ordercolumns = "manual", 
                    ordercolumns_manual = c("Meanspeed", "SerialLearn", "Center"), 
                    exclude.animals = c("900200000070142"), 
@@ -135,7 +135,6 @@ getexpdata(directory = paste0(system.file("extdata", package = "ntbgraphics", mu
                    return.matrix = TRUE, 
                    naomit = TRUE, 
                    directional = TRUE)
-                   
 }
 \author{
 Paul Volkmann

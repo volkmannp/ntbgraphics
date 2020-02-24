@@ -148,8 +148,8 @@ results <- pcatsneexp(directory = paste0(system.file("extdata/", package = "ntbg
                                     pastetitle = "new_testdata_pca_09-04-2044",
                                     pastetitle2 = "new_testdata_tsne_09-04-2044",
                                     saveplotdir = FALSE)
-         results_pca <- results[[1]]
-         results_tsne <- results[[2]]
+         results_pca <- results[["pca_analysis"]]
+         results_tsne <- results[["tsne_analysis"]]
 }
 \author{
 Paul Volkmann

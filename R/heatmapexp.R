@@ -156,7 +156,13 @@ heatmapexp <- function(directory,
                        title = "Heatmap",
                        saveplotdir = directory) {
         
+        # turn warnings off
+        options(warn=-1)
+        
         # ensure that in case of no provided argument, first one of list is taken
+        analysis <- analysis[1]
+        ordercolumns <- ordercolumns[1]
+        orderlevelcond <- orderlevelcond[1]
         palette <- palette[1]
         
         # check if saveplotdir exists
@@ -166,10 +172,11 @@ heatmapexp <- function(directory,
         }
         
         # get data
-        data.animal.matrix <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual, 
-                                         exclude.animals, orderlevelcond, acceptable.nas, return.matrix = T,
-                                         return.matrix.mean, healthy_norm, naomit = FALSE, directional, 
-                                         absoluteval) 
+        data.animal.matrix <- getexpdata(directory, analysis = analysis, ordercolumns = ordercolumns, 
+                                         ordercolumns_manual, exclude.animals, 
+                                         orderlevelcond = orderlevelcond, acceptable.nas = acceptable.nas, 
+                                         return.matrix = T, return.matrix.mean, healthy_norm, 
+                                         naomit = FALSE, directional, absoluteval) 
         
         # prepare annotation table and colors of groups by analysis type
         if (return.matrix.mean == TRUE && analysis == "4arm_sd_tg") {
@@ -228,32 +235,36 @@ heatmapexp <- function(directory,
                 annotation <- list(Condition=(c(
                         wt = "#3c3c3c",
                         tg = "#84dcff")))
-                data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual, 
-                                                 exclude.animals, orderlevelcond) %>%
+                data.animal.joined <- getexpdata(directory, analysis = analysis, ordercolumns = ordercolumns, 
+                                                 ordercolumns_manual, exclude.animals, 
+                                                 orderlevelcond = orderlevelcond) %>%
                         select(., RFID, Condition) %>%
                         column_to_rownames(., "RFID")
         } else if (analysis == "2arm_ko") {
                 annotation <- list(Condition=(c(
                         wt = "#3c3c3c",
                         ko = "#84dcff")))
-                data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual, 
-                                                 exclude.animals, orderlevelcond) %>%
+                data.animal.joined <- getexpdata(directory, analysis = analysis, ordercolumns = ordercolumns, 
+                                                 ordercolumns_manual, exclude.animals, 
+                                                 orderlevelcond = orderlevelcond) %>%
                         select(., RFID, Condition) %>%
                         column_to_rownames(., "RFID")
         } else if (analysis == "2arm_sd") {
                 annotation <- list(Condition=(c(
                         hc = "#3c3c3c",
                         sd = "#84dcff")))
-                data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual, 
-                                                 exclude.animals, orderlevelcond) %>%
+                data.animal.joined <- getexpdata(directory, analysis = analysis, ordercolumns = ordercolumns, 
+                                                 ordercolumns_manual, exclude.animals, 
+                                                 orderlevelcond = orderlevelcond) %>%
                         select(., RFID, Condition) %>%
                         column_to_rownames(., "RFID")
         } else if (analysis == "2arm_treat") {
                 annotation <- list(Condition=(c(
                         untreat = "#3c3c3c",
                         treat = "#84dcff")))
-                data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual, 
-                                                 exclude.animals, orderlevelcond) %>%
+                data.animal.joined <- getexpdata(directory, analysis = analysis, ordercolumns = ordercolumns, 
+                                                 ordercolumns_manual, exclude.animals, 
+                                                 orderlevelcond = orderlevelcond) %>%
                         select(., RFID, Condition) %>%
                         column_to_rownames(., "RFID")
         } else if (orderlevelcond == "gtblock") {
@@ -262,8 +273,9 @@ heatmapexp <- function(directory,
                         wt_sd="#3c3c3c",
                         tg_hc="#84dcff",
                         tg_sd="#1e24fc")))
-                data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual,  
-                                                 exclude.animals, orderlevelcond) %>%
+                data.animal.joined <- getexpdata(directory, analysis = analysis, ordercolumns = ordercolumns, 
+                                                 ordercolumns_manual, exclude.animals, 
+                                                 orderlevelcond = orderlevelcond) %>%
                         select(., RFID, Condition) %>%
                         column_to_rownames(., "RFID")
         } else if (orderlevelcond == "etblock") {
@@ -272,8 +284,9 @@ heatmapexp <- function(directory,
                         tg_hc="#84dcff",
                         wt_sd="#3c3c3c",
                         tg_sd="#1e24fc")))
-                data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual,  
-                                                 exclude.animals, orderlevelcond) %>%
+                data.animal.joined <- getexpdata(directory, analysis = analysis, ordercolumns = ordercolumns, 
+                                                 ordercolumns_manual, exclude.animals, 
+                                                 orderlevelcond = orderlevelcond) %>%
                         select(., RFID, Condition) %>%
                         column_to_rownames(., "RFID")
         } else if (orderlevelcond == "other") {
@@ -282,8 +295,9 @@ heatmapexp <- function(directory,
                         tg_sd="#1e24fc",
                         wt_hc="#b4b4b4",
                         wt_sd="#3c3c3c")))
-                data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual,  
-                                                 exclude.animals, orderlevelcond) %>%
+                data.animal.joined <- getexpdata(directory, analysis = analysis, ordercolumns = ordercolumns, 
+                                                 ordercolumns_manual, exclude.animals, 
+                                                 orderlevelcond = orderlevelcond) %>%
                         select(., RFID, Condition) %>%
                         column_to_rownames(., "RFID")
         }
@@ -350,4 +364,7 @@ heatmapexp <- function(directory,
         }
         
         return(data.animal.matrix)
+        
+        # turn warnings back on
+        options(warn=0)
 }

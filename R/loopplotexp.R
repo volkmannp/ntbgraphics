@@ -86,25 +86,39 @@ loopplotexp <- function(directory,
                         acceptable.nas = "unlimited",
                         saveplotdir = directory) {
   
+  # turn warnings off
+  options(warn=-1)
+  
   # check if saveplotdir exists
   if (dir.exists(saveplotdir) == FALSE) {
     stop(sprintf("The path for saving the plot as specified in saveplotdir `%s` does not exist!",
                  saveplotdir))
   }
   
+  # ensure that in case of no provided argument, first one of list is taken
+  analysis <- analysis[1]
+  ordercolumns <- ordercolumns[1]
+  orderlevelcond <- orderlevelcond[1]
+  
   ## get and modify data
-  data.animal.joined <- getexpdata(directory, analysis, ordercolumns, ordercolumns_manual, exclude.animals, 
-                                   orderlevelcond, acceptable.nas, return.matrix = F)
+  data.animal.joined <- getexpdata(directory, analysis = analysis, ordercolumns = ordercolumns, 
+                                   ordercolumns_manual, exclude.animals, 
+                                   orderlevelcond = orderlevelcond, acceptable.nas = acceptable.nas, 
+                                   return.matrix = F)
 
   ## loop through and plot list of experiments
   myexp <- c(as.list(colnames(data.animal.joined[, -(1:2)])))
   allplots <- list()
-  allplots <- map(myexp, ploteachexp, directory, analysis, ordercolumns, ordercolumns_manual, 
-                  exclude.animals, orderlevelcond, acceptable.nas, saveplotdir = F)
+  allplots <- map(myexp, ploteachexp, directory, analysis = analysis, 
+                  exclude.animals, orderlevelcond = orderlevelcond, 
+                  acceptable.nas = acceptable.nas, saveplotdir = F)
 
   # save all plots in one PDF
   pdf(paste0(saveplotdir, "/Boxplots_all_experiments.pdf"), width = 7, height = 5)
   print(allplots)
   dev.off()
+  
+  # turn warnings back on
+  options(warn=0)
 
 }

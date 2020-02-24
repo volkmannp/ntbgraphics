@@ -95,7 +95,7 @@
 #' @examples getexpdata(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"))
 #'
 #' @examples getexpdata(directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"), 
-#'                    analysis = "4arm_sd_tg", 
+#'                    analysis = "2arm_sd", 
 #'                    ordercolumns = "manual", 
 #'                    ordercolumns_manual = c("Meanspeed", "SerialLearn", "Center"), 
 #'                    exclude.animals = c("900200000070142"), 
@@ -104,7 +104,6 @@
 #'                    return.matrix = TRUE, 
 #'                    naomit = TRUE, 
 #'                    directional = TRUE)
-#'                    
 
 
 getexpdata <- function(directory, 
@@ -122,7 +121,11 @@ getexpdata <- function(directory,
                        directional = FALSE,
                        absoluteval = FALSE) {
   
-  ## for analysis, ordercolumns and orderlevelcond check out assertthat package for more assertions
+  ### use switch() for more flexible level assignments and assert_that() for more complex error management
+  
+  # turn warnings off
+  options(warn=-1)
+  
   # check if directory is provided and if it exists
   if (missing(directory)) {
     stop("Please provide path to 'Meta Behavior' and 'Animal List' files!")
@@ -140,9 +143,14 @@ getexpdata <- function(directory,
   ordercolumns <- ordercolumns[1]
   orderlevelcond <- orderlevelcond[1]
   
+  # ensure that correct analysis is provided
+  if(analysis == "2arm_ko") {
+    print("Warning: You have chosen '2arm_ko' as type of analysis. Since this is the default setting, please make sure it matches the data provided. Furthermore, refer to the help page '?getexpdata' to check available options!")
+  }
+  
   ## import data
-  meta.data <-  readxl::read_excel(paste0(directory,"/Meta Behavior.xlsx"))
-  animal.list <-  readxl::read_excel(paste0(directory, "/Animal List.xlsx"))
+  suppressMessages(meta.data <-  readxl::read_excel(paste0(directory,"/Meta Behavior.xlsx")))
+  suppressMessages(animal.list <-  readxl::read_excel(paste0(directory, "/Animal List.xlsx")))
   
   # ensure that Animal is a character - important for joining both tables
   meta.data <- meta.data %>% 
@@ -389,4 +397,6 @@ getexpdata <- function(directory,
   if(return.matrix == TRUE) {
     return(data.animal.matrix)
   }
+  # turn warnings back on
+  options(warn=0)
 }

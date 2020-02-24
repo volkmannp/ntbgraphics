@@ -131,20 +131,32 @@ pcatsneexp <- function(directory,
                        pastetitle2 = "tSNE",
                        saveplotdir = directory) {
   
+  # turn warnings off
+  options(warn=-1)
+  
   # check if saveplotdir exists
   if (saveplotdir != FALSE && dir.exists(saveplotdir) == FALSE) {
     stop(sprintf("The path for saving the plot as specified in saveplotdir `%s` does not exist!",
                  saveplotdir))
   }
   
+  analysis <- analysis[1]
+  ordercolumns <- ordercolumns[1]
+  orderlevelcond <- orderlevelcond[1]
+  
+  # ensure that correct perplexity is provided
+  if(perplex == 1) {
+    print("Warning: You have chosen a perplexity of '1'. Since this is the default setting, please make sure, it matches the data provided!")
+  }
+  
   ### get data
   ## get matrix
   data.animal.matrix <- getexpdata(directory, 
-                                   analysis,
-                                   ordercolumns,
+                                   analysis = analysis,
+                                   ordercolumns = ordercolumns,
                                    ordercolumns_manual,
                                    exclude.animals,
-                                   orderlevelcond,
+                                   orderlevelcond = orderlevelcond,
                                    acceptable.nas = 0,
                                    return.matrix = TRUE,
                                    return.matrix.mean,
@@ -154,11 +166,11 @@ pcatsneexp <- function(directory,
                                    absoluteval)
   ## get animal list for assignments
   data.animal.list <- getexpdata(directory, 
-                                 analysis,
-                                 ordercolumns,
+                                 analysis = analysis,
+                                 ordercolumns = ordercolumns,
                                  ordercolumns_manual,
                                  exclude.animals,
-                                 orderlevelcond,
+                                 orderlevelcond = orderlevelcond,
                                  acceptable.nas = 0,
                                  return.matrix = F) %>%
     na.omit() %>%
@@ -384,4 +396,7 @@ pcatsneexp <- function(directory,
   # return a named list for access of both experiments
   return(list(pca_analysis = pca_analysis, 
               tsne_analysis = tsne_analysis))
+  
+  # turn warnings back on
+  options(warn=0)
 }

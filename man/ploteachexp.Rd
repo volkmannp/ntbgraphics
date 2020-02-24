@@ -9,8 +9,6 @@ ploteachexp(
   directory,
   analysis = c("2arm_ko", "2arm_tg", "2arm_sd", "2arm_treat", "4arm_sd_ko",
     "4arm_sd_tg", "4arm_treat_ko", "4arm_treat_tg"),
-  ordercolumns = c("ntb", "rdoc", "manual"),
-  ordercolumns_manual = FALSE,
   exclude.animals = FALSE,
   orderlevelcond = c("other", "gtblock", "etblock", "2rev"),
   acceptable.nas = "unlimited",
@@ -39,22 +37,6 @@ untreated controls (untreat) for treated animals;
 you can easily perform 2arm analysis for 4arm experiments looking only at the groups of interest, 
 but not the other way around);
 default: "2arm_ko"}
-
-\item{ordercolumns}{defines the order paradigm of experiment column appearance in internal table within 
-quotation marks: "ntb", "rdoc", "manual";
-order of experiments may be customized manually with "manual" (-> use 'ordercolumns_manual' for exact 
-appearance; there, you may also choose to exclude experiments - this may be the only useful application 
-of this parameter in this functions' context if you want to perform analysis more efficiently);
-default: "ntb"}
-
-\item{ordercolumns_manual}{customizes order of appearance and appearance itself of experiment columns 
-in internal table (experiments that are not listed will not be included);
-only if 'ordercolumns' = "manual";
-user has to provide a vector containing characters within quotation marks (e.g. by using 
-c("Meanspeed", "SerialLearn")) with all experiments he wants to include into the experiment selection for
-possible effiency increase;
-no need for specification if 'ordercolumns' is not "manual"
-default: FALSE}
 
 \item{exclude.animals}{excluding animals from analysis by RFID;
 user has to provide a vector containing characters within quotation marks (e.g. by using 
@@ -97,8 +79,6 @@ ploteachexp(expname = "Meanspeed",
 ploteachexp(expname = "Center",
                      directory = paste0(system.file("extdata", package = "ntbgraphics", mustWork = T),"/"),
                      analysis = "4arm_sd_tg",
-                     ordercolumns = "manual",
-                     ordercolumns_manual = c("Center"),
                      exclude.animals = c("900200000068816"),
                      orderlevelcond = "etblock",
                      acceptable.nas = 4,
