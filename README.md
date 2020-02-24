@@ -1,26 +1,41 @@
 ReadMe for ntbgraphics
 ================
 
-## Introduction
+# Table of contents
+
+  - [Introduction](#introduction)
+  - [Basic Principles of Functions and
+    Dependences](#basic-principles-of-functions-and-dependences)
+  - [Examples](#examples)
+  - [Installation](#installation)
+  - [Demo](#demo)
+
+# Introduction
+
+The following introduction to the R package ‘ntbgraphics’ aims not only
+for expounding its features but also for facilitating access to it, even
+for relatively unexperienced R users. Please refer to the
+[Installation](#installation) part if you have not yet downloaded R
+itself.
 
 This package includes functions for importing, transforming and
 visualization of NTB datasets:
 
-  - ‘*getexpdata*’ for import of the Animal List (containing animal
+  - **‘getexpdata’** for import of the Animal List (containing animal
     *RFIDs*, corresponding Genotypes and optionally Environment) and
     Meta Behavior (containing columns *Animal* and the animal’s
     behavioral measures) as well as formal preparation;
-  - ‘*ploteachexp*’ for plotting of given experiments as boxplots and
+  - **‘ploteachexp’** for plotting of given experiments as boxplots and
     exporting the result as a PDF file;
-  - ‘*loopplotexp*’ for plotting all experiments within a dataset as
+  - **‘loopplotexp’** for plotting all experiments within a dataset as
     boxplots and exporting the results in one PDF file;
-  - ‘*heatmapexp*’ for plotting all experiments as a heatmap and
+  - **‘heatmapexp’** for plotting all experiments as a heatmap and
     producing a datamatrix with z-scored values;
-  - ‘*pcatsneexp*’ for PCA and tSNE results and cluster plots;
-  - ‘*colordiverger*’ for creating a customized diverging color palette
-    for visualization in different contexts.
+  - **‘pcatsneexp’** for PCA and tSNE results and cluster plots;
+  - **‘colordiverger’** for creating a customized diverging color
+    palette for visualization in different contexts.
 
-## Basic Principles of Functions and Dependences
+# Basic Principles of Functions and Dependences
 
 All functions (apart from ‘colordiverger’) take a **directory** as their
 input, which specifies the location of the **two files** “Animal
@@ -37,14 +52,14 @@ files. This includes:
     with these exact titles;
   - at least one column with information about ‘Animal’ (matching the
     information in the ‘RFID’ column in the Animal List), and at least
-    one behavioral test in your Meta Behavior with exact titles:
-    “Animal” “Meanspeed” “Rotations” “Center” “Alternations”
-    “Choices” “Context” “Cue” “FreezeBase” “Timeimmobile” “Baseline”
+    one behavioral test in your Meta Behavior with exact titles: k  
+    *“Animal” “Meanspeed” “Rotations” “Center” “Alternations” “Choices”
+    “Context” “Cue” “FreezeBase” “Timeimmobile” “Baseline”
     “inhibition70” “inhibition75” “inhibition80” “SucPref” “PlacePref”
-    “ReversalLearn” “Activity” “Nocturnal” “SerialLearn” (-\> this is
-    the current entity of all available experiment names for plotting;
-    if you need to add more experiments to this list, please refer to
-    the creator of this package)  
+    “ReversalLearn” “Activity” “Nocturnal” “SerialLearn”*  
+    *(-\> this is the current entity of all available experiment names
+    for plotting; if you need to add more experiments to this list,
+    please refer to the creator of this package)*  
 
 Further aspects can be customized depending on the specific function
 within that function.
@@ -62,46 +77,57 @@ still lead to an interpretable result -, PCA and tSNE will exclude all
 animals with missing values completely, and thus might look quite poor
 with low animal numbers\!
 
-## Examples
+# Examples
+
+In this section you can find some examples how the output of some of the
+functions could look like. Be aware of the fact that you can customize
+many aspects of these outputs; refer to the functions’ help pages for
+further information.  
 
 The following plot shows the general layout you can expect from the
-boxplot functions (‘ploteachexp’ and ‘loopplotexp’).  
+boxplot functions (**‘ploteachexp’** and **‘loopplotexp’**).
 
 ![](README_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->  
   
  
 
 The following map shows the general layout you can expect from the
-‘heatmapexp’ function (please note: random data; therefore most likely
-no convincing clustering).  
+**‘heatmapexp’** function (please note: random data; therefore most
+likely no convincing clustering).
 
 ![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->  
   
  
 
 The following maps show the general layout you can expect from the
-‘pcatsneexp’ function (please note: random data; therefore most likely
-no convincing clustering).
+**‘pcatsneexp’** function (please note: random data; therefore most
+likely no convincing
+clustering).
+
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-3-3.png)<!-- -->  
+  
  
 
-![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-3-3.png)<!-- -->
-
-## Installation
+# Installation
 
 If you want to install this package, the following lines of code provide
 a simple way that does not rely on any dependencies except from you
-having installed R and a GUI of your choice, e.g. RStudio. You may copy
-all of the lines in the following paragraph or skip certain lines if
-redundant.
+**having installed [R from
+CRAN](https://cran.r-project.org/mirrors.html) and ideally a GUI of your
+choice, e.g. [RStudio](https://rstudio.com/products/rstudio/)**. You may
+then copy all of the lines in the following paragraph or skip certain
+lines if redundant. For further information regarding usage of R, check
+out the following
+[introduction](https://cran.r-project.org/doc/contrib/Paradis-rdebuts_en.pdf)
+or any other introduction you may find
+useful.
 
 ``` r
 ## install package devtools to get - amongst others - functions to access ntbgraphics 
 ## (and every other package on GitHub)
 install.packages("devtools")
-## load package devtools
-library(devtools)
 ## install ntbgraphics with function 'install_github' from package devtools
-install_github("volkmannp/ntbgraphics")
+devtools::install_github("volkmannp/ntbgraphics")
 ## that is it!
 
 ## you are now ready to use ntbgraphics on your computer and may load it using...
@@ -116,14 +142,14 @@ R Archive Network). Since ntbgraphics is not part of CRAN, its
 installation needs another function (‘install\_github’) that in turn is
 part of the devtools package.
 
-## Demo
+# Demo
 
 After installing ntbgraphics, you probably want to explore the package
 with some random data or might simply be curious how to specifically
 deal with the functions provided. Thus, below you may find some lines of
 code that address this inquisitiveness. However, they do not explore
-every single possible option available for the functions of this
-package.  
+every single possible option available for the functions of this package
+which you may try out on your own.  
 
 The example data used for the following is provided within the package
 by being included in the installed files. You may simply copy all lines
@@ -131,17 +157,18 @@ and run them at once or copy indivdual lines/functions you have a
 particular interest in.  
 
 Note: Each function works independently of what you may have run in
-advance as long as ntbgraphics has been loaded. Although the example
+advance as long as ‘ntbgraphics’ has been loaded. Although the example
 shows the ‘getexpdata’ function as its very first, running it is not
 necessary for the other functions to work. This holds true for every
 single function\!    
 Also note that the directory within these lines aims for working on
-every computer by accessing the data provided within the package. If you
-want to work using your own files, the directory might rather look like
-this: “/Users/user/Documents/experiments/ntb/run1”
+every computer by accessing the data provided within this package. If
+you want to use your own files, the directory might rather look like
+this:
+“/Users/specificuser/Documents/experiments/ntb/run1”
 
 ``` r
-## clear workspace and load libraries (and functions)
+## clear workspace and load package (with all functions and necessary dependencies included automatically)
 rm(list = ls(all.names = TRUE))
 library(ntbgraphics)
 
@@ -164,20 +191,15 @@ loopplotexp(directory = paste0(system.file("extdata", package = "ntbgraphics", m
 data.animal.matrix <- heatmapexp(directory = paste0(system.file("extdata", package = "ntbgraphics",
                                                                 mustWork = T),"/"),
                                  analysis = "4arm_sd_tg",
-                                 orderlevelcond = "gtblock",
                                  saveplotdir = FALSE)
 
 ## (pcatsneexp) plot PCA and tSNE
 results <- pcatsneexp(directory = paste0(system.file("extdata/", package = "ntbgraphics", 
                                                      mustWork = T),"/"),
                       analysis = "4arm_sd_tg",
-                      perplex =  10,
+                      perplex =  7,
                       saveplotdir = FALSE)
 ### -> access results of pcatsneexp (requires to run pcatsneexp and store results as shown above)
 results_pca <- results[["pca_analysis"]]
 results_tsne <- results[["tsne_analysis"]]
-
-## (colordiverger) create own color palette
-my_own_palette <- colordiverger(color1 = "lightgoldenrod",
-                                color2 = "blue")
 ```
