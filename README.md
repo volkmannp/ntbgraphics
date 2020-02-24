@@ -25,9 +25,12 @@ visualization of NTB datasets:
 All functions (apart from ‘colordiverger’) take a **directory** as their
 input, which specifies the location of the **two files** “Animal
 List.xlsx” and “Meta Behavior.xlsx” (mind correct spelling of these
-files - functions rely on specific names as given\!). It is also
-important that you mind correct **formatting** of your excel files. This
-includes:
+files - functions rely on specific names as given\!). Furthermore, the
+user has to specify the kind of data provided, respectively the kind of
+analysis he wants to perform by defining the correct **analysis**.
+Please refer to the ‘getexpdata’ documentation for further information\!
+It is also important that you mind correct **formatting** of your excel
+files. This includes:
 
   - at least two columns with information about ‘RFID’ and
     ‘Genotype’/‘Environmental’/‘Treatment’ in your Animal List
