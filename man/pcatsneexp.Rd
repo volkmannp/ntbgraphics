@@ -85,7 +85,7 @@ default: FALSE}
 analyzed;
 default: FALSE}
 
-\item{perplex}{defines perplexity parameter (should not be bigger than >[nrow(matrix] - 1)/3<);
+\item{perplex}{defines perplexity parameter (should not be bigger than (nrow[matrix] - 1)/3);
 default: 1}
 
 \item{theta}{defines theta in the range of 0 to 1 (speed/accuracy trade-off;

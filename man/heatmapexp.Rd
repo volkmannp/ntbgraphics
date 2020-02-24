@@ -22,6 +22,8 @@ heatmapexp(
   cutree_cols = 1,
   cutree_rows = 1,
   palette = c("cRP", "viridis", "spaced"),
+  color_min = -5,
+  color_max = 5,
   colorbrewname = "PuOr",
   viridisname = inferno,
   color_spaced1 = "mediumpurple",
@@ -89,7 +91,7 @@ default: "unlimited"}
 
 \item{healthy_norm}{boolean that specifies if mean matrix should be normalized to healthy controls by
 subtracting all values by the healthy controls;
-only if return.matrix and return.matrix.mean are TRUE; not possible for 2arm experiments;
+only if return.matrix.mean is TRUE; not possible for 2arm experiments;
 default: FALSE}
 
 \item{directional}{boolean that specifies if directionality paradigm following RDoC concept should be
@@ -122,6 +124,15 @@ color design of the heatmap within quotation marks;
 available are: "cRP" (colorRampPalette from RColorBrewer), "viridis" (from viridis), "spaced" (from
 ntbgraphics) for own customizable diverging color palette;
 default: "cRP"}
+
+\item{color_min}{specifies the minimum value the palette will be prepared for; 
+you may check values within your matrix and adjust color_min and color_max accordingly; if color_min and
+color_max have the same distance to 0, 0 will be in the middle of the color range; if you set palette
+to "spaced" as well as color_min to -5 and color_max to 5, the palette will follow z-score graduations;
+default: -5}
+
+\item{color_max}{specifies the maximum value the palette will be prepared for;
+default: 5}
 
 \item{colorbrewname}{specifies the color palette used for drawing the heatmap within quotation marks;
 only if palette is "cRP";

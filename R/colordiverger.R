@@ -15,10 +15,10 @@
 #' @param color2 a color with the same demands as defined for color1;
 #' color2 defines the color for all positive values;
 #' default: "tan"
-#' @param min.val provide the minimum value of the dataset the palette will be prepared for;
+#' @param min.val specifies the minimum value of the dataset the palette will be prepared for;
 #' if you set min.val to -5 and max.val to 5, the palette will follow z-score graduations;
 #' default: -5
-#' @param max.val provide the maximum value of the dataset the palette will be prepared for;
+#' @param max.val specifies the maximum value of the dataset the palette will be prepared for;
 #' default: 5
 #' 
 #' @return customized diverging color palette

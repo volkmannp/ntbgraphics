@@ -64,7 +64,7 @@
 #' @param absoluteval boolean that specifies if only absolute values of z-scored matrix should be given and
 #' analyzed;
 #' default: FALSE
-#' @param perplex defines perplexity parameter (should not be bigger than >[nrow(matrix] - 1)/3<);
+#' @param perplex defines perplexity parameter (should not be bigger than (nrow[matrix] - 1)/3);
 #' default: 1
 #' @param theta defines theta in the range of 0 to 1 (speed/accuracy trade-off;
 #' increase for less accuracy, set to 0 for exact TSNE);

@@ -22,11 +22,11 @@ default: "mediumpurple"}
 color2 defines the color for all positive values;
 default: "tan"}
 
-\item{min.val}{provide the minimum value of the dataset the palette will be prepared for;
+\item{min.val}{specifies the minimum value of the dataset the palette will be prepared for;
 if you set min.val to -5 and max.val to 5, the palette will follow z-score graduations;
 default: -5}
 
-\item{max.val}{provide the maximum value of the dataset the palette will be prepared for;
+\item{max.val}{specifies the maximum value of the dataset the palette will be prepared for;
 default: 5}
 }
 \value{

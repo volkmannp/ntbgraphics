@@ -121,6 +121,8 @@ getexpdata <- function(directory,
                        directional = FALSE,
                        absoluteval = FALSE) {
   
+  ### directional = "emptcf4" is hidden <<<<<<<<<<<<
+  
   ### use switch() for more flexible level assignments and assert_that() for more complex error management
   
   # turn warnings off
@@ -155,20 +157,20 @@ getexpdata <- function(directory,
   # ensure that Animal is a character - important for joining both tables
   meta.data <- meta.data %>% 
     mutate_at(., vars("Animal"),list(as.character))
-    
+  
   # modify tables
   data.animal.joined <-  animal.list %>%
     # exclude NAs in Genotype
     filter(Genotype!= 'NA') %>%
     # merge conditions in case of 4arm
     `if`(analysis == "4arm_sd_tg", unite(., col="Condition", Genotype, Environmental, sep= "_", 
-                                      remove = FALSE), .) %>%
-    `if`(analysis == "4arm_sd_ko", unite(., col="Condition", Genotype, Environmental, sep= "_", 
-                                      remove = FALSE), .) %>%
-    `if`(analysis == "4arm_treat_tg", unite(., col="Condition", Genotype, Treatment, sep= "_", 
-                                      remove = FALSE), .) %>%
-    `if`(analysis == "4arm_treat_ko", unite(., col="Condition", Genotype, Treatment, sep= "_", 
                                          remove = FALSE), .) %>%
+    `if`(analysis == "4arm_sd_ko", unite(., col="Condition", Genotype, Environmental, sep= "_", 
+                                         remove = FALSE), .) %>%
+    `if`(analysis == "4arm_treat_tg", unite(., col="Condition", Genotype, Treatment, sep= "_", 
+                                            remove = FALSE), .) %>%
+    `if`(analysis == "4arm_treat_ko", unite(., col="Condition", Genotype, Treatment, sep= "_", 
+                                            remove = FALSE), .) %>%
     # rename column of interest in case of 2arm
     `if`(analysis == "2arm_tg", dplyr::rename(., Condition = Genotype), .) %>%
     `if`(analysis == "2arm_ko", dplyr::rename(., Condition = Genotype), .) %>% 
@@ -267,7 +269,7 @@ getexpdata <- function(directory,
                                            levels = c("wt_untreat", "ko_untreat",
                                                       "wt_treat", "ko_treat"))
   }
-       
+  
   if (analysis == "2arm_tg") {
     data.animal.joined$Condition <- factor(data.animal.joined$Condition,
                                            levels = c("wt", "tg"))
@@ -284,7 +286,7 @@ getexpdata <- function(directory,
     data.animal.joined$Condition <- factor(data.animal.joined$Condition,
                                            levels = c("untreat", "treat"))
   }
-       
+  
   if (orderlevelcond == "2rev") {
     if (analysis == "2arm_tg") {
       data.animal.joined$Condition <- factor(data.animal.joined$Condition, levels = c("tg", "wt"))
@@ -311,53 +313,53 @@ getexpdata <- function(directory,
     
     # standard matrix
     if (return.matrix.mean == FALSE) {
-    # arrange by condition and transform column RFID to rownames
-    data.animal.matrix <- data.animal.joined %>%
-      column_to_rownames(., "RFID")
-    
-    # unselect condition and transfrom into matrix, z-scoring
-    data.animal.matrix <- data.animal.matrix %>% 
-      select(nth(colnames(data.animal.matrix), 2):last(colnames(data.animal.matrix))) %>%
-      data.matrix() %>%
-      `if`(naomit == TRUE, na.omit(.), .) %>%
-      scale()
-    
-    # set NAs to zero
-    data.animal.matrix[is.na(data.animal.matrix)] <- 0
+      # arrange by condition and transform column RFID to rownames
+      data.animal.matrix <- data.animal.joined %>%
+        column_to_rownames(., "RFID")
+      
+      # unselect condition and transfrom into matrix, z-scoring
+      data.animal.matrix <- data.animal.matrix %>% 
+        select(nth(colnames(data.animal.matrix), 2):last(colnames(data.animal.matrix))) %>%
+        data.matrix() %>%
+        `if`(naomit == TRUE, na.omit(.), .) %>%
+        scale()
+      
+      # set NAs to zero
+      data.animal.matrix[is.na(data.animal.matrix)] <- 0
     }
     
     # matrix containing means for every group only
     if (return.matrix.mean == TRUE) {
-    length.col <- data.animal.joined %>% 
-      colnames() %>% 
-      length() %>% 
-      as.numeric()
+      length.col <- data.animal.joined %>% 
+        colnames() %>% 
+        length() %>% 
+        as.numeric()
+      
+      data.animal.matrix <- aggregate(data.animal.joined[, 3:length.col],
+                                      list(data.animal.joined$Condition), mean, na.rm = T)
+      
+      data.animal.matrix <- data.animal.matrix %>% 
+        data.frame() %>% 
+        column_to_rownames("Group.1") %>% 
+        data.matrix() %>% 
+        scale()
+      
+      # optionally subtract the wt_hc values from all other values
+      if (healthy_norm == TRUE && analysis == "4arm_sd_ko") {
+        data.animal.matrix <- sweep(data.animal.matrix, 2, data.animal.matrix["wt_hc",], "-")
+      }
+      if (healthy_norm == TRUE && analysis == "4arm_sd_tg") {
+        data.animal.matrix <- sweep(data.animal.matrix, 2, data.animal.matrix["wt_hc",], "-")
+      }
+      if (healthy_norm == TRUE && analysis == "4arm_treat_ko") {
+        data.animal.matrix <- sweep(data.animal.matrix, 2, data.animal.matrix["wt_untreat",], "-")
+      }
+      if (healthy_norm == TRUE && analysis == "4arm_treat_tg") {
+        data.animal.matrix <- sweep(data.animal.matrix, 2, data.animal.matrix["wt_untreat",], "-")
+      }
+    }
     
-    data.animal.matrix <- aggregate(data.animal.joined[, 3:length.col],
-                                  list(data.animal.joined$Condition), mean, na.rm = T)
-    
-    data.animal.matrix <- data.animal.matrix %>% 
-      data.frame() %>% 
-      column_to_rownames("Group.1") %>% 
-      data.matrix() %>% 
-      scale()
-    
-    # optionally subtract the wt_hc values from all other values
-    if (healthy_norm == TRUE && analysis == "4arm_sd_ko") {
-      data.animal.matrix <- sweep(data.animal.matrix, 2, data.animal.matrix["wt_hc",], "-")
-    }
-    if (healthy_norm == TRUE && analysis == "4arm_sd_tg") {
-      data.animal.matrix <- sweep(data.animal.matrix, 2, data.animal.matrix["wt_hc",], "-")
-    }
-    if (healthy_norm == TRUE && analysis == "4arm_treat_ko") {
-      data.animal.matrix <- sweep(data.animal.matrix, 2, data.animal.matrix["wt_untreat",], "-")
-    }
-    if (healthy_norm == TRUE && analysis == "4arm_treat_tg") {
-      data.animal.matrix <- sweep(data.animal.matrix, 2, data.animal.matrix["wt_untreat",], "-")
-    }
-    }
-    
-    # inverse z-scoring accordingly to directionality paradigm
+    # inverse z-scoring according to directionality paradigm
     col.names.actual <- colnames(data.animal.matrix)
     
     if ('Rotations' %in% col.names.actual == TRUE && directional == TRUE) {
@@ -379,6 +381,19 @@ getexpdata <- function(directory,
       data.animal.matrix[, "Choices"] <- data.animal.matrix[, "Choices"]*-1
     }
     if ("Meanspeed" %in% col.names.actual == TRUE && directional == TRUE) {
+      data.animal.matrix[, "Meanspeed"] <- data.animal.matrix[, "Meanspeed"]*-1
+    }
+    
+    # inverse z-scoring according to empirical Tcf4 paradigm
+    col.names.actual <- colnames(data.animal.matrix)
+    
+    if ('Center' %in% col.names.actual == TRUE && directional == "emptcf4") {
+      data.animal.matrix[, "Center"] <- data.animal.matrix[, "Center"]*-1
+    }
+    if ('Choices' %in% col.names.actual == TRUE && directional == "emptcf4") {
+      data.animal.matrix[, "Choices"] <- data.animal.matrix[, "Choices"]*-1
+    }
+    if ("Meanspeed" %in% col.names.actual == TRUE && directional == "emptcf4") {
       data.animal.matrix[, "Meanspeed"] <- data.animal.matrix[, "Meanspeed"]*-1
     }
     

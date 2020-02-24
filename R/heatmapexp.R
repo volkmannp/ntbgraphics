@@ -62,7 +62,7 @@
 #' default: FALSE
 #' @param healthy_norm boolean that specifies if mean matrix should be normalized to healthy controls by
 #' subtracting all values by the healthy controls;
-#' only if return.matrix and return.matrix.mean are TRUE; not possible for 2arm experiments;
+#' only if return.matrix.mean is TRUE; not possible for 2arm experiments;
 #' default: FALSE
 #' @param directional boolean that specifies if directionality paradigm following RDoC concept should be
 #' applied; if TRUE columns 'Rotations', 'FreezeBase', 'Timeimmobile', 'Baseline', 'Activity', 'Choices' and
@@ -88,6 +88,13 @@
 #' available are: "cRP" (colorRampPalette from RColorBrewer), "viridis" (from viridis), "spaced" (from
 #' ntbgraphics) for own customizable diverging color palette;
 #' default: "cRP"
+#' @param color_min specifies the minimum value the palette will be prepared for; 
+#' you may check values within your matrix and adjust color_min and color_max accordingly; if color_min and
+#' color_max have the same distance to 0, 0 will be in the middle of the color range; if you set palette
+#' to "spaced" as well as color_min to -5 and color_max to 5, the palette will follow z-score graduations;
+#' default: -5 
+#' @param color_max specifies the maximum value the palette will be prepared for;
+#' default: 5
 #' @param colorbrewname specifies the color palette used for drawing the heatmap within quotation marks;
 #' only if palette is "cRP";
 #' you may check your options with 'display.brewer.all()';
@@ -149,6 +156,8 @@ heatmapexp <- function(directory,
                        cutree_cols = 1,
                        cutree_rows = 1,
                        palette = c("cRP", "viridis", "spaced"),
+                       color_min = -5,
+                       color_max =5,
                        colorbrewname = "PuOr",
                        viridisname = inferno,
                        color_spaced1 = "mediumpurple",
@@ -168,7 +177,7 @@ heatmapexp <- function(directory,
         # check if saveplotdir exists
         if (saveplotdir != FALSE && dir.exists(saveplotdir) == FALSE) {
                 stop(sprintf("The path for saving the heatmap as specified in saveplotdir `%s` does not exist!", 
-                 saveplotdir))
+                             saveplotdir))
         }
         
         # get data
@@ -176,7 +185,7 @@ heatmapexp <- function(directory,
                                          ordercolumns_manual, exclude.animals, 
                                          orderlevelcond = orderlevelcond, acceptable.nas = acceptable.nas, 
                                          return.matrix = T, return.matrix.mean, healthy_norm, 
-                                         naomit = FALSE, directional, absoluteval) 
+                                         naomit = FALSE, directional = directional, absoluteval) 
         
         # prepare annotation table and colors of groups by analysis type
         if (return.matrix.mean == TRUE && analysis == "4arm_sd_tg") {
@@ -230,7 +239,7 @@ heatmapexp <- function(directory,
                         ko_untreat_mean="#84dcff",
                         ko_treat_mean="#1e24fc")))
                 
-        # define order of groups by analysis type
+                # define order of groups by analysis type
         } else if (analysis == "2arm_tg") {
                 annotation <- list(Condition=(c(
                         wt = "#3c3c3c",
@@ -304,13 +313,13 @@ heatmapexp <- function(directory,
         
         # define legend label and size
         if(absoluteval == FALSE) {
-                legend_labels = c("-3", "-1.5", "0", "+1.5", "+3", "+4.5")
+                legend_labels = c("-4.5", "-3", "-1.5", "0", "+1.5", "+3", "+4.5")
         }
         if(absoluteval == TRUE) {
                 legend_labels = c("0", "0.9", "+1.8", "2.7", "+3.6", "+4.5")
         }
         if(absoluteval == FALSE) {
-                legend_breaks = seq(-3, 4.5, by = 1.5)
+                legend_breaks = seq(-4.5, 4.5, by = 1.5)
         }
         if(absoluteval == TRUE) {
                 legend_breaks = seq(0, 4.5, by = 0.9)
@@ -320,13 +329,17 @@ heatmapexp <- function(directory,
         if (palette == "cRP") {
                 color_spec = colorRampPalette(
                         rev(brewer.pal(n = 11, name = colorbrewname)))(length(seq(0, 20, by = 1)))
+                breaksList <- seq(color_min, color_max, length.out = 21)
+                
         }
         if (palette == "viridis") {
                 color_spec = viridisname(n = 21, begin = 0.15, end = 1)
+                breaksList <- seq(color_min, color_max, length.out = 21)
         }
         if (palette == "spaced") {
                 color_spec <- colordiverger(color1 = color_spaced1, color2 = color_spaced2,
-                                            min.val = -5, max.val = 5)
+                                            min.val = color_min, max.val = color_max)
+                breaksList <- seq(color_min, color_max, length.out = (color_max-color_min)*100)
         }
         
         # introducing breaks if columns are ordered following rdoc and not being clustered
@@ -351,6 +364,7 @@ heatmapexp <- function(directory,
                             clustering_distance_rows = "manhattan",
                             clustering_distance_cols = "manhattan",
                             color = color_spec,
+                            breaks = breaksList,
                             legend_breaks = legend_breaks,
                             legend_labels = legend_labels,
                             border_color = F,
