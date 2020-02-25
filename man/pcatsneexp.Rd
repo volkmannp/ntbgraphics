@@ -6,6 +6,8 @@
 \usage{
 pcatsneexp(
   directory,
+  pca = TRUE,
+  tsne = TRUE,
   analysis = c("2arm_ko", "2arm_tg", "2arm_sd", "2arm_treat", "4arm_sd_ko",
     "4arm_sd_tg", "4arm_treat_ko", "4arm_treat_tg"),
   ordercolumns = c("ntb", "rdoc", "manual"),
@@ -30,6 +32,12 @@ pcatsneexp(
 \item{directory}{specifies file directory of 'Meta Behavior' and 'Animal List' files within quotation 
 marks (mind correct spelling of both files and 'directory'!);
 no default}
+
+\item{pca}{boolean the defines if pca should be executed;
+default: TRUE}
+
+\item{tsne}{boolean the defines if tsne should be executed;
+default: TRUE}
 
 \item{analysis}{specifies the kind of experiment performed within quotation marks;
 "2arm_ko","2arm_tg", "2arm_sd", "2arm_treat",

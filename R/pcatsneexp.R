@@ -13,6 +13,10 @@
 #' @param directory specifies file directory of 'Meta Behavior' and 'Animal List' files within quotation 
 #' marks (mind correct spelling of both files and 'directory'!);
 #' no default
+#' @param pca boolean the defines if pca should be executed;
+#' default: TRUE
+#' @param tsne boolean the defines if tsne should be executed;
+#' default: TRUE
 #' @param analysis specifies the kind of experiment performed within quotation marks;
 #' "2arm_ko","2arm_tg", "2arm_sd", "2arm_treat",
 #' "4arm_sd_ko", "4arm_sd_tg", "4arm_treat_ko", "4arm_treat_tg"
@@ -112,6 +116,8 @@
 
 
 pcatsneexp <- function(directory, 
+                       pca = TRUE,
+                       tsne = TRUE,
                        analysis = c("2arm_ko","2arm_tg", "2arm_sd", "2arm_treat",
                                     "4arm_sd_ko", "4arm_sd_tg", "4arm_treat_ko", "4arm_treat_tg"),
                        ordercolumns = c("ntb", "rdoc", "manual"),
@@ -133,6 +139,10 @@ pcatsneexp <- function(directory,
   
   # turn warnings off
   options(warn=-1)
+  
+  if (pca == FALSE && tsne == FALSE) {
+    stop("You set both 'pca' and 'tsne' to FALSE! One of them has to be set to TRUE!")
+  }
   
   # check if saveplotdir exists
   if (saveplotdir != FALSE && dir.exists(saveplotdir) == FALSE) {
@@ -192,200 +202,204 @@ pcatsneexp <- function(directory,
   )$abbreviations)
 
   
-  ### PCA
-  ## perform PCA
-  pca_analysis <- prcomp(data.animal.matrix)
-  ## prepare plotting
-  pca_analysis_plot <- cbind(data.animal.list, pca_analysis$x)
-  rownames(pca_analysis$x) <- data.animal.list$Condition
+  if(pca == TRUE) {
+    ### PCA
+    ## perform PCA
+    pca_analysis <- prcomp(data.animal.matrix)
+    ## prepare plotting
+    pca_analysis_plot <- cbind(data.animal.list, pca_analysis$x)
+    rownames(pca_analysis$x) <- data.animal.list$Condition
+    
+    ## PCA standard plot
+    pca_plot <- ggplot(pca_analysis_plot, aes(x = PC1, y = PC2, color = data.animal.list$Condition,
+                                              fill = data.animal.list$Condition)) +
+      theme_bw() +
+      theme_bw() +
+      # customize title position and size
+      theme(plot.title = element_text(hjust = 0.5)) +
+      theme(plot.title = element_text(size = 35)) +
+      # all elements blank
+      theme(panel.grid.major = element_blank(),
+            panel.border = element_blank(),
+            legend.key = element_blank(),
+            strip.background = element_blank(),
+            # customize axes
+            axis.line.y = element_line(colour = "black", size=1),
+            axis.line.x = element_line(colour = "black", size=1),
+            # axis.ticks.x = element_line(colour = "black", size=0.6),
+            axis.text.x = element_text(angle=0, size=15),
+            axis.text.y = element_text(angle=0, size=15),
+            text = element_text(size=25),
+            # customize legend
+            legend.text = element_text(size=20),
+            legend.title = element_text(size=25)) +
+      `if`(ellipse_pca == TRUE, stat_ellipse(aes(x = PC1, y = PC2, color = data.animal.list$Condition),
+                                             alpha = ellalpha,
+                                             geom = "polygon",
+                                             size = 0.85,
+                                             type = "t", 
+                                             level = ellconf,
+                                             segments = 51,
+                                             inherit.aes = TRUE,
+                                             show.legend = FALSE)) +
+      # colors of points
+      `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
+           scale_color_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
+      `if`(grepl("4arm", analysis) && orderlevelcond == "etblock", 
+           scale_color_manual(values = c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
+      `if`(grepl("4arm", analysis) && orderlevelcond == "other", 
+           scale_color_manual(values = c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
+      `if`(grepl("2arm", analysis), 
+           scale_color_manual(values = c("#b4b4b4", "#1e24fc"))) +
+      # colors of fillings
+      `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
+           scale_fill_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
+      `if`(grepl("4arm", analysis) && orderlevelcond == "etblock", 
+           scale_fill_manual(values = c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
+      `if`(grepl("4arm", analysis) && orderlevelcond == "other", 
+           scale_fill_manual(values = c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
+      `if`(grepl("2arm", analysis), 
+           scale_fill_manual(values = c("#b4b4b4", "#1e24fc"))) +
+      # point size
+      geom_point(size = 4) +
+      # customize legend title
+      labs(color = "Legend") + 
+      # hide legend for fillings
+      guides(fill = FALSE) +
+      # title
+      ggtitle(pastetitle)
+    print(pca_plot)
+    
+    ## PCA arrow plot
+    pca_plot_arrow <- ggbiplot(pca_analysis, 
+                               color = data.animal.list$Condition,
+                               groups= data.animal.list$Condition,
+                               varname.adjust = 3,
+                               fill = data.animal.list$Condition) +
+      theme_bw() +
+      # customize title position and size
+      theme(plot.title = element_text(hjust = 0.5)) +
+      theme(plot.title = element_text(size = 35)) +
+      # all elements blank
+      theme(panel.grid.major = element_blank(),
+            panel.border = element_blank(),
+            legend.key = element_blank(),
+            strip.background = element_blank(),
+            # customize axes
+            axis.line.y = element_line(colour = "black", size=1),
+            axis.line.x = element_line(colour = "black", size=1),
+            # axis.ticks.x = element_line(colour = "black", size=0.6),
+            axis.text.x = element_text(angle=0, size=15),
+            axis.text.y = element_text(angle=0, size=15),
+            text = element_text(size=18),
+            # customize legend
+            legend.text = element_text(size=20),
+            legend.title = element_text(size=25)) +
+      stat_ellipse(aes(x = xvar, y = yvar, color = data.animal.list$Condition,
+                       fill = data.animal.list$Condition),
+                   alpha = ellalpha,
+                   geom = "polygon",
+                   size = 0.85,
+                   type = "t",
+                   level = ellconf,
+                   segments = 51,
+                   inherit.aes = FALSE,
+                   show.legend = FALSE) +
+      # colors of points
+      `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
+           scale_color_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
+      `if`(grepl("4arm", analysis) && orderlevelcond == "etblock", 
+           scale_color_manual(values = c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
+      `if`(grepl("4arm", analysis) && orderlevelcond == "other", 
+           scale_color_manual(values = c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
+      `if`(grepl("2arm", analysis), 
+           scale_color_manual(values = c("#b4b4b4", "#1e24fc"))) +
+      # colors of fillings
+      `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
+           scale_fill_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
+      `if`(grepl("4arm", analysis) && orderlevelcond == "etblock", 
+           scale_fill_manual(values = c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
+      `if`(grepl("4arm", analysis) && orderlevelcond == "other", 
+           scale_fill_manual(values = c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
+      `if`(grepl("2arm", analysis), 
+           scale_fill_manual(values = c("#b4b4b4", "#1e24fc"))) +
+      geom_point(aes(colour=data.animal.list$Condition), size = 4) +
+      # point size and title
+      labs(color = "Legend") + 
+      ggtitle(paste(pastetitle, "Arrows"))
+    print(pca_plot_arrow)  
+  }
   
-  ## PCA standard plot
-  pca_plot <- ggplot(pca_analysis_plot, aes(x = PC1, y = PC2, color = data.animal.list$Condition,
-                                            fill = data.animal.list$Condition)) +
-    theme_bw() +
-    theme_bw() +
-    # customize title position and size
-    theme(plot.title = element_text(hjust = 0.5)) +
-    theme(plot.title = element_text(size = 35)) +
-    # all elements blank
-    theme(panel.grid.major = element_blank(),
-          panel.border = element_blank(),
-          legend.key = element_blank(),
-          strip.background = element_blank(),
-          # customize axes
-          axis.line.y = element_line(colour = "black", size=1),
-          axis.line.x = element_line(colour = "black", size=1),
-          # axis.ticks.x = element_line(colour = "black", size=0.6),
-          axis.text.x = element_text(angle=0, size=15),
-          axis.text.y = element_text(angle=0, size=15),
-          text = element_text(size=25),
-          # customize legend
-          legend.text = element_text(size=20),
-          legend.title = element_text(size=25)) +
-    `if`(ellipse_pca == TRUE, stat_ellipse(aes(x = PC1, y = PC2, color = data.animal.list$Condition),
-                                           alpha = ellalpha,
-                                           geom = "polygon",
-                                           size = 0.85,
-                                           type = "t", 
-                                           level = ellconf,
-                                           segments = 51,
-                                           inherit.aes = TRUE,
-                                           show.legend = FALSE)) +
-    # colors of points
-    `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
-         scale_color_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
-    `if`(grepl("4arm", analysis) && orderlevelcond == "etblock", 
-         scale_color_manual(values = c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
-    `if`(grepl("4arm", analysis) && orderlevelcond == "other", 
-         scale_color_manual(values = c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
-    `if`(grepl("2arm", analysis), 
-         scale_color_manual(values = c("#b4b4b4", "#1e24fc"))) +
-    # colors of fillings
-    `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
-         scale_fill_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
-    `if`(grepl("4arm", analysis) && orderlevelcond == "etblock", 
-         scale_fill_manual(values = c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
-    `if`(grepl("4arm", analysis) && orderlevelcond == "other", 
-         scale_fill_manual(values = c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
-    `if`(grepl("2arm", analysis), 
-         scale_fill_manual(values = c("#b4b4b4", "#1e24fc"))) +
-    # point size
-    geom_point(size = 4) +
-    # customize legend title
-    labs(color = "Legend") + 
-    # hide legend for fillings
-    guides(fill = FALSE) +
-    # title
-    ggtitle(pastetitle)
-  print(pca_plot)
+  if(tsne == TRUE) {
+    ### tSNE
+    ## perform tSNE
+    tsne_analysis <- Rtsne(data.animal.matrix, check_duplicates = FALSE, pca = FALSE, 
+                           perplexity = perplex,
+                           theta = theta, dims=2)
+    ## prepare plotting
+    d_tsne_analysis <- as.data.frame(tsne_analysis$Y)
+    tsne_analysisplot <- cbind(data.animal.list, d_tsne_analysis)
+    
+    ## plot tSNE
+    tsne_plot <- ggplot(tsne_analysisplot, aes(x=V1, y=V2, color = data.animal.list$Condition,
+                                               fill = data.animal.list$Condition)) +
+      theme_bw() +
+      labs(fill = "Legend") +
+      # customize title position and size
+      theme(plot.title = element_text(hjust = 0.5)) +
+      theme(plot.title = element_text(size = 35)) +
+      # all elements blank
+      theme(panel.grid.major = element_blank(),
+            panel.border = element_blank(),
+            legend.key = element_blank(),
+            strip.background = element_blank(),
+            # customize axes
+            axis.line.y = element_line(colour = "black", size=1),
+            axis.line.x = element_line(colour = "black", size=1),
+            # axis.ticks.x = element_line(colour = "black", size=0.6),
+            axis.text.x = element_text(angle=0, size=15),
+            axis.text.y = element_text(angle=0, size=15),
+            text = element_text(size=25),
+            # customize legend
+            legend.text = element_text(size=20),
+            legend.title = element_text(size=25)) +
+      `if`(ellipse_tsne == TRUE, stat_ellipse(aes(x = V1, y = V2, color = data.animal.list$Condition),
+                                              alpha = ellalpha,
+                                              geom = "polygon",
+                                              size = 0.85,
+                                              type = "t", 
+                                              level = ellconf,
+                                              segments = 51,
+                                              inherit.aes = TRUE,
+                                              show.legend = FALSE)) +
+      # colors of points
+      `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
+           scale_color_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
+      `if`(grepl("4arm", analysis) && orderlevelcond == "etblock", 
+           scale_color_manual(values = c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
+      `if`(grepl("4arm", analysis) && orderlevelcond == "other", 
+           scale_color_manual(values = c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
+      `if`(grepl("2arm", analysis), 
+           scale_color_manual(values = c("#b4b4b4", "#1e24fc"))) +
+      # colors of fillings
+      `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
+           scale_fill_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
+      `if`(grepl("4arm", analysis) && orderlevelcond == "etblock", 
+           scale_fill_manual(values = c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
+      `if`(grepl("4arm", analysis) && orderlevelcond == "other", 
+           scale_fill_manual(values = c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
+      `if`(grepl("2arm", analysis), 
+           scale_fill_manual(values = c("#b4b4b4", "#1e24fc"))) +
+      # point size and title
+      geom_point(size = 4) +
+      labs(color = "Legend") + 
+      ggtitle(pastetitle2)
+    #tsne_plot <-  tsne_plot + scale_fill_discrete(name = "New Legend Title")
+    print(tsne_plot)
+  }
   
-  ## PCA arrow plot
-  pca_plot_arrow <- ggbiplot(pca_analysis, 
-                             color = data.animal.list$Condition,
-                             groups= data.animal.list$Condition,
-                             varname.adjust = 3,
-                             fill = data.animal.list$Condition) +
-    theme_bw() +
-    # customize title position and size
-    theme(plot.title = element_text(hjust = 0.5)) +
-    theme(plot.title = element_text(size = 35)) +
-    # all elements blank
-    theme(panel.grid.major = element_blank(),
-          panel.border = element_blank(),
-          legend.key = element_blank(),
-          strip.background = element_blank(),
-          # customize axes
-          axis.line.y = element_line(colour = "black", size=1),
-          axis.line.x = element_line(colour = "black", size=1),
-          # axis.ticks.x = element_line(colour = "black", size=0.6),
-          axis.text.x = element_text(angle=0, size=15),
-          axis.text.y = element_text(angle=0, size=15),
-          text = element_text(size=18),
-          # customize legend
-          legend.text = element_text(size=20),
-          legend.title = element_text(size=25)) +
-    stat_ellipse(aes(x = xvar, y = yvar, color = data.animal.list$Condition,
-                     fill = data.animal.list$Condition),
-                 alpha = ellalpha,
-                 geom = "polygon",
-                 size = 0.85,
-                 type = "t",
-                 level = ellconf,
-                 segments = 51,
-                 inherit.aes = FALSE,
-                 show.legend = FALSE) +
-    # colors of points
-    `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
-         scale_color_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
-    `if`(grepl("4arm", analysis) && orderlevelcond == "etblock", 
-         scale_color_manual(values = c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
-    `if`(grepl("4arm", analysis) && orderlevelcond == "other", 
-         scale_color_manual(values = c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
-    `if`(grepl("2arm", analysis), 
-         scale_color_manual(values = c("#b4b4b4", "#1e24fc"))) +
-    # colors of fillings
-    `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
-         scale_fill_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
-    `if`(grepl("4arm", analysis) && orderlevelcond == "etblock", 
-         scale_fill_manual(values = c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
-    `if`(grepl("4arm", analysis) && orderlevelcond == "other", 
-         scale_fill_manual(values = c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
-    `if`(grepl("2arm", analysis), 
-         scale_fill_manual(values = c("#b4b4b4", "#1e24fc"))) +
-    geom_point(aes(colour=data.animal.list$Condition), size = 4) +
-    # point size and title
-    labs(color = "Legend") + 
-    ggtitle(paste(pastetitle, "Arrows"))
-  print(pca_plot_arrow)  
-  
-  
-  ### tSNE
-  ## perform tSNE
-  tsne_analysis <- Rtsne(data.animal.matrix, check_duplicates = FALSE, pca = FALSE, 
-                         perplexity = perplex,
-                         theta = theta, dims=2)
-  ## prepare plotting
-  d_tsne_analysis <- as.data.frame(tsne_analysis$Y)
-  tsne_analysisplot <- cbind(data.animal.list, d_tsne_analysis)
-  
-  ## plot tSNE
-  tsne_plot <- ggplot(tsne_analysisplot, aes(x=V1, y=V2, color = data.animal.list$Condition,
-                                             fill = data.animal.list$Condition)) +
-    theme_bw() +
-    labs(fill = "Legend") +
-    # customize title position and size
-    theme(plot.title = element_text(hjust = 0.5)) +
-    theme(plot.title = element_text(size = 35)) +
-    # all elements blank
-    theme(panel.grid.major = element_blank(),
-          panel.border = element_blank(),
-          legend.key = element_blank(),
-          strip.background = element_blank(),
-          # customize axes
-          axis.line.y = element_line(colour = "black", size=1),
-          axis.line.x = element_line(colour = "black", size=1),
-          # axis.ticks.x = element_line(colour = "black", size=0.6),
-          axis.text.x = element_text(angle=0, size=15),
-          axis.text.y = element_text(angle=0, size=15),
-          text = element_text(size=25),
-          # customize legend
-          legend.text = element_text(size=20),
-          legend.title = element_text(size=25)) +
-    `if`(ellipse_tsne == TRUE, stat_ellipse(aes(x = V1, y = V2, color = data.animal.list$Condition),
-                                            alpha = ellalpha,
-                                            geom = "polygon",
-                                            size = 0.85,
-                                            type = "t", 
-                                            level = ellconf,
-                                            segments = 51,
-                                            inherit.aes = TRUE,
-                                            show.legend = FALSE)) +
-    # colors of points
-    `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
-         scale_color_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
-    `if`(grepl("4arm", analysis) && orderlevelcond == "etblock", 
-         scale_color_manual(values = c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
-    `if`(grepl("4arm", analysis) && orderlevelcond == "other", 
-         scale_color_manual(values = c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
-    `if`(grepl("2arm", analysis), 
-         scale_color_manual(values = c("#b4b4b4", "#1e24fc"))) +
-    # colors of fillings
-    `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
-         scale_fill_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
-    `if`(grepl("4arm", analysis) && orderlevelcond == "etblock", 
-         scale_fill_manual(values = c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
-    `if`(grepl("4arm", analysis) && orderlevelcond == "other", 
-         scale_fill_manual(values = c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
-    `if`(grepl("2arm", analysis), 
-         scale_fill_manual(values = c("#b4b4b4", "#1e24fc"))) +
-    # point size and title
-    geom_point(size = 4) +
-    labs(color = "Legend") + 
-    ggtitle(pastetitle2)
-  #tsne_plot <-  tsne_plot + scale_fill_discrete(name = "New Legend Title")
-  print(tsne_plot)
-  
-  if (saveplotdir != FALSE) {
+  # save plots
+  if (saveplotdir != FALSE && pca == TRUE && tsne == TRUE) {
     pdf(paste0(saveplotdir, "/PCA&tSNE.pdf"), width = 7, height = 5)
     print(pca_plot)
     print(pca_plot_arrow)
@@ -393,9 +407,30 @@ pcatsneexp <- function(directory,
     dev.off()
   }
   
-  # return a named list for access of both experiments
-  return(list(pca_analysis = pca_analysis, 
+  if (saveplotdir != FALSE && pca == TRUE && tsne == FALSE) {
+    pdf(paste0(saveplotdir, "/PCA.pdf"), width = 7, height = 5)
+    print(pca_plot)
+    print(pca_plot_arrow)
+    dev.off()
+  }
+  
+  if (saveplotdir != FALSE && pca == FALSE && tsne == TRUE) {
+    pdf(paste0(saveplotdir, "/tSNE.pdf"), width = 7, height = 5)
+    print(tsne_plot)
+    dev.off()
+  }
+  
+  # return a named list for access of experiments
+  if (pca == TRUE && tsne == TRUE) {
+    return(list(pca_analysis = pca_analysis, 
               tsne_analysis = tsne_analysis))
+  }
+  if (pca == TRUE && tsne == FALSE) {
+    return(pca_analysis = pca_analysis)
+  }
+  if (pca == FALSE && tsne == TRUE) {
+    return(tsne_analysis = tsne_analysis)
+  }
   
   # turn warnings back on
   options(warn=0)
