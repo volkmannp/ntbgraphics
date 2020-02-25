@@ -4,8 +4,7 @@ ReadMe for ntbgraphics
 # Table of contents
 
   - [Introduction](#introduction)
-  - [Basic Principles of Functions and
-    Dependencies](#basic-principles-of-functions-and-dependencies)
+  - [Basic Principles](#basic-principles)
   - [Examples](#examples)
   - [Installation](#installation)
   - [Demo](#demo)
@@ -35,7 +34,9 @@ visualization of NTB datasets:
   - **‘colordiverger’** for creating a customized diverging color
     palette for visualization in different contexts.
 
-# Basic Principles of Functions and Dependencies
+[Go to Top](#top)
+
+# Basic Principles
 
 All functions (apart from ‘colordiverger’) take a **directory** as their
 input, which specifies the location of the **two files** “Animal
@@ -89,6 +90,8 @@ still lead to an interpretable result -, PCA and tSNE will exclude all
 animals with missing values completely, and thus might look quite poor
 with low animal numbers\!
 
+[Go to Top](#top)
+
 # Examples
 
 In this section you can find some examples how the output of some of the
@@ -113,12 +116,13 @@ likely no convincing clustering).
   
  
 
-The following maps show the general layout you can expect from the
+The following plots show the general layout you can expect from the
 **‘pcatsneexp’** function (please note: random data; therefore most
 likely no convincing
 clustering).
 
 ![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-4-2.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-4-3.png)<!-- -->  
+[Go to Top](#top)  
   
  
 
@@ -155,6 +159,8 @@ installation of devtools due to its availability on CRAN (Comprehensive
 R Archive Network). Since ntbgraphics is not part of CRAN, its
 installation needs another function (‘install\_github’) that in turn is
 part of the devtools package.
+
+[Go to Top](#top)
 
 # Demo
 
@@ -217,3 +223,5 @@ results <- pcatsneexp(directory = paste0(system.file("extdata/", package = "ntbg
 results_pca <- results[["pca_analysis"]]
 results_tsne <- results[["tsne_analysis"]]
 ```
+
+[Go to Top](#top)

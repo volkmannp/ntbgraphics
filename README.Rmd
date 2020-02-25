@@ -8,13 +8,13 @@ output:
 
 # Table of contents
 * [Introduction]
-* [Basic Principles of Functions and Dependencies]
+* [Basic Principles]
 * [Examples]
 * [Installation]
 * [Demo]
 
 
-# Introduction
+# Introduction 
 
 The following introduction to the R package 'ntbgraphics' aims not only for expounding its features but also for facilitating access to it, even for relatively unexperienced R users. Please refer to the [Installation] part if you have not yet downloaded R itself.
 
@@ -26,8 +26,10 @@ This package includes functions for importing, transforming and visualization of
   - **'heatmapexp'** for plotting all experiments as a heatmap and producing a datamatrix with z-scored values;
   - **'pcatsneexp'** for PCA and tSNE results and cluster plots;
   - **'colordiverger'** for creating a customized diverging color palette for visualization in different contexts.
-
-# Basic Principles of Functions and Dependencies
+  
+[Go to Top](#top)
+  
+# Basic Principles
 
 All functions (apart from 'colordiverger') take a **directory** as their input, which specifies the location of the **two files** "Animal List.xlsx" and "Meta Behavior.xlsx" (mind correct spelling of these files - functions rely on specific names as given!). Furthermore, the user has to specify the kind of data provided, respectively the kind of analysis he wants to perform by defining the correct **analysis**. Please refer to the 'getexpdata' documentation for further information! 
 
@@ -58,6 +60,8 @@ All functions externally work on their own, which means that they may rely inter
 
 For heatmapping and especially for PCA and tSNE, it is important to have a sufficient number of animals for each group that ran through all of the tests that have been performed in that cohort or that will be analyzed. 
 While 'heatmapexp' will display NAs (missing values) as 0 from the z-scored matrix and therefor simply in a neutral color - which will still lead to an interpretable result -, PCA and tSNE will exclude all animals with missing values completely, and thus might look quite poor with low animal numbers!
+
+[Go to Top](#top)
  
 # Examples
 
@@ -91,9 +95,7 @@ a <- heatmapexp(directory = paste0(system.file("extdata", package = "ntbgraphics
                 orderlevelcond = "gtblock",
                 acceptable.nas = 0,
                 cutree_rows = 4,
-                palette = "spaced",
-                color_min = -2,
-                color_max = 2,
+                palette = "cRP",
                 title = "Test Data Heatmap",
                 saveplotdir = FALSE)
 ```
@@ -101,7 +103,7 @@ a <- heatmapexp(directory = paste0(system.file("extdata", package = "ntbgraphics
 \
 \   
 
-The following maps show the general layout you can expect from the **'pcatsneexp'** function (please note: random data; therefore most likely no convincing clustering).
+The following plots show the general layout you can expect from the **'pcatsneexp'** function (please note: random data; therefore most likely no convincing clustering).
 
 ``` {r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -117,8 +119,11 @@ b <- pcatsneexp(directory = paste0(system.file("extdata/", package = "ntbgraphic
                 saveplotdir = FALSE)
 ```
 \
+[Go to Top](#top)
+\
 \
 \ 
+
 
 # Installation
 
@@ -141,6 +146,8 @@ library(ntbgraphics)
 ```
 
 For your information: You can use the command 'install.packages' for the installation of devtools due to its availability on CRAN (Comprehensive R Archive Network). Since ntbgraphics is not part of CRAN, its installation needs another function ('install_github') that in turn is part of the devtools package.
+
+[Go to Top](#top)
 
 # Demo
 
@@ -193,3 +200,5 @@ results_pca <- results[["pca_analysis"]]
 results_tsne <- results[["tsne_analysis"]]
 
 ```
+
+[Go to Top](#top)
