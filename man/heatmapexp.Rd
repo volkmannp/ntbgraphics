@@ -28,6 +28,7 @@ heatmapexp(
   viridisname = inferno,
   color_spaced1 = "mediumpurple",
   color_spaced2 = "tan",
+  border_color = FALSE,
   title = "Heatmap",
   saveplotdir = directory
 )
@@ -126,9 +127,8 @@ ntbgraphics) for own customizable diverging color palette;
 default: "cRP"}
 
 \item{color_min}{specifies the minimum value the palette will be prepared for; 
-you may check values within your matrix and adjust color_min and color_max accordingly; if color_min and
-color_max have the same distance to 0, 0 will be in the middle of the color range; if you set palette
-to "spaced" as well as color_min to -5 and color_max to 5, the palette will follow z-score graduations;
+you may check values within your matrix and adjust color_min and color_max accordingly; the palette
+follows z-score graduations;
 default: -5}
 
 \item{color_max}{specifies the maximum value the palette will be prepared for;
@@ -154,6 +154,10 @@ default: "mediumpurple"}
 \item{color_spaced2}{specifies color2 of own diverging color palette within quotation marks;
 only if palette is "spaced";
 default: "tan"}
+
+\item{border_color}{defines color of border of each cell within quotation marks;
+if FALSE is provided, no borders will be drawn;
+default: FALSE}
 
 \item{title}{defines the title of the heatmap; character within quotation marks;
 default: "Heatmap"}

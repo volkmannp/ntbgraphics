@@ -89,9 +89,8 @@
 #' ntbgraphics) for own customizable diverging color palette;
 #' default: "cRP"
 #' @param color_min specifies the minimum value the palette will be prepared for; 
-#' you may check values within your matrix and adjust color_min and color_max accordingly; if color_min and
-#' color_max have the same distance to 0, 0 will be in the middle of the color range; if you set palette
-#' to "spaced" as well as color_min to -5 and color_max to 5, the palette will follow z-score graduations;
+#' you may check values within your matrix and adjust color_min and color_max accordingly; the palette
+#' follows z-score graduations;
 #' default: -5 
 #' @param color_max specifies the maximum value the palette will be prepared for;
 #' default: 5
@@ -112,6 +111,9 @@
 #' @param color_spaced2 specifies color2 of own diverging color palette within quotation marks;
 #' only if palette is "spaced";
 #' default: "tan"
+#' @param border_color defines color of border of each cell within quotation marks;
+#' if FALSE is provided, no borders will be drawn;
+#' default: FALSE
 #' @param title defines the title of the heatmap; character within quotation marks;
 #' default: "Heatmap"
 #' @param saveplotdir file directory where to save heatmap within quotation marks;
@@ -162,6 +164,7 @@ heatmapexp <- function(directory,
                        viridisname = inferno,
                        color_spaced1 = "mediumpurple",
                        color_spaced2 = "tan",
+                       border_color = FALSE,
                        title = "Heatmap",
                        saveplotdir = directory) {
         
@@ -342,6 +345,13 @@ heatmapexp <- function(directory,
                 breaksList <- seq(color_min, color_max, length.out = (color_max-color_min)*100)
         }
         
+        # adjust cell height for mean heatmap
+        if(return.matrix.mean == TRUE) {
+                cellheight = 20
+        } else if(return.matrix.mean == FALSE) {
+                cellheight = NA
+        }
+        
         # introducing breaks if columns are ordered following rdoc and not being clustered
         if(ordercolumns == "rdoc") {
                 gapscol = c(5, 8, 12, 16)
@@ -356,6 +366,7 @@ heatmapexp <- function(directory,
                             fontsize_col = 12,
                             show_rownames = F,
                             treeheight_row = 43,
+                            cellheight = cellheight,
                             cluster_cols = clustercols,
                             cluster_rows = clusterrows,
                             cutree_cols = cutree_cols,
@@ -367,7 +378,7 @@ heatmapexp <- function(directory,
                             breaks = breaksList,
                             legend_breaks = legend_breaks,
                             legend_labels = legend_labels,
-                            border_color = F,
+                            border_color = border_color,
                             annotation_row = data.animal.joined,
                             annotation_colors = annotation)
         
