@@ -5,7 +5,7 @@ ReadMe for ntbgraphics
 
   - [Introduction](#introduction)
   - [Basic Principles of Functions and
-    Dependences](#basic-principles-of-functions-and-dependences)
+    Dependencies](#basic-principles-of-functions-and-dependencies)
   - [Examples](#examples)
   - [Installation](#installation)
   - [Demo](#demo)
@@ -35,7 +35,7 @@ visualization of NTB datasets:
   - **‘colordiverger’** for creating a customized diverging color
     palette for visualization in different contexts.
 
-# Basic Principles of Functions and Dependences
+# Basic Principles of Functions and Dependencies
 
 All functions (apart from ‘colordiverger’) take a **directory** as their
 input, which specifies the location of the **two files** “Animal
@@ -44,6 +44,17 @@ files - functions rely on specific names as given\!). Furthermore, the
 user has to specify the kind of data provided, respectively the kind of
 analysis he wants to perform by defining the correct **analysis**.
 Please refer to the ‘getexpdata’ documentation for further information\!
+
+Alternativley, you might call the arguments each function takes by
+executing the following line of code:
+
+``` r
+## you may look for every other function the same way
+formals(getexpdata)
+
+## note: in case of many options for an argument, the first one listed also is the default setting
+```
+
 It is also important that you mind correct **formatting** of your excel
 files. This includes:
 
@@ -52,14 +63,15 @@ files. This includes:
     with these exact titles;
   - at least one column with information about ‘Animal’ (matching the
     information in the ‘RFID’ column in the Animal List), and at least
-    one behavioral test in your Meta Behavior with exact titles: k  
+    one behavioral test in your Meta Behavior with exact titles:    
     *“Animal” “Meanspeed” “Rotations” “Center” “Alternations” “Choices”
     “Context” “Cue” “FreezeBase” “Timeimmobile” “Baseline”
     “inhibition70” “inhibition75” “inhibition80” “SucPref” “PlacePref”
     “ReversalLearn” “Activity” “Nocturnal” “SerialLearn”*  
     *(-\> this is the current entity of all available experiment names
-    for plotting; if you need to add more experiments to this list,
-    please refer to the creator of this package)*  
+    for analysis and plotting/mapping; if you need to add more
+    experiments to this list, please refer to the creator of this
+    package)*  
 
 Further aspects can be customized depending on the specific function
 within that function.
@@ -85,9 +97,11 @@ many aspects of these outputs; refer to the functions’ help pages for
 further information.  
 
 The following plot shows the general layout you can expect from the
-boxplot functions (**‘ploteachexp’** and **‘loopplotexp’**).
+boxplot functions (**‘ploteachexp’** and **‘loopplotexp’**)(please note:
+random data; therefore most likely no convincing differences between
+groups).
 
-![](README_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->  
+![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->  
   
  
 
@@ -95,7 +109,7 @@ The following map shows the general layout you can expect from the
 **‘heatmapexp’** function (please note: random data; therefore most
 likely no convincing clustering).
 
-![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->  
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->  
   
  
 
@@ -104,7 +118,7 @@ The following maps show the general layout you can expect from the
 likely no convincing
 clustering).
 
-![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-3-3.png)<!-- -->  
+![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-4-2.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-4-3.png)<!-- -->  
   
  
 

@@ -8,7 +8,7 @@ output:
 
 # Table of contents
 * [Introduction]
-* [Basic Principles of Functions and Dependences]
+* [Basic Principles of Functions and Dependencies]
 * [Examples]
 * [Installation]
 * [Demo]
@@ -27,18 +27,29 @@ This package includes functions for importing, transforming and visualization of
   - **'pcatsneexp'** for PCA and tSNE results and cluster plots;
   - **'colordiverger'** for creating a customized diverging color palette for visualization in different contexts.
 
-# Basic Principles of Functions and Dependences
+# Basic Principles of Functions and Dependencies
 
-All functions (apart from 'colordiverger') take a **directory** as their input, which specifies the location of the **two files** "Animal List.xlsx" and "Meta Behavior.xlsx" (mind correct spelling of these files - functions rely on specific names as given!). Furthermore, the user has to specify the kind of data provided, respectively the kind of analysis he wants to perform by defining the correct **analysis**. Please refer to the 'getexpdata' documentation for further information!
+All functions (apart from 'colordiverger') take a **directory** as their input, which specifies the location of the **two files** "Animal List.xlsx" and "Meta Behavior.xlsx" (mind correct spelling of these files - functions rely on specific names as given!). Furthermore, the user has to specify the kind of data provided, respectively the kind of analysis he wants to perform by defining the correct **analysis**. Please refer to the 'getexpdata' documentation for further information! 
+
+Alternativley, you might call the arguments each function takes by executing the following line of code:
+
+``` {r eval=FALSE}
+
+## you may look for every other function the same way
+formals(getexpdata)
+
+## note: in case of many options for an argument, the first one listed also is the default setting
+ 
+```
+
 It is also important that you mind correct **formatting** of your excel files. This includes:
 
   - at least two columns with information about 'RFID' and 'Genotype'/'Environmental'/'Treatment' in your Animal List with these exact titles;
   - at least one column with information about 'Animal' (matching the information in the 'RFID' column in the Animal List), and at least one behavioral test in your Meta Behavior with exact titles:
-k\
+\   
  _"Animal" "Meanspeed" "Rotations" "Center"	"Alternations" "Choices" "Context" "Cue" "FreezeBase" "Timeimmobile" "Baseline"	"inhibition70" "inhibition75" "inhibition80" "SucPref" "PlacePref" "ReversalLearn" "Activity" "Nocturnal" "SerialLearn"_
 \
-  _(-> this is the current entity of all available experiment names for plotting; if you need to add more
-  experiments to this list, please refer to the creator of this package)_
+  _(-> this is the current entity of all available experiment names for analysis and plotting/mapping; if you need to add more experiments to this list, please refer to the creator of this package)_
 \   
 
 Further aspects can be customized depending on the specific function within that function.
@@ -53,7 +64,7 @@ While 'heatmapexp' will display NAs (missing values) as 0 from the z-scored matr
 In this section you can find some examples how the output of some of the functions could look like. Be aware of the fact that you can customize many aspects of these outputs; refer to the functions' help pages for further information.
 \   
 
-The following plot shows the general layout you can expect from the boxplot functions (**'ploteachexp'** and **'loopplotexp'**).
+The following plot shows the general layout you can expect from the boxplot functions (**'ploteachexp'** and **'loopplotexp'**)(please note: random data; therefore most likely no convincing differences between groups).
 
 ``` {r echo=FALSE, message=FALSE, warning=FALSE}
 
