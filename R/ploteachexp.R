@@ -118,55 +118,55 @@ ploteachexp <- function(expname,
     
     # choose colors (GT first, than other factors)
     `if`(analysis == "4arm_sd_tg" && orderlevelcond == "gtblock", 
-         scale_fill_manual(values=c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
+         scale_fill_manual(values=c("#b4b4b4", "#3c3c3c", "#00BFFF", "#1e24fc"))) +
     `if`(analysis == "4arm_sd_tg" && orderlevelcond == "gtblock", 
-         scale_color_manual(values=c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
+         scale_color_manual(values=c("#b4b4b4", "#3c3c3c", "#00BFFF", "#1e24fc"))) +
     `if`(analysis == "4arm_sd_ko" && orderlevelcond == "gtblock", 
-         scale_fill_manual(values=c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
+         scale_fill_manual(values=c("#b4b4b4", "#3c3c3c", "#00BFFF", "#1e24fc"))) +
     `if`(analysis == "4arm_sd_ko" && orderlevelcond == "gtblock", 
-         scale_color_manual(values=c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
+         scale_color_manual(values=c("#b4b4b4", "#3c3c3c", "#00BFFF", "#1e24fc"))) +
     `if`(analysis == "4arm_treat_tg" && orderlevelcond == "gtblock", 
-         scale_fill_manual(values=c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
+         scale_fill_manual(values=c("#b4b4b4", "#3c3c3c", "#00BFFF", "#1e24fc"))) +
     `if`(analysis == "4arm_treat_tg" && orderlevelcond == "gtblock", 
-         scale_color_manual(values=c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
+         scale_color_manual(values=c("#b4b4b4", "#3c3c3c", "#00BFFF", "#1e24fc"))) +
     `if`(analysis == "4arm_treat_ko" && orderlevelcond == "gtblock", 
-         scale_fill_manual(values=c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
+         scale_fill_manual(values=c("#b4b4b4", "#3c3c3c", "#00BFFF", "#1e24fc"))) +
     `if`(analysis == "4arm_treat_ko" && orderlevelcond == "gtblock", 
-         scale_color_manual(values=c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
+         scale_color_manual(values=c("#b4b4b4", "#3c3c3c", "#00BFFF", "#1e24fc"))) +
     # choose colors (Condition first, than other factors) 
     `if`(analysis == "4arm_sd_tg" && orderlevelcond == "etblock", 
-         scale_fill_manual(values=c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
+         scale_fill_manual(values=c("#b4b4b4", "#00BFFF", "#3c3c3c", "#1e24fc"))) +
     `if`(analysis == "4arm_sd_tg" && orderlevelcond == "etblock", 
-         scale_color_manual(values=c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
+         scale_color_manual(values=c("#b4b4b4", "#00BFFF", "#3c3c3c", "#1e24fc"))) +
     `if`(analysis == "4arm_sd_ko" && orderlevelcond == "etblock", 
-         scale_fill_manual(values=c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
+         scale_fill_manual(values=c("#b4b4b4", "#00BFFF", "#3c3c3c", "#1e24fc"))) +
     `if`(analysis == "4arm_sd_ko" && orderlevelcond == "etblock", 
-         scale_color_manual(values=c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
+         scale_color_manual(values=c("#b4b4b4", "#00BFFF", "#3c3c3c", "#1e24fc"))) +
     `if`(analysis == "4arm_treat_tg" && orderlevelcond == "etblock", 
-         scale_fill_manual(values=c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
+         scale_fill_manual(values=c("#b4b4b4", "#00BFFF", "#3c3c3c", "#1e24fc"))) +
     `if`(analysis == "4arm_treat_tg" && orderlevelcond == "etblock", 
-         scale_color_manual(values=c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
+         scale_color_manual(values=c("#b4b4b4", "#00BFFF", "#3c3c3c", "#1e24fc"))) +
     `if`(analysis == "4arm_treat_ko" && orderlevelcond == "etblock", 
-         scale_fill_manual(values=c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
+         scale_fill_manual(values=c("#b4b4b4", "#00BFFF", "#3c3c3c", "#1e24fc"))) +
     `if`(analysis == "4arm_treat_ko" && orderlevelcond == "etblock", 
-         scale_color_manual(values=c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
+         scale_color_manual(values=c("#b4b4b4", "#00BFFF", "#3c3c3c", "#1e24fc"))) +
     # choose colors (alphabetical)
     `if`(analysis == "4arm_sd_tg" && orderlevelcond == "other", 
-         scale_fill_manual(values=c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
+         scale_fill_manual(values=c("#00BFFF", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
     `if`(analysis == "4arm_sd_tg" && orderlevelcond == "other", 
-         scale_color_manual(values=c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
+         scale_color_manual(values=c("#00BFFF", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
     `if`(analysis == "4arm_sd_ko" && orderlevelcond == "other", 
-         scale_fill_manual(values=c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
+         scale_fill_manual(values=c("#00BFFF", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
     `if`(analysis == "4arm_sd_ko" && orderlevelcond == "other", 
-         scale_color_manual(values=c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
+         scale_color_manual(values=c("#00BFFF", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
     `if`(analysis == "4arm_treat_tg" && orderlevelcond == "other", 
-         scale_fill_manual(values=c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
+         scale_fill_manual(values=c("#00BFFF", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
     `if`(analysis == "4arm_treat_tg" && orderlevelcond == "other", 
-         scale_color_manual(values=c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
+         scale_color_manual(values=c("#00BFFF", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
     `if`(analysis == "4arm_treat_ko" && orderlevelcond == "other", 
-         scale_fill_manual(values=c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
+         scale_fill_manual(values=c("#00BFFF", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
     `if`(analysis == "4arm_treat_ko" && orderlevelcond == "other", 
-         scale_color_manual(values=c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
+         scale_color_manual(values=c("#00BFFF", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
     # choose colors (alphabetical order first, than other factors)
     `if`(analysis == "2arm_tg", scale_fill_manual(values=c("#3c3c3c", "#1e24fc"))) +
     `if`(analysis == "2arm_tg", scale_color_manual(values=c("#3c3c3c", "#1e24fc"))) +

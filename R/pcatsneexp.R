@@ -244,20 +244,20 @@ pcatsneexp <- function(directory,
                                              show.legend = FALSE)) +
       # colors of points
       `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
-           scale_color_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
+           scale_color_manual(values = c("#b4b4b4", "#3c3c3c", "#00BFFF", "#1e24fc"))) +
       `if`(grepl("4arm", analysis) && orderlevelcond == "etblock", 
-           scale_color_manual(values = c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
+           scale_color_manual(values = c("#b4b4b4", "#00BFFF", "#3c3c3c", "#1e24fc"))) +
       `if`(grepl("4arm", analysis) && orderlevelcond == "other", 
-           scale_color_manual(values = c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
+           scale_color_manual(values = c("#00BFFF", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
       `if`(grepl("2arm", analysis), 
            scale_color_manual(values = c("#b4b4b4", "#1e24fc"))) +
       # colors of fillings
       `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
-           scale_fill_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
+           scale_fill_manual(values = c("#b4b4b4", "#3c3c3c", "#00BFFF", "#1e24fc"))) +
       `if`(grepl("4arm", analysis) && orderlevelcond == "etblock", 
-           scale_fill_manual(values = c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
+           scale_fill_manual(values = c("#b4b4b4", "#00BFFF", "#3c3c3c", "#1e24fc"))) +
       `if`(grepl("4arm", analysis) && orderlevelcond == "other", 
-           scale_fill_manual(values = c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
+           scale_fill_manual(values = c("#00BFFF", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
       `if`(grepl("2arm", analysis), 
            scale_fill_manual(values = c("#b4b4b4", "#1e24fc"))) +
       # point size
@@ -307,20 +307,20 @@ pcatsneexp <- function(directory,
                    show.legend = FALSE) +
       # colors of points
       `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
-           scale_color_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
+           scale_color_manual(values = c("#b4b4b4", "#3c3c3c", "#00BFFF", "#1e24fc"))) +
       `if`(grepl("4arm", analysis) && orderlevelcond == "etblock", 
-           scale_color_manual(values = c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
+           scale_color_manual(values = c("#b4b4b4", "#00BFFF", "#3c3c3c", "#1e24fc"))) +
       `if`(grepl("4arm", analysis) && orderlevelcond == "other", 
-           scale_color_manual(values = c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
+           scale_color_manual(values = c("#00BFFF", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
       `if`(grepl("2arm", analysis), 
            scale_color_manual(values = c("#b4b4b4", "#1e24fc"))) +
       # colors of fillings
       `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
-           scale_fill_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
+           scale_fill_manual(values = c("#b4b4b4", "#3c3c3c", "#00BFFF", "#1e24fc"))) +
       `if`(grepl("4arm", analysis) && orderlevelcond == "etblock", 
-           scale_fill_manual(values = c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
+           scale_fill_manual(values = c("#b4b4b4", "#00BFFF", "#3c3c3c", "#1e24fc"))) +
       `if`(grepl("4arm", analysis) && orderlevelcond == "other", 
-           scale_fill_manual(values = c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
+           scale_fill_manual(values = c("#00BFFF", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
       `if`(grepl("2arm", analysis), 
            scale_fill_manual(values = c("#b4b4b4", "#1e24fc"))) +
       geom_point(aes(colour=data.animal.list$Condition), size = 4) +
@@ -374,20 +374,20 @@ pcatsneexp <- function(directory,
                                               show.legend = FALSE)) +
       # colors of points
       `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
-           scale_color_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
+           scale_color_manual(values = c("#b4b4b4", "#3c3c3c", "#00BFFF", "#1e24fc"))) +
       `if`(grepl("4arm", analysis) && orderlevelcond == "etblock", 
-           scale_color_manual(values = c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
+           scale_color_manual(values = c("#b4b4b4", "#00BFFF", "#3c3c3c", "#1e24fc"))) +
       `if`(grepl("4arm", analysis) && orderlevelcond == "other", 
-           scale_color_manual(values = c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
+           scale_color_manual(values = c("#00BFFF", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
       `if`(grepl("2arm", analysis), 
            scale_color_manual(values = c("#b4b4b4", "#1e24fc"))) +
       # colors of fillings
       `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
-           scale_fill_manual(values = c("#b4b4b4", "#3c3c3c", "#84dcff", "#1e24fc"))) +
+           scale_fill_manual(values = c("#b4b4b4", "#3c3c3c", "#00BFFF", "#1e24fc"))) +
       `if`(grepl("4arm", analysis) && orderlevelcond == "etblock", 
-           scale_fill_manual(values = c("#b4b4b4", "#84dcff", "#3c3c3c", "#1e24fc"))) +
+           scale_fill_manual(values = c("#b4b4b4", "#00BFFF", "#3c3c3c", "#1e24fc"))) +
       `if`(grepl("4arm", analysis) && orderlevelcond == "other", 
-           scale_fill_manual(values = c("#84dcff", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
+           scale_fill_manual(values = c("#00BFFF", "#1e24fc", "#b4b4b4", "#3c3c3c"))) +
       `if`(grepl("2arm", analysis), 
            scale_fill_manual(values = c("#b4b4b4", "#1e24fc"))) +
       # point size and title

@@ -201,7 +201,7 @@ heatmapexp <- function(directory,
                 annotation <- list(Condition=(c(
                         wt_hc_mean="#b4b4b4",
                         wt_sd_mean="#3c3c3c",
-                        tg_hc_mean="#84dcff",
+                        tg_hc_mean="#00BFFF",
                         tg_sd_mean="#1e24fc")))
         } else if (return.matrix.mean == TRUE && analysis == "4arm_sd_ko") {
                 data.animal.joined <- matrix(c("wt_hc", "wt_sd", "ko_hc", "ko_sd",
@@ -213,7 +213,7 @@ heatmapexp <- function(directory,
                 annotation <- list(Condition=(c(
                         wt_hc_mean="#b4b4b4",
                         wt_sd_mean="#3c3c3c",
-                        ko_hc_mean="#84dcff",
+                        ko_hc_mean="#00BFFF",
                         ko_sd_mean="#1e24fc")))
         } else if (return.matrix.mean == TRUE && analysis == "4arm_treat_tg") {
                 data.animal.joined <- matrix(c("wt_untreat", "wt_treat", "tg_untreat", "tg_treat",
@@ -226,7 +226,7 @@ heatmapexp <- function(directory,
                 annotation <- list(Condition=(c(
                         wt_untreat_mean="#b4b4b4",
                         wt_treat_mean="#3c3c3c",
-                        tg_untreat_mean="#84dcff",
+                        tg_untreat_mean="#00BFFF",
                         tg_treat_mean="#1e24fc")))
         } else if (return.matrix.mean == TRUE && analysis == "4arm_treat_ko") {
                 data.animal.joined <- matrix(c("wt_untreat", "wt_treat", "ko_untreat", "ko_treat",
@@ -239,14 +239,14 @@ heatmapexp <- function(directory,
                 annotation <- list(Condition=(c(
                         wt_untreat_mean="#b4b4b4",
                         wt_treat_mean="#3c3c3c",
-                        ko_untreat_mean="#84dcff",
+                        ko_untreat_mean="#00BFFF",
                         ko_treat_mean="#1e24fc")))
                 
                 # define order of groups by analysis type
         } else if (analysis == "2arm_tg") {
                 annotation <- list(Condition=(c(
                         wt = "#3c3c3c",
-                        tg = "#84dcff")))
+                        tg = "#00BFFF")))
                 data.animal.joined <- getexpdata(directory, analysis = analysis, ordercolumns = ordercolumns, 
                                                  ordercolumns_manual, exclude.animals, 
                                                  orderlevelcond = orderlevelcond) %>%
@@ -255,7 +255,7 @@ heatmapexp <- function(directory,
         } else if (analysis == "2arm_ko") {
                 annotation <- list(Condition=(c(
                         wt = "#3c3c3c",
-                        ko = "#84dcff")))
+                        ko = "#00BFFF")))
                 data.animal.joined <- getexpdata(directory, analysis = analysis, ordercolumns = ordercolumns, 
                                                  ordercolumns_manual, exclude.animals, 
                                                  orderlevelcond = orderlevelcond) %>%
@@ -264,7 +264,7 @@ heatmapexp <- function(directory,
         } else if (analysis == "2arm_sd") {
                 annotation <- list(Condition=(c(
                         hc = "#3c3c3c",
-                        sd = "#84dcff")))
+                        sd = "#00BFFF")))
                 data.animal.joined <- getexpdata(directory, analysis = analysis, ordercolumns = ordercolumns, 
                                                  ordercolumns_manual, exclude.animals, 
                                                  orderlevelcond = orderlevelcond) %>%
@@ -273,7 +273,7 @@ heatmapexp <- function(directory,
         } else if (analysis == "2arm_treat") {
                 annotation <- list(Condition=(c(
                         untreat = "#3c3c3c",
-                        treat = "#84dcff")))
+                        treat = "#00BFFF")))
                 data.animal.joined <- getexpdata(directory, analysis = analysis, ordercolumns = ordercolumns, 
                                                  ordercolumns_manual, exclude.animals, 
                                                  orderlevelcond = orderlevelcond) %>%
@@ -283,7 +283,7 @@ heatmapexp <- function(directory,
                 annotation <- list(Condition=(c(
                         wt_hc="#b4b4b4",
                         wt_sd="#3c3c3c",
-                        tg_hc="#84dcff",
+                        tg_hc="#00BFFF",
                         tg_sd="#1e24fc")))
                 data.animal.joined <- getexpdata(directory, analysis = analysis, ordercolumns = ordercolumns, 
                                                  ordercolumns_manual, exclude.animals, 
@@ -293,7 +293,7 @@ heatmapexp <- function(directory,
         } else if (orderlevelcond == "etblock") {
                 annotation <- list(Condition=(c(
                         wt_hc="#b4b4b4",
-                        tg_hc="#84dcff",
+                        tg_hc="#00BFFF",
                         wt_sd="#3c3c3c",
                         tg_sd="#1e24fc")))
                 data.animal.joined <- getexpdata(directory, analysis = analysis, ordercolumns = ordercolumns, 
@@ -303,7 +303,7 @@ heatmapexp <- function(directory,
                         column_to_rownames(., "RFID")
         } else if (orderlevelcond == "other") {
                 annotation <- list(Condition=(c(
-                        tg_hc="#84dcff",
+                        tg_hc="#00BFFF",
                         tg_sd="#1e24fc",
                         wt_hc="#b4b4b4",
                         wt_sd="#3c3c3c")))
