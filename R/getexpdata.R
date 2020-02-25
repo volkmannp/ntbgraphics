@@ -80,8 +80,10 @@
 #' default: FALSE
 #' @param directional boolean that specifies if directionality paradigm following RDoC concept should be
 #' applied; if TRUE, columns 'Rotations', 'FreezeBase', 'Timeimmobile', 'Baseline', 'Activity', 'Choices' and
-#' 'Meanspeed' are multiplied by -1; only applied and useful if 'return.matrix' is TRUE and if 'absoluteval'
-#' is FALSE;
+#' 'Meanspeed' are multiplied by -1; 
+#' additional option to set to "emptcf4" (within quotation marks!), if you selectively want to multiply 
+#' columns 'Center', 'Choices' and 'Meanspeed';
+#' only applied if 'return.matrix' is TRUE and only useful if 'absoluteval' is FALSE;
 #' default: FALSE
 #' @param absoluteval boolean that specifies if only absolute values of z-scored matrix should be given;
 #' only applied and useful if 'return.matrix' is TRUE;
