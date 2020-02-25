@@ -13,7 +13,7 @@ colordiverger(
 }
 \arguments{
 \item{color1}{a color of R's predefined color names which is available in 4 graduations with names as 
-follows for the example of cyan: cyan1, cyan2, cyan3, cyan4; 
+follows (for the example of cyan): cyan1, cyan2, cyan3, cyan4; 
 you may check availability online or within R with 'colors()';
 color1 defines the color for all negative values;
 default: "mediumpurple"}
@@ -22,8 +22,8 @@ default: "mediumpurple"}
 color2 defines the color for all positive values;
 default: "tan"}
 
-\item{min.val}{specifies the minimum value of the dataset the palette will be prepared for;
-if you set min.val to -5 and max.val to 5, the palette will follow z-score graduations;
+\item{min.val}{specifies the minimum value of the dataset the palette will be prepared for; the palette
+follows z-score graduations;
 default: -5}
 
 \item{max.val}{specifies the maximum value of the dataset the palette will be prepared for;
