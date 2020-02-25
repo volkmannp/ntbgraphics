@@ -83,6 +83,9 @@
 #' clustering;
 #' only if clusterrows is TRUE;
 #' default: 1
+#' @param gapscol defines where to put gaps into heatmap; vector of column indices has to be provided; 
+#' only if clustercols is FALSE;
+#' default: FALSE
 #' @param palette specifies the color package to choose from for usage of palettes (find options below) for
 #' color design of the heatmap within quotation marks;
 #' available are: "cRP" (colorRampPalette from RColorBrewer), "viridis" (from viridis), "spaced" (from
@@ -157,6 +160,7 @@ heatmapexp <- function(directory,
                        clusterrows = TRUE,
                        cutree_cols = 1,
                        cutree_rows = 1,
+                       gapscol = FALSE,
                        palette = c("cRP", "viridis", "spaced"),
                        color_min = -5,
                        color_max =5,
@@ -350,13 +354,6 @@ heatmapexp <- function(directory,
                 cellheight = 20
         } else if(return.matrix.mean == FALSE) {
                 cellheight = NA
-        }
-        
-        # introducing breaks if columns are ordered following rdoc and not being clustered
-        if(ordercolumns == "rdoc") {
-                gapscol = c(5, 8, 12, 16)
-        } else if (ordercolumns != "rdoc") {
-                gapscol = FALSE
         }
         
         # heatmapping of experiments
