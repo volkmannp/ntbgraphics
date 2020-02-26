@@ -96,9 +96,15 @@ subtracting all values by the healthy controls;
 only if return.matrix.mean is TRUE; not possible for 2arm experiments;
 default: FALSE}
 
-\item{directional}{boolean that specifies if directionality paradigm following RDoC concept should be
-applied; if TRUE columns 'Rotations', 'FreezeBase', 'Timeimmobile', 'Baseline', 'Activity', 'Choices' and
-'Meanspeed' are multiplied by -1; only applied and useful if 'absoluteval' is FALSE;
+\item{directional}{specifies which directionality paradigm should be applied; several options are 
+available, manual specification is also possible;
+if "rdoc" within quotation marks is provided, columns 'Rotations', 'FreezeBase', 'Timeimmobile', 
+'Baseline', 'Activity', 'Choices' and 'Meanspeed' are multiplied by -1; 
+if "emptcf4" within quotation marks is provided, columns 'Center', 'Choices' and 'Meanspeed' are 
+multiplied by -1; 
+you may alternatively provide a vector containing characters within quotation marks (e.g. by using 
+c("Nocturnal", "inhibition75")) with all columns you wants to have multiplied by -1;
+only applied if 'return.matrix' is TRUE and only useful if 'absoluteval' is FALSE;
 default: FALSE}
 
 \item{absoluteval}{boolean that specifies if only absolute values of z-scored matrix should be given in
@@ -192,7 +198,7 @@ heatmapexp(directory = paste0(system.file("extdata/", package = "ntbgraphics", m
                      exclude.animals = c("900200000070142"),
                      orderlevelcond = "gtblock",
                      acceptable.nas = 0,
-                     directional = TRUE,
+                     directional = "rdoc",
                      clustercols = FALSE,
                      clusterrows = FALSE,
                      palette = "viridis",

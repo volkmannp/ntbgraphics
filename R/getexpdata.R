@@ -78,11 +78,14 @@
 #' may appear redundant concerning earlier listed 'acceptable.nas', but gives user the opportunity, to save
 #' settings within function with different needs for dataframe and (probably later needed) matrix;
 #' default: FALSE
-#' @param directional boolean that specifies if directionality paradigm following RDoC concept should be
-#' applied; if TRUE, columns 'Rotations', 'FreezeBase', 'Timeimmobile', 'Baseline', 'Activity', 'Choices' and
-#' 'Meanspeed' are multiplied by -1; 
-#' additional option to set to "emptcf4" (within quotation marks!), if you selectively want to multiply 
-#' columns 'Center', 'Choices' and 'Meanspeed';
+#' @param directional specifies which directionality paradigm should be applied; several options are 
+#' available, manual specification is also possible;
+#' if "rdoc" within quotation marks is provided, columns 'Rotations', 'FreezeBase', 'Timeimmobile', 
+#' 'Baseline', 'Activity', 'Choices' and 'Meanspeed' are multiplied by -1; 
+#' if "emptcf4" within quotation marks is provided, columns 'Center', 'Choices' and 'Meanspeed' are 
+#' multiplied by -1; 
+#' you may alternatively provide a vector containing characters within quotation marks (e.g. by using 
+#' c("Nocturnal", "inhibition75")) with all columns you wants to have multiplied by -1;
 #' only applied if 'return.matrix' is TRUE and only useful if 'absoluteval' is FALSE;
 #' default: FALSE
 #' @param absoluteval boolean that specifies if only absolute values of z-scored matrix should be given;
@@ -105,7 +108,7 @@
 #'                    acceptable.nas = 3, 
 #'                    return.matrix = TRUE, 
 #'                    naomit = TRUE, 
-#'                    directional = TRUE)
+#'                    directional = "emptcf4")
 
 
 getexpdata <- function(directory, 
@@ -123,7 +126,6 @@ getexpdata <- function(directory,
                        directional = FALSE,
                        absoluteval = FALSE) {
   
-  ### directional = "emptcf4" is hidden <<<<<<<<<<<<
   
   ### use switch() for more flexible level assignments and assert_that() for more complex error management
   
@@ -150,6 +152,16 @@ getexpdata <- function(directory,
   # ensure that correct analysis is provided
   if(analysis == "2arm_ko") {
     print("Warning: You have chosen '2arm_ko' as type of analysis. Since this is the default setting, please make sure it matches the data provided. Furthermore, refer to the help page '?getexpdata' to check available options!")
+  }
+  
+  # define provided directionality paradigm if provided
+  if(directional == "rdoc") {
+    directional = c("Rotations", "FreezeBase", "Timeimmobile", "Baseline", 
+                    "Activity", "Choices", "Meanspeed")
+  }
+  
+  if(directional == "emptcf4") {
+    directional = c("Center", "Choices", "Meanspeed")
   }
   
   ## import data
@@ -364,46 +376,23 @@ getexpdata <- function(directory,
     # inverse z-scoring according to directionality paradigm
     col.names.actual <- colnames(data.animal.matrix)
     
-    if ('Rotations' %in% col.names.actual == TRUE && directional == TRUE) {
-      data.animal.matrix[, "Rotations"] <- data.animal.matrix[, "Rotations"]*-1
+    if (directional != FALSE) {
+      dirlist <- directional
+      for(x in dirlist) {
+        if (x %in% col.names.actual == TRUE) {
+          data.animal.matrix[, x] <- data.animal.matrix[, x]*-1
+        }
+      }
     }
-    if ('FreezeBase' %in% col.names.actual == TRUE && directional == TRUE) {
-      data.animal.matrix[, "FreezeBase"] <- data.animal.matrix[, "FreezeBase"]*-1
-    }
-    if ('Timeimmobile' %in% col.names.actual == TRUE && directional == TRUE) {
-      data.animal.matrix[, "Timeimmobile"] <- data.animal.matrix[, "Timeimmobile"]*-1
-    }
-    if ('Baseline' %in% col.names.actual == TRUE && directional == TRUE) {
-      data.animal.matrix[, "Baseline"] <- data.animal.matrix[, "Baseline"]*-1
-    }
-    if ('Activity' %in% col.names.actual == TRUE && directional == TRUE) {
-      data.animal.matrix[, "Activity"] <- data.animal.matrix[, "Activity"]*-1
-    }
-    if ('Choices' %in% col.names.actual == TRUE && directional == TRUE) {
-      data.animal.matrix[, "Choices"] <- data.animal.matrix[, "Choices"]*-1
-    }
-    if ("Meanspeed" %in% col.names.actual == TRUE && directional == TRUE) {
-      data.animal.matrix[, "Meanspeed"] <- data.animal.matrix[, "Meanspeed"]*-1
-    }
-    
     # inverse z-scoring according to empirical Tcf4 paradigm
     col.names.actual <- colnames(data.animal.matrix)
     
-    if ('Center' %in% col.names.actual == TRUE && directional == "emptcf4") {
-      data.animal.matrix[, "Center"] <- data.animal.matrix[, "Center"]*-1
-    }
-    if ('Choices' %in% col.names.actual == TRUE && directional == "emptcf4") {
-      data.animal.matrix[, "Choices"] <- data.animal.matrix[, "Choices"]*-1
-    }
-    if ("Meanspeed" %in% col.names.actual == TRUE && directional == "emptcf4") {
-      data.animal.matrix[, "Meanspeed"] <- data.animal.matrix[, "Meanspeed"]*-1
-    }
+    
     
     # optionally take absolute values
     if (absoluteval == TRUE) {
       data.animal.matrix <- abs(data.animal.matrix)
     }
-    
   }
   
   # return amended dataframe

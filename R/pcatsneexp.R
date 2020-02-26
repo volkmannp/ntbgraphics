@@ -61,9 +61,15 @@
 #' the mean of each group for each experiment; grouping follows specification of groups to be analyzed as 
 #' defined by 'analysis';
 #' default: FALSE
-#' @param directional boolean that specifies if directionality paradigm following RDoC concept should be
-#' applied; if TRUE, columns 'Rotations', 'FreezeBase', 'Timeimmobile', 'Baseline', 'Activity', 'Choices' and
-#' 'Meanspeed' are multiplied by -1; only useful if 'absoluteval' is FALSE;
+#' @param directional specifies which directionality paradigm should be applied; several options are 
+#' available, manual specification is also possible;
+#' if "rdoc" within quotation marks is provided, columns 'Rotations', 'FreezeBase', 'Timeimmobile', 
+#' 'Baseline', 'Activity', 'Choices' and 'Meanspeed' are multiplied by -1; 
+#' if "emptcf4" within quotation marks is provided, columns 'Center', 'Choices' and 'Meanspeed' are 
+#' multiplied by -1; 
+#' you may alternatively provide a vector containing characters within quotation marks (e.g. by using 
+#' c("Nocturnal", "inhibition75")) with all columns you wants to have multiplied by -1;
+#' only applied if 'return.matrix' is TRUE and only useful if 'absoluteval' is FALSE;
 #' default: FALSE
 #' @param absoluteval boolean that specifies if only absolute values of z-scored matrix should be given and
 #' analyzed;
@@ -102,7 +108,7 @@
 #'                                     analysis = "4arm",
 #'                                     exclude.animals = c("900200000068816"),
 #'                                     orderlevelcond = "gtblock",
-#'                                     directional = TRUE,
+#'                                     directional = c("Center", "inhibition75"),
 #'                                     perplex =  1,
 #'                                     theta = 0.8,
 #'                                     ellipse_tsne = TRUE,
@@ -172,7 +178,7 @@ pcatsneexp <- function(directory,
                                    return.matrix.mean,
                                    healthy_norm = FALSE,
                                    naomit = TRUE,
-                                   directional,
+                                   directional = directional,
                                    absoluteval)
   ## get animal list for assignments
   data.animal.list <- getexpdata(directory, 
