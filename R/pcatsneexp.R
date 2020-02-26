@@ -335,6 +335,10 @@ pcatsneexp <- function(directory,
       # point size and title
       labs(color = "Legend") + 
       ggtitle(paste(pastetitle, "Arrows"))
+    
+    # get layers for arrows and arrow annotation to foreground
+    pca_plot_arrow$layers <- c(pca_plot_arrow$layers, pca_plot_arrow$layers[[1]], pca_plot_arrow$layers[[3]])
+    
     print(pca_plot_arrow)  
   }
   
