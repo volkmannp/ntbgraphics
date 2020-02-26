@@ -151,17 +151,36 @@ getexpdata <- function(directory,
   orderlevelcond <- orderlevelcond[1]
   
   # ensure that correct analysis is provided
-  if(analysis == "2arm_ko") {
-    print("Warning: You have chosen '2arm_ko' as type of analysis. Since this is the default setting, please make sure it matches the data provided. Furthermore, refer to the help page '?getexpdata' to check available options!")
+  if (analysis == "2arm_ko") {
+    print("Warning: You have chosen '2arm_ko' as type of analysis. Since this is the default setting, please make sure it matches the data provided. Furthermore, refer to the help page of 'getexpdata' to check available options!")
   }
   
+  possible.ana <- c("2arm_ko","2arm_tg", "2arm_sd", "2arm_treat",
+                         "4arm_sd_ko", "4arm_sd_tg", "4arm_treat_ko", "4arm_treat_tg")
+  if (! analysis %in% possible.ana) {
+    stop("The 'analysis' provided does not exist. Please refer to the help page of 'getexpdata' to check available arguments!")
+  }
+  
+  # ensure that correct ordercolumns is provided
+  possible.oc <- c("ntb", "rdoc", "manual")
+  if (! ordercolumns %in% possible.oc) {
+    stop("The 'ordercolumns' provided does not exist. Please refer to the help page of 'getexpdata' to check available arguments!")
+  }
+  
+  # ensure that correct orderlevelcond is provided
+  possible.olc <- c("other", "gtblock", "etblock", "2rev")
+  if (! orderlevelcond %in% possible.olc) {
+    stop("The 'orderlevelcond' provided does not exist. Please refer to the help page of 'getexpdata' to check available arguments!")
+  }
+  
+  
   # define provided directionality paradigm if provided
-  if(directional == "rdoc") {
+  if (directional == "rdoc") {
     directional = c("Rotations", "FreezeBase", "Timeimmobile", "Baseline", 
                     "Activity", "Choices", "Meanspeed")
   }
   
-  if(directional == "emptcf4") {
+  if (directional == "emptcf4") {
     directional = c("Center", "Choices", "Meanspeed")
   }
   

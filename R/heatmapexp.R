@@ -187,6 +187,12 @@ heatmapexp <- function(directory,
         orderlevelcond <- orderlevelcond[1]
         palette <- palette[1]
         
+        # ensure that correct palette is provided
+        possible.pal <- c("cRP", "viridis", "spaced")
+        if (! palette %in% possible.pal) {
+                stop("The 'palette' provided does not exist. Please refer to the help page of 'heatmapexp' to check available arguments!")
+        }
+        
         # check if saveplotdir exists
         if (saveplotdir != FALSE && dir.exists(saveplotdir) == FALSE) {
                 stop(sprintf("The path for saving the heatmap as specified in saveplotdir `%s` does not exist!", 
