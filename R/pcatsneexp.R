@@ -219,6 +219,16 @@ pcatsneexp <- function(directory,
     ## PCA standard plot
     pca_plot <- ggplot(pca_analysis_plot, aes(x = PC1, y = PC2, color = data.animal.list$Condition,
                                               fill = data.animal.list$Condition)) +
+      # design ellipses
+      `if`(ellipse_pca == TRUE, stat_ellipse(aes(x = PC1, y = PC2, color = data.animal.list$Condition),
+                                             alpha = ellalpha,
+                                             geom = "polygon",
+                                             size = 0.85,
+                                             type = "t", 
+                                             level = ellconf,
+                                             segments = 51,
+                                             inherit.aes = TRUE,
+                                             show.legend = FALSE)) +
       theme_bw() +
       theme_bw() +
       # customize title position and size
@@ -239,15 +249,6 @@ pcatsneexp <- function(directory,
             # customize legend
             legend.text = element_text(size=20),
             legend.title = element_text(size=25)) +
-      `if`(ellipse_pca == TRUE, stat_ellipse(aes(x = PC1, y = PC2, color = data.animal.list$Condition),
-                                             alpha = ellalpha,
-                                             geom = "polygon",
-                                             size = 0.85,
-                                             type = "t", 
-                                             level = ellconf,
-                                             segments = 51,
-                                             inherit.aes = TRUE,
-                                             show.legend = FALSE)) +
       # colors of points
       `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
            scale_color_manual(values = c("#b4b4b4", "#3c3c3c", "#00BFFF", "#1e24fc"))) +
@@ -282,6 +283,17 @@ pcatsneexp <- function(directory,
                                groups= data.animal.list$Condition,
                                varname.adjust = 3,
                                fill = data.animal.list$Condition) +
+      # design ellipses
+      stat_ellipse(aes(x = xvar, y = yvar, color = data.animal.list$Condition,
+                       fill = data.animal.list$Condition),
+                   alpha = ellalpha,
+                   geom = "polygon",
+                   size = 0.85,
+                   type = "t",
+                   level = ellconf,
+                   segments = 51,
+                   inherit.aes = FALSE,
+                   show.legend = FALSE) +
       theme_bw() +
       # customize title position and size
       theme(plot.title = element_text(hjust = 0.5)) +
@@ -301,16 +313,6 @@ pcatsneexp <- function(directory,
             # customize legend
             legend.text = element_text(size=20),
             legend.title = element_text(size=25)) +
-      stat_ellipse(aes(x = xvar, y = yvar, color = data.animal.list$Condition,
-                       fill = data.animal.list$Condition),
-                   alpha = ellalpha,
-                   geom = "polygon",
-                   size = 0.85,
-                   type = "t",
-                   level = ellconf,
-                   segments = 51,
-                   inherit.aes = FALSE,
-                   show.legend = FALSE) +
       # colors of points
       `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
            scale_color_manual(values = c("#b4b4b4", "#3c3c3c", "#00BFFF", "#1e24fc"))) +
@@ -349,6 +351,16 @@ pcatsneexp <- function(directory,
     ## plot tSNE
     tsne_plot <- ggplot(tsne_analysisplot, aes(x=V1, y=V2, color = data.animal.list$Condition,
                                                fill = data.animal.list$Condition)) +
+      # design ellipses
+      `if`(ellipse_tsne == TRUE, stat_ellipse(aes(x = V1, y = V2, color = data.animal.list$Condition),
+                                              alpha = ellalpha,
+                                              geom = "polygon",
+                                              size = 0.85,
+                                              type = "t", 
+                                              level = ellconf,
+                                              segments = 51,
+                                              inherit.aes = TRUE,
+                                              show.legend = FALSE)) +
       theme_bw() +
       labs(fill = "Legend") +
       # customize title position and size
@@ -369,15 +381,6 @@ pcatsneexp <- function(directory,
             # customize legend
             legend.text = element_text(size=20),
             legend.title = element_text(size=25)) +
-      `if`(ellipse_tsne == TRUE, stat_ellipse(aes(x = V1, y = V2, color = data.animal.list$Condition),
-                                              alpha = ellalpha,
-                                              geom = "polygon",
-                                              size = 0.85,
-                                              type = "t", 
-                                              level = ellconf,
-                                              segments = 51,
-                                              inherit.aes = TRUE,
-                                              show.legend = FALSE)) +
       # colors of points
       `if`(grepl("4arm", analysis) && orderlevelcond == "gtblock", 
            scale_color_manual(values = c("#b4b4b4", "#3c3c3c", "#00BFFF", "#1e24fc"))) +
