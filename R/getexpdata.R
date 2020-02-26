@@ -128,6 +128,7 @@ getexpdata <- function(directory,
   
   
   ### use switch() for more flexible level assignments and assert_that() for more complex error management
+  ### if errors occur when modifying the functions or even just occasionally, write a test (testthat package)
   
   # turn warnings off
   options(warn=-1)
